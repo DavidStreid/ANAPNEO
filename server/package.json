@@ -1,0 +1,29 @@
+{
+  "name": "node-docker-server",
+  "version": "1.0.0",
+  "description": "Expressjs node application that can be deployed on docker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "webserver",
+    "nodejs",
+    "expressjs",
+    "docker"
+  ],
+  "author": "David Streid",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "*",
+    "request": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  }
+}

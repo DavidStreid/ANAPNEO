@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import { Subject }    from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -7,7 +7,8 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class LocationService {
-  constructor(private http:Http){}
+  constructor(private http: HttpClient){
+  }
 
 	public coordinatesSource = new Subject<Object>(); 	// Provides filter updates to the library
 	private loggingEnabled: boolean = false;
@@ -30,5 +31,18 @@ export class LocationService {
 			// Options
 			{	enableHighAccuracy: true,	timeout: 5000,	maximumAge: 0 }
 		)
+  }
+
+  // Fetch all existing comments
+  getDistanceMetrics(origins: string, destinations: string[], units: string) : Observable<Object>{
+    	let url = "http://localhost:3000/distance";
+    	let body = {
+    		"origins": origins,
+    		"destinations": destinations,
+    		"units": units
+    	};
+    	return this.http.post( url, body )
+                    .map((res:Response) => res.json())
+                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 }
