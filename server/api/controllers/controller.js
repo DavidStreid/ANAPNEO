@@ -1,9 +1,19 @@
 'use strict';
 var request = require('request');
 var http   = require("../../resources/constants/http");
-
+var db = require('../../../db/db');
 var logging_enabled = true;
 var allowedOrigins = ["*"];   // valid hosts for CORS
+
+db.connect('mongodb://localhost:27017/test', function(err) {
+  if (err) {
+    console.log(JSON.stringify(err));
+    console.log('Unable to connect to Mongo.')
+    process.exit(1)
+  } else {
+    console.log('Mongo listening on port 27017...')
+  }
+})
 
 exports.textPost = function(req,res){
   if(logging_enabled) console.log("controller::textPost")
