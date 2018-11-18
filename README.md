@@ -4,7 +4,9 @@
 An app-based rewards program to improve lung cancer prognosis.
 
 ## GET PROJECT
+~~~~
 $ git clone https://github.com/DavidStreid/ANAPNEO.git
+~~~~
 
 ## GETTING STARTED
 Run each step in a separate session
