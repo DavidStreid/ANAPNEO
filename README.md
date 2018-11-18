@@ -9,9 +9,11 @@ $ git clone https://github.com/DavidStreid/ANAPNEO.git
 ## GETTING STARTED
 * Run each step in a separate session
 ### 1) Running the client
+~~~~
 $ cwd=$(pwd)
 $ cd $cwd/app 
 $ npm install && ng serve
+~~~~
 
 *App should now be started locally. Navigate to http://localhost:4200/
 
