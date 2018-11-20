@@ -1,0 +1,19 @@
+#page {
+  height: 100vh;
+}
+
+#body {
+  height: 85%;
+}
+
+.main-view{
+  width: 800px;
+  height: 80%;
+  display: inline-block;
+  float: left;
+}
+
+.sidebar{
+  width: 400px;
+  display: inline-block;
+}

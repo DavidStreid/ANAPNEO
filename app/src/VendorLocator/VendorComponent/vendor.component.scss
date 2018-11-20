@@ -1,0 +1,39 @@
+.vendor {
+  width: 400px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.vendor-info {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 65%;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+  border: 3px #8bc34a solid;
+  display: inline-block;
+  position: relative;
+}
+
+.vendor-description{
+  height: 40%;
+  overflow-y: scroll;
+}
+
+.vendor-img-container{
+  position: relative;
+  width: 25%;
+  height: 60%;
+  top: -30%;
+  border-radius: 15px;
+  background-color: white;
+  display: inline-block;
+}
+
+.vendor-img{
+  margin: 10%;
+  width: 80%;
+  height: 80%;
+  position: relative;
+}

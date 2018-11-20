@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { UserProfileService } from '../userProfile/userProfile.service';
 
 @Component({
@@ -8,9 +7,5 @@ import { UserProfileService } from '../userProfile/userProfile.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private userProfileService:UserProfileService){
-
-  }
-
-  title = "We're here to help you quit";
+  constructor(private userProfileService:UserProfileService){}
 }
