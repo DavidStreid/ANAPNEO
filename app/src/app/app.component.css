@@ -3,17 +3,22 @@
 }
 
 #body {
+  width: 100vw;
   height: 85%;
 }
 
 .main-view{
-  width: 800px;
+  width: 75%;
   height: 80%;
   display: inline-block;
-  float: left;
+  float: right;
 }
 
 .sidebar{
-  width: 400px;
+  width: 20%;
   display: inline-block;
+  float: left;
+  margin-left: 30px;
+  padding: 20px;
+  background-color: #EAEAEA;
 }
