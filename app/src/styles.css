@@ -21,7 +21,27 @@ p,h1 {
   margin-bottom: 20px;
 }
 
+.margin-bottom-none {
+  margin-bottom: 0px;
+}
+
 .padding-hor-md {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-size-18 {
+  font-size: 18px;
+}
+
+.font-size-22 {
+  font-size: 22px;
+}
+
+.font-white {
+  color: white;
 }

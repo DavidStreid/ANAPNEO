@@ -9,13 +9,14 @@ import { AppComponent } from './app.component';
 import { VendorLocatorComponent } from '../VendorLocator/vendorLocator.component';
 import { VendorComponent } from '../VendorLocator/VendorComponent/vendor.component';
 import { HeaderComponent } from '../header/header.component';
+import { RewardsComponent } from '../VendorLocator/RewardsComponent/rewards.component';
 
 // Services
 import { LocationService } from '../services/location.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
 
 const SERVICES = [ LocationService, UserProfileService ];
-const COMPONENTS = [ VendorLocatorComponent, VendorComponent, HeaderComponent ];
+const COMPONENTS = [ VendorLocatorComponent, VendorComponent, HeaderComponent, RewardsComponent ];
 
 @NgModule({
   declarations: [
