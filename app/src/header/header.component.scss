@@ -1,7 +1,5 @@
 #header {
-  height: 15%;
   background-color: #29648A;
-  min-height: 120px;
 }
 
 .page-title {
@@ -10,16 +8,18 @@
   color: white;
 }
 
-.logo-header {
-  width: 100px;
-  left: 0px;
-  position: relative;
-}
-
 .logo-container{
   display: inline;
-  display: inline-block;
-  height: 100%;
-  float: left;
-  margin-left: 70px;
+  position: absolute;
+  left: 20px;
+  top: 5px;
 }
+
+.logo-header {
+  width: 75px;
+  left: 0px;
+  position: relative;
+  border-radius: 3px;
+}
+
+
