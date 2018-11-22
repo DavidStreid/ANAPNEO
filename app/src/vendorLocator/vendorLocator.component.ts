@@ -13,16 +13,16 @@ export class VendorLocatorComponent {
     this.vendors = this.getVendors();
   }
 
-  getVendorSections(vendors: Object[]): void {
-    // TODO
-  }
-
-
   getVendors(): Object[] {
-    return [ this.createVendor('CVS', 'png'),
+    return [
+      this.createVendor('CVS', 'png'),
       this.createVendor('Walgreens', 'jpg'),
       this.createVendor('Amazon', 'jpg'),
-      this.createVendor('NYSC', 'png')
+      this.createVendor('NYSC', 'png'),
+      this.createVendor('CVS', 'png'),
+      this.createVendor('Walgreens', 'jpg'),
+      this.createVendor('Amazon', 'jpg'),
+      this.createVendor('NYSC', 'png'),
     ];
 
   }
