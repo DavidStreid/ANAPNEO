@@ -6,11 +6,17 @@ import { Component } from '@angular/core';
   styleUrls:    ['./vendorLocator.component.scss']
 })
 export class VendorLocatorComponent {
+  private vendors: Object[];
+  vendorSections: Object[];
+
   constructor(){
     this.vendors = this.getVendors();
   }
 
-  private vendors: Object[];
+  getVendorSections(vendors: Object[]): void {
+    // TODO
+  }
+
 
   getVendors(): Object[] {
     return [ this.createVendor('CVS', 'png'),
