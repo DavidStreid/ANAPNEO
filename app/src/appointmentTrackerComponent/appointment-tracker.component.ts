@@ -29,8 +29,8 @@ export class AppointmentTrackerComponent {
           zipCode: 10029
         },
         date: {
-          day: 11,
-          month: 22,
+          day: 22,
+          month: 11,
           year: 2018
         }
       },
@@ -44,8 +44,8 @@ export class AppointmentTrackerComponent {
           zipCode: 10029
         },
         date: {
-          day: 11,
-          month: 30,
+          day: 30,
+          month: 11,
           year: 2018
         }
       }
