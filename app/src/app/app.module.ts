@@ -13,8 +13,11 @@ import { VendorComponent } from '../vendorLocator/vendorComponent/vendor.compone
 import { HeaderComponent } from '../header/header.component';
 import { RewardsComponent } from '../vendorLocator/rewardsComponent/rewards.component';
 import { MyHealthComponent } from '../myHealthComponent/myHealth.component';
-import { AppointmentsComponent } from '../appointmentsComponent/appointments.component';
+import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/appointment-tracker.component';
+import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
+import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 import { PageNotFoundComponent } from '../pageNotFoundComponent/pageNotFound.component';
+
 
 // Services
 import { LocationService } from '../services/location.service';
@@ -27,8 +30,10 @@ const COMPONENTS =  [
                       HeaderComponent,
                       RewardsComponent,
                       MyHealthComponent,
-                      AppointmentsComponent,
-                      PageNotFoundComponent
+                      PageNotFoundComponent,
+                      AppointmentTrackerComponent,
+                      AppointmentDetailsComponent,
+                      CalendarDateComponent
                     ];
 
 @NgModule({

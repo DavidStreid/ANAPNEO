@@ -1,0 +1,7 @@
+<div class="appointment-tracker-container">
+  <div *ngFor="let appointment of appointments">
+    <appointment-details [day]="appointment.date.day"
+                         [month]="appointment.date.month"
+                         [address]="appointment.date.address"></appointment-details>
+  </div>
+</div>
