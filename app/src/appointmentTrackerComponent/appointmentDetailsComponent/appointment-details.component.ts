@@ -19,7 +19,7 @@ export class AppointmentDetailsComponent implements OnChanges {
   ngOnChanges() {
     this.day = this.appointment['date']['day'];
     this.month = this.appointment['date']['month'];
-    this.title = this.appointment['date']['title'];
-    this.place = this.appointment['date']['place'];
+    this.title = this.appointment['title'];
+    this.place = this.appointment['place'];
   }
 }
