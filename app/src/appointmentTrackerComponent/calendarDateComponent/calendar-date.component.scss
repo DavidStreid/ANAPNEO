@@ -1,7 +1,12 @@
 .calendar-date {
   width: 50px;
-  height: 60px;
+  height: 60%;
   border: 1px black solid;
+  margin: auto;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%,-25%);
 }
 
 .calendar-month {

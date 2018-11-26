@@ -16,10 +16,12 @@ export class AppointmentDetailsComponent implements OnChanges {
   public place: object;
   public title: string;
 
+
   ngOnChanges() {
-    this.day = this.appointment['date']['day'];
-    this.month = this.appointment['date']['month'];
-    this.title = this.appointment['title'];
-    this.place = this.appointment['place'];
+    this.day = this.appointment['date']['day'] || '';       // number
+    this.month = this.appointment['date']['month'] || '';   // number
+    this.title = this.appointment['title'] || '';
+    this.place = this.appointment['place'] || '';
+    this.address = this.appointment['address'] || {};
   }
 }

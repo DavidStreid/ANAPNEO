@@ -1,13 +1,37 @@
 .appointment-container{
   width: 400px;
-  height: 150px;
+  height: 100px;
   margin-bottom: 10px;
 }
 
 .appointment-date {
+  height: 100%;
   width: 30%;
+  display: inline-block;
+  position: relative;
 }
 
 .appointment-details{
   width: 70%;
+  border: solid 2px #29648A;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.appt-location{
+  float: right;
+}
+
+.appt-address{
+  font-size: 12px;
+}
+
+.appt-title {
+  font-size: 20px;
+}
+
+.appt-place {
+
 }
