@@ -7,6 +7,23 @@
   height: 85%;
 }
 
+.active {
+  color: #8bc34a;
+}
+
+.nav-select {
+  border-bottom: 1px solid white;
+}
+
+.nav-select:hover {
+  border-bottom: 1px solid #29648A;
+  background: white;
+}
+
+a {
+  text-decoration: none;
+}
+
 .main-view{
   width: 75%;
   height: 80%;
