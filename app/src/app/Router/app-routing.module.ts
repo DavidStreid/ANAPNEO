@@ -8,7 +8,7 @@ import { PageNotFoundComponent }        from '../../pageNotFoundComponent/pageNo
 export const appRoutes = [
   { path: 'rewards',      component: VendorLocatorComponent },
   { path: 'appointments', component: AppointmentTrackerComponent },
-  { path: 'feedback',     component: MyHealthComponent },
+  { path: 'health',     component: MyHealthComponent },
 
   // WildCard route
   { path: '**',           component: PageNotFoundComponent },
