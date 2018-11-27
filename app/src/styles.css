@@ -9,6 +9,11 @@ p,h1 {
   text-align:center;
 }
 
+.padding-vert-sm {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .padding-vert-md {
   padding-top: 20px;
   padding-bottom: 20px;
