@@ -2,6 +2,17 @@
 module.exports = function(app) {
   	var companion = require('../controllers/controller');
 
+    // App Requests
+    app.route('/vendors')
+        .get(companion.getVendors)
+
+    app.route('/prescriptions')
+        .get(companion.getPrescriptions)
+
+    app.route('/doctors')
+        .get(companion.getDoctors)
+
+    // Sample Requests
 	app.route('/helloWorld')
 		.get(companion.helloWorld)
 	app.route('/textPost')					// Content-Type: Application/json

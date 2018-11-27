@@ -15,6 +15,64 @@ db.connect('mongodb://localhost:27017/test', function(err) {
   }
 })
 
+
+exports.getVendors = function(req,res){
+  if(logging_enabled) console.log("controller::getVendors");
+  setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+  // TODO - Get vendors from DB
+  const vendors = [
+    {
+        name: 'CVS'
+    },
+    {
+        name: 'Walgreens'
+    }
+  ];
+
+  res.send({'vendors': vendors});
+}
+
+exports.getPrescriptions = function(req,res){
+    if(logging_enabled) console.log("controller::getPrescriptions");
+    setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+    // TODO - Get Prescriptions from DB
+    const prescriptions = [
+      {
+        name: 'MultiVitamin',
+        qty: 1,
+        frequency: 'daily'
+      },
+      {
+        name: 'NicodermCQ',
+        qty: 1,
+        frequency: 'daily'
+      }
+    ];
+
+    res.send({ prescriptions });
+}
+
+exports.getDoctors = function(req,res){
+  if(logging_enabled) console.log("controller::getDoctors");
+  setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+  // TODO - Get Prescriptions from DB
+  const doctors = [
+      {
+        name: 'Eric Toig',
+        type: 'Primary Care'
+      },
+      {
+        name: 'House',
+        type: 'Oncologist'
+      }
+    ];
+  res.send({ doctors });
+}
+
+
 exports.textPost = function(req,res){
   if(logging_enabled) console.log("controller::textPost")
   setCORSHeaders(res, allowedOrigins, ["POST"]);
