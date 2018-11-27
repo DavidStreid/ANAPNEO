@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import DateUtil from '../../utils/date.util';
 
 @Component({
@@ -7,7 +7,7 @@ import DateUtil from '../../utils/date.util';
   styleUrls: [ 'calendar-date.component.scss' ]
 })
 
-export class CalendarDateComponent implements OnChanges  {
+export class CalendarDateComponent{
   @Input()
   month: number;
   @Input()
@@ -21,10 +21,5 @@ export class CalendarDateComponent implements OnChanges  {
 
   displayMonth(month: number): string {
     return this.dateUtil.getMonthString( month );
-  }
-
-  ngOnChanges(){
-    console.log(this.month);
-    console.log(this.day);
   }
 }
