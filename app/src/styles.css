@@ -27,6 +27,10 @@ p,h1 {
   padding-bottom: 20px;
 }
 
+.margin-left-md {
+  margin-left: 20px;
+}
+
 .margin-bottom-md {
   margin-bottom: 20px;
 }
@@ -68,4 +72,21 @@ p,h1 {
   background-color: #29648A;
   padding: 20px;
   border-radius: 15px;
+}
+
+.float-right {
+  float: right
+}
+
+.float-left {
+  float: left;
+}
+
+/* TOOD - Find better way, block doesn't work */
+.flow-root {
+  display: flow-root;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
 }
