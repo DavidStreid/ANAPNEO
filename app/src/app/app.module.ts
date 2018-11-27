@@ -16,6 +16,8 @@ import { MyHealthComponent } from '../myHealthComponent/myHealth.component';
 import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/appointment-tracker.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
+import { DocFinderComponent } from '../docFinderComponent/doc-finder.component';
+
 import { PageNotFoundComponent } from '../pageNotFoundComponent/pageNotFound.component';
 
 
@@ -29,11 +31,12 @@ const COMPONENTS =  [
                       VendorComponent,
                       HeaderComponent,
                       RewardsComponent,
-                      MyHealthComponent,
                       PageNotFoundComponent,
                       AppointmentTrackerComponent,
                       AppointmentDetailsComponent,
-                      CalendarDateComponent
+                      CalendarDateComponent,
+                      DocFinderComponent,
+                      MyHealthComponent
                     ];
 
 @NgModule({
