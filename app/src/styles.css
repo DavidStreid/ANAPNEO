@@ -35,6 +35,10 @@ p,h1 {
   padding-right: 20px;
 }
 
+.white-border-bottom {
+  border-bottom: 1px solid white;
+}
+
 .font-size-14 {
   font-size: 14px;
 }
