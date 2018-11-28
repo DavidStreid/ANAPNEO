@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector:     'vendor-locator',
-  templateUrl:  './vendorLocator.component.html',
-  styleUrls:    ['./vendorLocator.component.scss']
+  selector:     'rewards',
+  templateUrl:  './rewards.component.html',
+  styleUrls:    ['./rewards.component.scss']
 })
-export class VendorLocatorComponent {
+export class RewardsComponent {
   private vendors: Object[];
   vendorSections: Object[];
 

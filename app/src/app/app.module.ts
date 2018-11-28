@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule }    from '@angular/platform-browser';
+import { NgModule }         from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './Router/app-routing.module';
@@ -8,26 +8,27 @@ import { AppRoutingModule } from './Router/app-routing.module';
 import { AppComponent } from './app.component';
 
 // CHILD Components
-import { VendorLocatorComponent } from '../vendorLocator/vendorLocator.component';
-import { VendorComponent } from '../vendorLocator/vendorComponent/vendor.component';
-import { HeaderComponent } from '../header/header.component';
-import { RewardsComponent } from '../vendorLocator/rewardsComponent/rewards.component';
-import { MyHealthComponent } from '../myHealthComponent/myHealth.component';
+import { RewardsComponent }             from '../rewardsComponent/rewards.component';
+import { VendorComponent }              from '../rewardsComponent/vendorComponent/vendor.component';
+import { HeaderComponent }              from '../header/header.component';
+import { RewardsInfoComponent }         from '../rewardsComponent/rewardsInfoComponent/rewards-info.component';
+import { MyHealthComponent }            from '../myHealthComponent/myHealth.component';
 import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/appointment-tracker.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
-import { DocFinderComponent } from '../docFinderComponent/doc-finder.component';
+import { DocFinderComponent }           from '../docFinderComponent/doc-finder.component';
 
-import { PageNotFoundComponent } from '../pageNotFoundComponent/pageNotFound.component';
+import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 
 
 // Services
-import { LocationService } from '../services/location.service';
+import { LocationService }    from '../services/location.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
 
 const SERVICES = [ LocationService, UserProfileService ];
 const COMPONENTS =  [
-                      VendorLocatorComponent,
+                      RewardsComponent,
+                      RewardsInfoComponent,
                       VendorComponent,
                       HeaderComponent,
                       RewardsComponent,

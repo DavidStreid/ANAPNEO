@@ -1,6 +1,6 @@
 import { NgModule }                     from '@angular/core';
 import { RouterModule, Routes }         from '@angular/router';
-import { VendorLocatorComponent }       from '../../vendorLocator/vendorLocator.component';
+import { RewardsComponent }             from '../../rewardsComponent/rewards.component';
 import { MyHealthComponent }            from '../../myHealthComponent/myHealth.component';
 import { AppointmentTrackerComponent }  from '../../appointmentTrackerComponent/appointment-tracker.component';
 import { DocFinderComponent }           from '../../docFinderComponent/doc-finder.component';
@@ -8,13 +8,13 @@ import { DocFinderComponent }           from '../../docFinderComponent/doc-finde
 import { PageNotFoundComponent }        from '../../pageNotFoundComponent/pageNotFound.component';
 
 export const appRoutes = [
-  { path: 'rewards',      component: VendorLocatorComponent },
+  { path: 'rewards',      component: RewardsComponent },
   { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
   { path: 'doc',          component: DocFinderComponent },
 
   // WildCard route
-  { path: '**',           component: PageNotFoundComponent },
+  { path: '**',           component: RewardsComponent },
 
   // No Path route
   { path: '', redirectTo: '/rewards', pathMatch: 'full' },
