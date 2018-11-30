@@ -10,7 +10,7 @@ export class LoginService {
 
   constructor(private http: HttpClient){}
 
-  login(userId: String, pwd: String) {
+  login(userId: String, pwd: String): Observable<Object> {
     if( this.loggingEnabled ) console.log( "loginService::login" );
 
     const url = "http://localhost:4300/login";
