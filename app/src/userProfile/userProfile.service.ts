@@ -25,7 +25,7 @@ export class UserProfileService {
 
 	getCoordinates(){
 		this.locationService.getCoordinates().subscribe( {
-      next: (res) => this.userProfile['coordinates'] = res;
+      next: (res) => this.userProfile['coordinates'] = res,
       error: (e) => console.log('Could not determine locations: ' + e),
     } )
   };
