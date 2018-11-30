@@ -1,48 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
+import { Observer } from "rxjs/Observer";
 import { Subject }    from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class LocationService {
-  constructor(private http: HttpClient){
+  private loggingEnabled: boolean = false;
+  constructor(private http: HttpClient){}
+
+  private getCurrentPosition(observer: Observer<Object>): void {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        let coordinates = {
+          'latitude': pos['coords']['latitude'],
+          'longitude': pos['coords']['longitude']
+        };
+        if( this.loggingEnabled ) console.log( 'Obtained coordinates: ' + JSON.stringify(coordinates) );
+
+        observer.next(coordinates);
+        observer.complete();
+      },
+      error => { console.warn(); observer.complete(); },
+
+      // Options
+      {	enableHighAccuracy: true,	timeout: 5000,	maximumAge: 0 }
+    );
   }
 
-	public coordinatesSource = new Subject<Object>(); 	// Provides filter updates to the library
-	private loggingEnabled: boolean = false;
-	public locationEnabled: boolean = false;			// Set to true when navigator returns coordinates
-
-	findCoordinates(){
-		if( this.loggingEnabled ) console.log( "LocationService::findCoordinates" );
-		navigator.geolocation.getCurrentPosition(
-			pos => {
-				let coordinates = {
-					'latitude': pos['coords']['latitude'],
-					'longitude': pos['coords']['longitude']
-				};
-				this.coordinatesSource.next( coordinates );
-				this.locationEnabled = true;
-				if( this.loggingEnabled ) { console.log(coordinates); };
-
-			},
-			error => { console.warn(); },
-			// Options
-			{	enableHighAccuracy: true,	timeout: 5000,	maximumAge: 0 }
-		)
-  }
-
-  // Fetch all existing comments
-  getDistanceMetrics(origins: string, destinations: string[], units: string) : Observable<Object>{
-    	let url = "http://localhost:3000/distance";
-    	let body = {
-    		"origins": origins,
-    		"destinations": destinations,
-    		"units": units
-    	};
-    	return this.http.post( url, body )
-                    .map((res:Response) => res.json())
-                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	public getCoordinates(): Observable<any> {
+		if( this.loggingEnabled ) console.log( "LocationService::getCoordinates" );
+    return Observable.create( observer => { this.getCurrentPosition(observer) } );
   }
 }

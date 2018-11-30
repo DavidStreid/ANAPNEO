@@ -15,6 +15,7 @@ db.connect('mongodb://localhost:27017/test', function(err) {
   }
 })
 
+
 exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost
     if(logging_enabled) console.log( "PRE-FLIGHT REQUEST - login" );

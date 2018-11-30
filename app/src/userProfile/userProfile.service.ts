@@ -7,12 +7,12 @@ export class UserProfileService {
   private logging: boolean = false;
 
   public userProfile: Object = {
-    coordinates: {},
+    coordinates: { 'latitude': null, 'longitude': null },
     authToken: null
   }
 
   constructor(private locationService:LocationService, private loginService:LoginService){
-    this.retrieveCoordinates();
+    this.getCoordinates();
     this.login();
   }
 
@@ -23,13 +23,10 @@ export class UserProfileService {
     });
   }
 
-	retrieveCoordinates(){
-		this.locationService.findCoordinates();				// Send Request For Coordinates
-		this.locationService.coordinatesSource.subscribe(	// Subscribe to Source of Coordinates
-			coordinates => {
-				this.geoData['coordinates'] = coordinates;
-        // console.log(JSON.stringify(this.geoData));
-			}
-		)
-};
+	getCoordinates(){
+		this.locationService.getCoordinates().subscribe( {
+      next: (res) => this.userProfile['coordinates'] = res;
+      error: (e) => console.log('Could not determine locations: ' + e),
+    } )
+  };
 }
