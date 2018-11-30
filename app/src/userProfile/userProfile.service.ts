@@ -1,17 +1,26 @@
-import{ Injectable } from '@angular/core';
-import{ LocationService } from '../services/location.service';
+import { Injectable }       from '@angular/core';
+import { LocationService }  from '../services/location.service';
+import { LoginService }     from '../services/login.service';
 
 @Injectable()
 export class UserProfileService {
-  private coordinates: Object = {}; // Location of the user in latitude and longitude
   private logging: boolean = false;
 
-  public geoData: Object = {
-    coordinates: {}
+  public userProfile: Object = {
+    coordinates: {},
+    authToken: null
   }
 
-  constructor(private locationService:LocationService){
+  constructor(private locationService:LocationService, private loginService:LoginService){
     this.retrieveCoordinates();
+    this.login();
+  }
+
+  login(){
+    this.loginService.login("David","dumbPassword").subscribe({
+      next: (res) => this.userProfile['authToken'] = res['authToken'] || null,
+      error: (e) => console.log('User Login Failed: ' + e)
+    });
   }
 
 	retrieveCoordinates(){

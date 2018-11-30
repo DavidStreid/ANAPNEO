@@ -3,7 +3,7 @@ var request = require('request');
 var http   = require("../../resources/constants/http");
 var db = require('../../../db/db');
 var logging_enabled = true;
-var allowedOrigins = ["*"];   // valid hosts for CORS
+var allowedOrigins = ["*"];                                 // valid hosts for CORS
 
 db.connect('mongodb://localhost:27017/test', function(err) {
   if (err) {
@@ -15,10 +15,29 @@ db.connect('mongodb://localhost:27017/test', function(err) {
   }
 })
 
+exports.loginOptions = function(req,res){
+    // Handles pre-flight request textPost
+    if(logging_enabled) console.log( "PRE-FLIGHT REQUEST - login" );
+    setCORSHeaders(res, allowedOrigins, ["POST"]);
+    console.log(http.responses.get(200));
+    res.sendStatus(200);
+}
+
+exports.login = function(req,res){
+  if(logging_enabled) console.log("controller::login");
+  setCORSHeaders(res, allowedOrigins, ["POST"]);
+
+  // TODO - Create application token based off of login-info
+  const authToken = Math.floor(Math.random()*1000000000000);
+
+  res.send({ authToken });
+}
 
 exports.getVendors = function(req,res){
   if(logging_enabled) console.log("controller::getVendors");
   setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+  // TODO - Parse out and validate authentication token
 
   // TODO - Get vendors from DB
   const vendors = [
@@ -36,6 +55,8 @@ exports.getVendors = function(req,res){
 exports.getPrescriptions = function(req,res){
     if(logging_enabled) console.log("controller::getPrescriptions");
     setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+    // TODO - Parse out and validate authentication token
 
     // TODO - Get Prescriptions from DB
     const prescriptions = [
@@ -57,6 +78,8 @@ exports.getPrescriptions = function(req,res){
 exports.getDoctors = function(req,res){
   if(logging_enabled) console.log("controller::getDoctors");
   setCORSHeaders(res, allowedOrigins, ["GET"]);
+
+  // TODO - Parse out and validate authentication token
 
   // TODO - Get Prescriptions from DB
   const doctors = [

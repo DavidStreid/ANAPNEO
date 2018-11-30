@@ -23,10 +23,11 @@ import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFo
 
 // Services
 import { LocationService }    from '../services/location.service';
+import { LoginService }       from '../services/login.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
 
-const SERVICES = [ LocationService, UserProfileService ];
-const COMPONENTS =  [
+const SERVICES    = [ LocationService, UserProfileService, LoginService ];
+const COMPONENTS  = [
                       RewardsComponent,
                       RewardsInfoComponent,
                       VendorComponent,
