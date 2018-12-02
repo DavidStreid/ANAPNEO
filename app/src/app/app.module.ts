@@ -1,6 +1,7 @@
 import { BrowserModule }    from '@angular/platform-browser';
 import { NgModule }         from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './Router/app-routing.module';
 
@@ -17,7 +18,7 @@ import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/app
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 import { DocFinderComponent }           from '../docFinderComponent/doc-finder.component';
-
+import { LoginComponent }               from '../loginComponent/login.component';
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 
 
@@ -38,7 +39,8 @@ const COMPONENTS  = [
                       AppointmentDetailsComponent,
                       CalendarDateComponent,
                       DocFinderComponent,
-                      MyHealthComponent
+                      MyHealthComponent,
+                      LoginComponent
                     ];
 
 @NgModule({
@@ -49,7 +51,8 @@ const COMPONENTS  = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [ SERVICES ],
   bootstrap: [ AppComponent ]

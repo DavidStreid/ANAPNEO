@@ -4,7 +4,7 @@ import { LoginService }     from '../services/login.service';
 
 @Injectable()
 export class UserProfileService {
-  private logging: boolean = false;
+  private logging: boolean = true;
 
   public userProfile: Object = {
     coordinates: { 'latitude': null, 'longitude': null },
@@ -13,11 +13,14 @@ export class UserProfileService {
 
   constructor(private locationService:LocationService, private loginService:LoginService){
     this.getCoordinates();
-    this.login();
+
+    // TODO - Remove once login feature is fully integrated
+    this.login("David","dumbPassword");
   }
 
-  login(){
-    this.loginService.login("David","dumbPassword").subscribe({
+  login(user: String, password: String){
+    if( this.logging ) console.log( 'User: ' + user + ', Password: ' + password );
+    this.loginService.login(user, password).subscribe({
       next: (res) => this.userProfile['authToken'] = res['authToken'] || null,
       error: (e) => console.log('User Login Failed: ' + e)
     });

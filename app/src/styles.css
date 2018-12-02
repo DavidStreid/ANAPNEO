@@ -90,3 +90,7 @@ p,h1 {
 .overflow-y-hidden {
   overflow-y: hidden;
 }
+
+.block {
+  display: block;
+}

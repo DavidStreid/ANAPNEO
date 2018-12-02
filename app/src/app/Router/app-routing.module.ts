@@ -4,6 +4,7 @@ import { RewardsComponent }             from '../../rewardsComponent/rewards.com
 import { MyHealthComponent }            from '../../myHealthComponent/myHealth.component';
 import { AppointmentTrackerComponent }  from '../../appointmentTrackerComponent/appointment-tracker.component';
 import { DocFinderComponent }           from '../../docFinderComponent/doc-finder.component';
+import { LoginComponent }               from '../../loginComponent/login.component';
 
 import { PageNotFoundComponent }        from '../../pageNotFoundComponent/pageNotFound.component';
 
@@ -12,12 +13,13 @@ export const appRoutes = [
   { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
   { path: 'doc',          component: DocFinderComponent },
+  { path: 'login',        component: LoginComponent },
 
   // WildCard route
-  { path: '**',           component: RewardsComponent },
+  { path: '**',           component: LoginComponent },
 
   // No Path route
-  { path: '', redirectTo: '/rewards', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({
