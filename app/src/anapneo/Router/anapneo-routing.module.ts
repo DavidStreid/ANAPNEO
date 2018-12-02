@@ -31,6 +31,6 @@ export const appRoutes = [
   ]
 })
 
-export class AppRoutingModule{}
+export class AnapneoRoutingModule{}
 
 

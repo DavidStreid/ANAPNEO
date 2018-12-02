@@ -3,9 +3,9 @@ import { UserProfileService } from '../userProfile/userProfile.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './anapneo.component.html',
+  styleUrls: ['./anapneo.component.css']
 })
-export class AppComponent {
+export class AnapneoComponent {
   constructor(private userProfileService:UserProfileService){}
 }

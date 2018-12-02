@@ -3,10 +3,10 @@ import { NgModule }         from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './Router/app-routing.module';
+import { AnapneoRoutingModule } from './Router/anapneo-routing.module';
 
 // ROOT Component
-import { AppComponent } from './app.component';
+import { AnapneoComponent } from './anapneo.component';
 
 // CHILD Components
 import { RewardsComponent }             from '../rewardsComponent/rewards.component';
@@ -45,16 +45,16 @@ const COMPONENTS  = [
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AnapneoComponent,
     COMPONENTS
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
+    AnapneoRoutingModule,
     ReactiveFormsModule
   ],
   providers: [ SERVICES ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AnapneoComponent ]
 })
-export class AppModule { }
+export class AnapneoModule { }
