@@ -6,7 +6,7 @@ An app-based rewards program to improve lung cancer prognosis.
 ## GETTING STARTED
 ~~~~
 $ git clone https://github.com/DavidStreid/ANAPNEO.git
-$ chmod 744 anapneo.sh
+$ cd ANAPNEO
 $ ./anapneo.sh
 ~~~~
 
