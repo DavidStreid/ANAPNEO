@@ -1,0 +1,38 @@
+#page {
+  height: 100vh;
+}
+
+#body {
+  width: 100vw;
+  height: 85%;
+}
+
+.active {
+  color: #8bc34a;
+}
+
+
+.nav-select:hover {
+  border-bottom: 1px solid #29648A;
+  background: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main-view{
+  width: 75%;
+  height: 80%;
+  display: inline-block;
+  float: right;
+}
+
+.sidebar{
+  width: 20%;
+  display: inline-block;
+  float: left;
+  margin-left: 30px;
+  padding: 20px;
+  background-color: #EAEAEA;
+}

@@ -1,0 +1,13 @@
+<div class="appointment-container">
+  <div class="appointment-date">
+    <calendar-date [day]="day" [month]="month"></calendar-date>
+  </div>
+  <div class="appointment-details">
+    <p class="appt-title margin-bottom-none">{{title}}</p>
+    <div class="appt-location">
+      <p class="appt-place margin-bottom-none">{{place}}</p>
+      <p class="appt-address margin-bottom-none">{{address['street']}}</p>
+      <p class="appt-address margin-bottom-none">{{address['city']}}, {{address['state']}} {{address['zipCode']}}</p>
+    </div>
+  </div>
+</div>

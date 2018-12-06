@@ -1,0 +1,96 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+p,h1 {
+  font-family: Cambria;
+}
+
+.text-center {
+  text-align:center;
+}
+
+.padding-vert-sm {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.padding-vert-md {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.padding-top-md {
+  padding-top: 20px;
+}
+
+.padding-bottom-md {
+  padding-bottom: 20px;
+}
+
+.margin-left-md {
+  margin-left: 20px;
+}
+
+.margin-bottom-md {
+  margin-bottom: 20px;
+}
+
+.margin-bottom-none {
+  margin-bottom: 0px;
+}
+
+.padding-hor-md {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.white-border-bottom {
+  border-bottom: 1px solid white;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-size-18 {
+  font-size: 18px;
+}
+
+.font-size-22 {
+  font-size: 22px;
+}
+
+.font-white {
+  color: white;
+}
+
+.blue-header-container {
+  position: relative;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: #29648A;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.float-right {
+  float: right
+}
+
+.float-left {
+  float: left;
+}
+
+/* TOOD - Find better way, block doesn't work */
+.flow-root {
+  display: flow-root;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.block {
+  display: block;
+}

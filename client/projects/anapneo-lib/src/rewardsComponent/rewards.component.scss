@@ -1,0 +1,21 @@
+.rewards-container {
+  height: 120px;
+}
+
+.vendor-container {
+  -webkit-column-count: 1;
+     -moz-column-count: 1;
+          column-count: 1;
+  -webkit-column-width: 200px;
+     -moz-column-width: 200px;
+          column-width: 200px;
+}
+
+
+@media screen and (min-width: 1000px) {
+  .vendor-container {
+    -webkit-column-count: 2;
+       -moz-column-count: 2;
+            column-count: 2;
+  }
+}
