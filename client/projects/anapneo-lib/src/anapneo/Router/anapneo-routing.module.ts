@@ -22,9 +22,10 @@ export const appRoutes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
+// forChild used when imported lazily (only one forRoot allowed)
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forChild(appRoutes)
   ],
   exports: [
     RouterModule
