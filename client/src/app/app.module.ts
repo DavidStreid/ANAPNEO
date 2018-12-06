@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { AnapneoModule } from '../../projects/anapneo-lib/src/anapneo/anapneo.module';
 
 // Loads from library
-// import { ɵa } from 'anapneo-lib';
+// import { ɵa as AnapneoModule } from 'anapneo-lib';
 
 @NgModule({
   declarations: [
