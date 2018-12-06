@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
@@ -13,7 +12,6 @@ import { ɵa as AnapneoModule } from 'anapneo-lib';
     AppComponent
   ],
   imports: [
-    BrowserModule,
     AnapneoModule
   ],
   exports: [],
