@@ -4,7 +4,7 @@ import { UserProfileService } from '../userProfile/userProfile.service';
 @Component({
   selector: 'anapneo',
   templateUrl: './anapneo.component.html',
-  styleUrls: ['./anapneo.component.css']
+  styleUrls: ['./anapneo.component.scss']
 })
 export class AnapneoComponent {
   constructor(private userProfileService:UserProfileService){}
