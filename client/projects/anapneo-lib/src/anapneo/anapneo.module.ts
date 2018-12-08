@@ -54,7 +54,7 @@ const COMPONENTS  = [
     AnapneoRoutingModule,
     ReactiveFormsModule
   ],
-  exports:    [ AnapneoComponent ],
+  exports:    [ AnapneoComponent, COMPONENTS ],
   providers:  [ SERVICES ],
 })
 export class AnapneoModule { }
