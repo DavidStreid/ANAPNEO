@@ -21,7 +21,6 @@ import { DocFinderComponent }           from '../docFinderComponent/doc-finder.c
 import { LoginComponent }               from '../loginComponent/login.component';
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 
-
 // Services
 import { LocationService }    from '../services/location.service';
 import { LoginService }       from '../services/login.service';
