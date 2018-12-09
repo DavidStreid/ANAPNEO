@@ -1,6 +1,8 @@
 var express = require('express');
 var mongoose = require('mongoose');
 
+var vendor = require('./vendor/vendorAccess');
+
 var state = {
   db: null,
   comments: null
@@ -16,8 +18,8 @@ exports.connect = function(url, done) {
     console.log("Connecting to " + dbName)
 
     state.db = db;                      // Database
-    var commentBase = db.db(dbName);    // Creates comments db instance
-    state.comments = commentBase;
+
+    vendor.uploadImages();
 
     done()
   })

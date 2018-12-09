@@ -21,7 +21,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "*",
+    "fs": "0.0.1-security",
     "mongoose": "^5.3.15",
+    "path": "^0.12.7",
     "request": "*"
   },
   "devDependencies": {

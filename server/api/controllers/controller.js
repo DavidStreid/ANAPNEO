@@ -1,9 +1,15 @@
 'use strict';
 var request = require('request');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
 var http   = require("../../resources/constants/http");
 var db = require('../../mongo/db');
+
 var logging_enabled = true;
 var allowedOrigins = ["*"];                                 // valid hosts for CORS
+
+// TODO - add handleError to places
 
 db.connect('mongodb://localhost:27017/test', function(err) {
   if (err) {
@@ -15,6 +21,37 @@ db.connect('mongodb://localhost:27017/test', function(err) {
   }
 })
 
+exports.getImg = function(req,res){
+    log("controller::getImg");
+
+    const name = req.query.name || '';
+    if(! name){
+        return handleError('Name of vendor not specified', res, 404);
+    }
+
+    // img schema
+    var schema = new Schema({
+        img: { data: Buffer, contentType: String }
+    });
+    var vendorModel = mongoose.model('vendor')
+    var vendorDoc = new vendorModel;
+
+
+    log('\tquerying img for ' + name);
+
+
+    vendorModel.findOne({ name }, function (err, vendor) {
+        if (err) return handleError(err, res, 500);
+        if (!vendor) return handleError('No vendor data for ' + name, res, 404);
+
+        const img = vendor.img || {};
+        const contentType = img['contentType'] || 'NO CONTENT TYPE';
+        const data = img['data'] || 'NO DATA';
+
+        res.contentType(contentType);
+        res.send(data);
+    });
+}
 
 exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost

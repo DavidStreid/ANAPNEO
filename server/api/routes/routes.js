@@ -2,6 +2,9 @@
 module.exports = function(app) {
   	var companion = require('../controllers/controller');
 
+    app.route('/img')
+        .get(companion.getImg);
+
     // App Requests
     app.route('/login')
         .post(companion.login);
