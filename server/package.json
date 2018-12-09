@@ -21,6 +21,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "*",
+    "mongoose": "^5.3.15",
     "request": "*"
   },
   "devDependencies": {
