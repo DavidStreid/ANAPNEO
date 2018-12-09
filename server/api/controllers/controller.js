@@ -1,7 +1,7 @@
 'use strict';
 var request = require('request');
 var http   = require("../../resources/constants/http");
-var db = require('../../../db/db');
+var db = require('../../mongo/db');
 var logging_enabled = true;
 var allowedOrigins = ["*"];                                 // valid hosts for CORS
 
