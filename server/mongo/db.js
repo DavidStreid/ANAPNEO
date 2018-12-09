@@ -12,6 +12,7 @@ exports.connect = function(url, done) {
   mongoose.connect(url, function(err, db) {
     if (err) return done(err);
 
+    let dbName = "Anapneo"
     console.log("Connecting to " + dbName)
 
     state.db = db;                      // Database
