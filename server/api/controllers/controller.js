@@ -18,14 +18,15 @@ db.connect('mongodb://localhost:27017/test', function(err) {
 
 exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost
-    if(logging_enabled) console.log( "PRE-FLIGHT REQUEST - login" );
+    log( "PRE-FLIGHT REQUEST - login" );
+
     setCORSHeaders(res, allowedOrigins, ["POST"]);
     console.log(http.responses.get(200));
     res.sendStatus(200);
 }
 
 exports.login = function(req,res){
-  if(logging_enabled) console.log("controller::login");
+  log("controller::login");
   setCORSHeaders(res, allowedOrigins, ["POST"]);
 
   // TODO - Create application token based off of login-info
@@ -35,7 +36,7 @@ exports.login = function(req,res){
 }
 
 exports.getVendors = function(req,res){
-  if(logging_enabled) console.log("controller::getVendors");
+  log("controller::getVendors");
   setCORSHeaders(res, allowedOrigins, ["GET"]);
 
   // TODO - Parse out and validate authentication token
@@ -54,7 +55,7 @@ exports.getVendors = function(req,res){
 }
 
 exports.getPrescriptions = function(req,res){
-    if(logging_enabled) console.log("controller::getPrescriptions");
+    log("controller::getPrescriptions");
     setCORSHeaders(res, allowedOrigins, ["GET"]);
 
     // TODO - Parse out and validate authentication token
@@ -77,7 +78,7 @@ exports.getPrescriptions = function(req,res){
 }
 
 exports.getDoctors = function(req,res){
-  if(logging_enabled) console.log("controller::getDoctors");
+  log("controller::getDoctors");
   setCORSHeaders(res, allowedOrigins, ["GET"]);
 
   // TODO - Parse out and validate authentication token
@@ -98,7 +99,7 @@ exports.getDoctors = function(req,res){
 
 
 exports.textPost = function(req,res){
-  if(logging_enabled) console.log("controller::textPost")
+  log("controller::textPost")
   setCORSHeaders(res, allowedOrigins, ["POST"]);
   const text = req.body.text;
   res.send({'text': text});
@@ -106,14 +107,14 @@ exports.textPost = function(req,res){
 
 exports.textPostOptions = function(req,res){
   // Handles pre-flight request textPost
-  if(logging_enabled) console.log( "PRE-FLIGHT REQUEST - textPost" );
+  log( "PRE-FLIGHT REQUEST - textPost" );
   setCORSHeaders(res, allowedOrigins, ["POST"]);
   console.log(http.responses.get(200));
   res.sendStatus(200);
 }
 
 exports.helloWorld = function(req, res){
-  if(logging_enabled) console.log("controller::helloWorld")
+  log("controller::helloWorld")
   setCORSHeaders(res, allowedOrigins, ["GET"]);
   res.send({'text': 'Hello World!'});
 }
@@ -124,4 +125,9 @@ function setCORSHeaders(res, origins, methods){
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader('Access-Control-Allow-Methods', methods.join(","));
   res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+function log(msg){
+    if( logging_enabled ){
+        console.log(msg);
+    }
+}
 }
