@@ -125,9 +125,22 @@ function setCORSHeaders(res, origins, methods){
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader('Access-Control-Allow-Methods', methods.join(","));
   res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+}
+
 function log(msg){
     if( logging_enabled ){
         console.log(msg);
     }
 }
+
+function handleError(message, resp, statusCode){
+    log('ERROR: ' + message);
+
+    const body = { 'error': message }
+    if(statusCode){
+        resp.status(statusCode);
+    } else {
+        resp.status(404);
+    }
+    resp.send(body);
 }
