@@ -24,7 +24,6 @@ export class RewardsComponent {
       this.createVendor('Amazon', 'jpg'),
       this.createVendor('NYSC', 'png'),
     ];
-
   }
 
   createVendor( name: String, ext: String ): Object {
