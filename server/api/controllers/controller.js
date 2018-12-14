@@ -50,7 +50,7 @@ function queryDBandSend( zipCode, res ){
             errors.push( { name, err: 'No vendor data for ' + name } );
             return;
         }
-        
+
         vendors = vendors.map(obj =>{
             const name      = obj['name'] || 'NO_NAME';
             const imgObj    = obj['img'] || {};
@@ -70,6 +70,8 @@ function queryDBandSend( zipCode, res ){
 }
 exports.getImg = function(req,res){
     log("controller::getImg");
+
+    setCORSHeaders(res, allowedOrigins, ["GET"]);
 
     const name = req.query.name || '';
     if(! name){
