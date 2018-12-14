@@ -9,15 +9,6 @@ export class VendorInfoService {
   private loggingEnabled: boolean = true;
   constructor(private http: HttpClient){}
 
-  public getVendor(name: String) {
-    if( this.loggingEnabled ) console.log( "VendorInfoService::getVendor" );
-
-    const url = "http://localhost:4300/img?name=" + name;
-    return this.http.get(url).pipe(
-      map((response: HttpResponseBase) => response),
-      catchError((error: HttpErrorResponse ) =>  of(`Error: ${error}`)));
-  }
-
   public getVendors(userId: String) {
     if( this.loggingEnabled ) console.log( "VendorInfoService::getVendors" );
 
