@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import EncodedFiles from '../assets/encodedImgs/siteImgs';
 
 @Component({
   selector: 'header',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 
 export class HeaderComponent {
   public title: String = "ANAPNEO";
+  public anapneoImgSrc: String = EncodedFiles.anapneoLogo;
 }

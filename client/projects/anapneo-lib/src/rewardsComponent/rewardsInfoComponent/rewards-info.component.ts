@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+import EncodedFiles from '../../assets/encodedImgs/siteImgs';
 
 @Component({
   selector: 'rewards-info',
@@ -13,4 +13,6 @@ export class RewardsInfoComponent{
 
   @Input()
   points: number = 0;
+
+  public userProfileImgSrc: String = EncodedFiles.userProfile;
 }
