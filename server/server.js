@@ -10,4 +10,4 @@ app.listen(port);
 var routes = require('./api/routes/routes'); 	//importing route
 routes(app); 									//register the route
 
-console.log('Simple server started: ' + port);
+console.log('Anapneo server started: ' + port);
