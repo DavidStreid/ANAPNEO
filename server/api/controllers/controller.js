@@ -21,6 +21,53 @@ db.connect('mongodb://localhost:27017/test', function(err) {
   }
 })
 
+exports.getVendors = function(req,res){
+    log("controller::getVendors");
+
+    // TODO - Make vendor list dependent on the userId that comes in, get zipcode
+    const userId = req.query.userId || null;
+    if(! userId){ return handleError('UserID not provided', res, 404); }
+    const zipCode = 11216;
+
+    queryDBandSend(zipCode, res);
+}
+
+// TODO - split into queryDB & sendResp functions
+function queryDBandSend( zipCode, res ){
+    var vendorModel = mongoose.model('vendor')
+
+    var vendorList = [];
+    vendorModel.find({ zipCode }, function (err, vendors) {
+        // Error Case
+        if (err) {
+            log('ERROR: ' + name);
+            errors.push( { name, err } );
+            return;
+        }
+        // Null vendor case
+        else if ( !vendors ) {
+            log('NULL VENDOR: ' + name);
+            errors.push( { name, err: 'No vendor data for ' + name } );
+            return;
+        }
+        
+        vendors = vendors.map(obj =>{
+            const name      = obj['name'] || 'NO_NAME';
+            const imgObj    = obj['img'] || {};
+            const img       = imgObj['data'] || {};
+
+            return { name, img };
+        });
+
+
+        vendorList = vendors;
+        const data = { vendors: vendorList };
+
+        res.contentType('application/json');
+        setCORSHeaders(res, allowedOrigins, ["GET"]);
+        res.send(data);
+    });
+}
 exports.getImg = function(req,res){
     log("controller::getImg");
 
@@ -70,25 +117,6 @@ exports.login = function(req,res){
   const authToken = Math.floor(Math.random()*1000000000000);
 
   res.send({ authToken });
-}
-
-exports.getVendors = function(req,res){
-  log("controller::getVendors");
-  setCORSHeaders(res, allowedOrigins, ["GET"]);
-
-  // TODO - Parse out and validate authentication token
-
-  // TODO - Get vendors from DB
-  const vendors = [
-    {
-        name: 'CVS'
-    },
-    {
-        name: 'Walgreens'
-    }
-  ];
-
-  res.send({'vendors': vendors});
 }
 
 exports.getPrescriptions = function(req,res){
