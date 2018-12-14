@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component }          from '@angular/core';
+import { Observable }         from 'rxjs/Observable';
+import { VendorInfoService }  from './vendorService/vendorInfoService';
 
 @Component({
   selector:     'rewards',
@@ -9,28 +11,20 @@ export class RewardsComponent {
   public vendors: Object[];
   vendorSections: Object[];
 
-  constructor(){
-    this.vendors = this.getVendors();
+  constructor(private vendorInfoService: VendorInfoService){
+    this.getVendors();
   }
 
-  getVendors(): Object[] {
-    return [
-      this.createVendor('CVS', 'png'),
-      this.createVendor('Walgreens', 'jpg'),
-      this.createVendor('Amazon', 'jpg'),
-      this.createVendor('NYSC', 'png'),
-      this.createVendor('CVS', 'png'),
-      this.createVendor('Walgreens', 'jpg'),
-      this.createVendor('Amazon', 'jpg'),
-      this.createVendor('NYSC', 'png'),
-    ];
+  /*
+   * Get vendors from service
+   */
+  getVendors(): void {
+    this.vendorInfoService.getVendors('streid').subscribe({
+      next:     (vendors) => { this.vendors = vendors['vendors'] || [];   },
+      error:    (err)     => { console.error('Error: ' + err);            },
+      complete: ()        => { }
+    });
   }
 
-  createVendor( name: String, ext: String ): Object {
-    let path = '../assets/img/';
-    const img = path + name + '.' + ext;
-    const mentor = { name, img };
-    return mentor;
-  }
 
 }

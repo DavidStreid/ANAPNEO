@@ -25,8 +25,9 @@ import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFo
 import { LocationService }    from '../services/location.service';
 import { LoginService }       from '../services/login.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
+import { VendorInfoService }  from '../rewardsComponent/vendorService/vendorInfoService';
 
-const SERVICES    = [ LocationService, UserProfileService, LoginService ];
+const SERVICES    = [ LocationService, UserProfileService, LoginService, VendorInfoService ];
 const COMPONENTS  = [
                       RewardsComponent,
                       RewardsInfoComponent,
