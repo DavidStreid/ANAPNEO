@@ -19,6 +19,8 @@ exports.connect = function(url, done) {
 
     state.db = db;                      // Database
 
+    vendor.removeImages();
+
     vendor.uploadImages();
 
     done()
