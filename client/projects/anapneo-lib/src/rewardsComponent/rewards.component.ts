@@ -16,7 +16,7 @@ export class RewardsComponent {
   }
 
   /*
-   * Get vendors from service
+   * Get vendors from service and assigns to member vendors variable
    */
   getVendors(): void {
     this.vendorInfoService.getVendors('streid').subscribe({
@@ -25,6 +25,4 @@ export class RewardsComponent {
       complete: ()        => { }
     });
   }
-
-
 }
