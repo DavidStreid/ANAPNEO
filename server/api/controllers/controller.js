@@ -59,7 +59,6 @@ function queryDBandSend( zipCode, res ){
             return { name, img };
         });
 
-
         vendorList = vendors;
         const data = { vendors: vendorList };
 
