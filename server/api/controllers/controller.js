@@ -83,9 +83,7 @@ exports.getImg = function(req,res){
     var vendorModel = mongoose.model('vendor')
     var vendorDoc = new vendorModel;
 
-
-    log('\tquerying img for ' + name);
-
+    log('querying for ' + name);
 
     vendorModel.findOne({ name }, function (err, vendor) {
         if (err) return handleError(err, res, 500);
@@ -172,9 +170,7 @@ exports.textPost = function(req,res){
 
 exports.textPostOptions = function(req,res){
   // Handles pre-flight request textPost
-  log( "PRE-FLIGHT REQUEST - textPost" );
   setCORSHeaders(res, allowedOrigins, ["POST"]);
-  console.log(http.responses.get(200));
   res.sendStatus(200);
 }
 
