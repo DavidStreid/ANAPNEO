@@ -1,38 +1,8 @@
 <div id="page">
   <header></header>
   <div id="body">
-    <div class="sidebar">
-      <nav class="nav-tabs">
-        <a class="text-center nav-router" routerLink="/data/anapneo/rewards" routerLinkActive="active">
-          <div class="nav-select padding-vert-md white-border-bottom">
-            <p class="font-size-18">Rewards Portal</p>
-          </div>
-        </a>
-        <a class="text-center nav-router" routerLink="/data/anapneo/appointments" routerLinkActive="active">
-          <div class="nav-select padding-vert-md white-border-bottom">
-            <p class="font-size-18">My Appointments</p>
-          </div>
-        </a>
-        <a class="text-center nav-router" routerLink="/data/anapneo/health" routerLinkActive="active">
-          <div class="nav-select padding-vert-md white-border-bottom">
-            <p class="font-size-18">My Health</p>
-          </div>
-        </a>
-        <!--TODO: ADD FIND-DOC FEATURE-->
-        <a class="text-center nav-router" routerLink="/data/anapneo/docs" routerLinkActive="active">
-          <div class="nav-select padding-vert-md white-border-bottom">
-            <p class="font-size-18">Doc Finder</p>
-          </div>
-        </a>
-        <a class="text-center nav-router" routerLink="/data/anapneo/login" routerLinkActive="active">
-          <div class="nav-select padding-vert-md white-border-bottom">
-            <p class="font-size-18">Login</p>
-          </div>
-        </a>
-      </nav>
-      <div class="padding-vert-md text-center">
-        <p class="font-size-22">Anapneo is an app-based rewards program to improve lung cancer prognosis.</p>
-      </div>
+    <div class="sidebar-view">
+      <sidebar></sidebar>
     </div>
     <div class="main-view">
       <router-outlet></router-outlet>

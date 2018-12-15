@@ -20,6 +20,7 @@ import { CalendarDateComponent }        from '../appointmentTrackerComponent/cal
 import { DocFinderComponent }           from '../docFinderComponent/doc-finder.component';
 import { LoginComponent }               from '../loginComponent/login.component';
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
+import { SideBarComponent }             from '../sidebar/sidebar.component';
 
 // Services
 import { LocationService }    from '../services/location.service';
@@ -40,8 +41,9 @@ const COMPONENTS  = [
                       CalendarDateComponent,
                       DocFinderComponent,
                       MyHealthComponent,
-                      LoginComponent
-                    ];
+                      LoginComponent,
+                      SideBarComponent
+];
 
 @NgModule({
   declarations: [

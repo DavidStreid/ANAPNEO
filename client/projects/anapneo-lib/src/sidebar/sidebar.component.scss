@@ -1,0 +1,19 @@
+@import "../styles";
+
+.sidebar{
+  background-color: #EAEAEA;
+}
+
+.active {
+  color: #8bc34a;
+}
+
+.nav-select:hover {
+  border-bottom: 1px solid #29648A;
+  background: white;
+  border: 1px solid #007bff;
+}
+
+a {
+  text-decoration: none;
+}
