@@ -43,7 +43,6 @@ export const appRoutes = [
         ],
       })
   */
-  /*
   { path: 'rewards',      component: RewardsComponent },
   { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
@@ -55,13 +54,12 @@ export const appRoutes = [
 
   // No Path route
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  */
 ];
 
 // forChild used when imported lazily (only one forRoot allowed)
 @NgModule({
   imports: [
-    RouterModule.forChild(appRoutes)
+    RouterModule.forRoot(appRoutes)
   ],
   exports: [
     RouterModule
