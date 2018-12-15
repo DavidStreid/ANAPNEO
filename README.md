@@ -1,7 +1,7 @@
 # ANAPNEO
 
 ## Description
-An app-based rewards program to improve lung cancer prognosis.
+An app-based rewards program to improve lung cancer prognosis. You can take a look [here](http://davidstreid.com/#/data/anapneo)!
 
 ## GETTING STARTED
 ~~~~
