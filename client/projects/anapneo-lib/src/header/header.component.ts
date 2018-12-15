@@ -9,5 +9,11 @@ import EncodedFiles from '../assets/encodedImgs/siteImgs';
 
 export class HeaderComponent {
   public title: String = "ANAPNEO";
-  public anapneoImgSrc: String = EncodedFiles.anapneoLogo;
+  public anapneoImgSrc: String;
+
+  constructor(){
+    const encodedFilesClass: EncodedFiles = new EncodedFiles();
+    const encodedImgs: Object = encodedFilesClass.getImgs();
+    this.anapneoImgSrc = encodedImgs['anapneoLogo'];
+  }
 }

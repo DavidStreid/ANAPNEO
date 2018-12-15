@@ -14,5 +14,11 @@ export class RewardsInfoComponent{
   @Input()
   points: number = 0;
 
-  public userProfileImgSrc: String = EncodedFiles.userProfile;
+  public userProfileImgSrc: String
+
+  constructor(){
+    const encodedFilesClass: EncodedFiles = new EncodedFiles();
+    const encodedImgs: Object = encodedFilesClass.getImgs();
+    this.userProfileImgSrc = encodedImgs['userProfile'];
+  }
 }
