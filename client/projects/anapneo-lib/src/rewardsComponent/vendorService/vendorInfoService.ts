@@ -8,7 +8,8 @@ import ResponseHandlerUtil from '../../utils/services/responseHandler.util';
 
 @Injectable()
 export class VendorInfoService {
-  private loggingEnabled: boolean = true;
+  // TODO - Make logging util
+  private loggingEnabled: boolean = false;
   private responseHandlerUtil: ResponseHandlerUtil;
 
   constructor(private http: HttpClient){
