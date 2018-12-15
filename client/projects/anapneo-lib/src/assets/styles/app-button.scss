@@ -1,0 +1,30 @@
+.app-button{
+  text-align:center;
+  border-style: solid;
+  border-color: #cce2ff;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #039be5;
+  text-align: center;
+  cursor: pointer;
+}
+
+.app-button:focus {
+   outline: 0;
+}
+
+.app-button p {
+  font-family: Futura;
+  position: relative;
+  text-align: center;
+  margin: 0px 2px;
+  color: #039be5;
+}
+
+.app-button:hover p{
+	color: #ffffff;
+}
+
+.app-button:hover {
+  background-color: #1a7dff;
+}

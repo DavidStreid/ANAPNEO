@@ -1,6 +1,7 @@
 import { Component }              from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserProfileService }     from '../userProfile/userProfile.service';
+import EncodedFiles from '../assets/encodedImgs/siteImgs';
 
 @Component({
   selector: 'user-login',
@@ -9,7 +10,15 @@ import { UserProfileService }     from '../userProfile/userProfile.service';
 })
 
 export class LoginComponent {
-  constructor(private userProfileService: UserProfileService){}
+  // TODO - Add logger (make seperate class/util)
+
+  public anapneoImgSrc: String;
+
+  constructor(private userProfileService: UserProfileService){
+    const encodedFilesClass: EncodedFiles = new EncodedFiles();
+    const encodedImgs: Object = encodedFilesClass.getImgs();
+    this.anapneoImgSrc = encodedImgs['anapneoLogo'];
+  }
 
   loginForm = new FormGroup({
     user: new FormControl(''),
@@ -21,4 +30,9 @@ export class LoginComponent {
     let password = this.loginForm.value.password;
     this.userProfileService.login(user, password);
   }
+
+  // TODO -
+  // Disabeled/Validation Logic
+  // [disabled]="!loginForm.valid"
+  // type="submit"
 }

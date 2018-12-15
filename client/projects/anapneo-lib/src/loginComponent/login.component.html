@@ -1,18 +1,23 @@
 <div class="login-container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <label class="block">
+  <div class="logo-container">
+    <img class="logo-img" [src]="anapneoImgSrc"/>
+  </div>
+  <form class="login-form margin-top-md" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label class="block login-field">
       <div class="input-label">
         <p>User</p>
       </div>
-      <input type="text" formControlName="user">
+      <input class="float-right" type="text" formControlName="user">
     </label>
-    <label class="block">
+    <label class="block login-field margin-top-sm">
       <div class="input-label">
         <p>Password</p>
       </div>
-      <input type="text" formControlName="password">
+      <input class="float-right" type="text" formControlName="password">
     </label>
-    <button class="submit-button" type="submit" [disabled]="!loginForm.valid">Submit</button>
+    <div (click)="onSubmit()" class="app-button login-button margin-top-sm">
+      <p>Submit</p>
+    </div>
   </form>
 </div>
 
