@@ -18,7 +18,7 @@ export class LoginService {
   login(userId: String, pwd: String) : Observable<HttpResponseBase>{
     if( this.loggingEnabled ) console.log( "loginService::login" );
 
-    const url = "http://localhost:4300/login";
+    const url = "http://f5e86055a822a8e49928115361b1f752.resindevice.io/login";
     const body = { userId, pwd };
 
     return this.http.post( url, body ).pipe(
