@@ -12,17 +12,13 @@ exports.connect = function(url, done) {
   if (state.db) return done()
 
   mongoose.connect(url, function(err, db) {
+    console.log("Connecting to Anapneo...");
     if (err) return done(err);
-
-    let dbName = "Anapneo"
-    console.log("Connecting to " + dbName)
-
+    console.log("Connection successful!");
     state.db = db;                      // Database
 
     vendor.removeImages();
-
     vendor.uploadImages();
-
     done()
   })
 }
