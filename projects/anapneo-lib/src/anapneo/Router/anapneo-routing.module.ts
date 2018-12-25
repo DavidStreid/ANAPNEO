@@ -46,7 +46,7 @@ export const appRoutes = [
   { path: 'rewards',      component: RewardsComponent },
   { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
-  { path: 'doc',          component: DocFinderComponent },
+  { path: 'docs',          component: DocFinderComponent },
   { path: 'login',        component: LoginComponent },
 
   // WildCard route

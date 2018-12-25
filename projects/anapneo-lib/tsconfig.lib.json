@@ -15,7 +15,15 @@
     "lib": [
       "dom",
       "es2015"
-    ]
+    ],
+    "paths": {
+      "anapneo-lib": [
+        "dist/anapneo-lib"
+      ],
+      "anapneo-lib/*": [
+        "dist/anapneo-lib/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

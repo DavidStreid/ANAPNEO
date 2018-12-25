@@ -20,7 +20,8 @@ export class VendorInfoService {
   public getVendors(userId: String) {
     if( this.loggingEnabled ) console.log( "VendorInfoService::getVendors" );
 
-    const url = "http://f5e86055a822a8e49928115361b1f752.resindevice.io/vendors?userId=" + userId;
+    const url = "http://localhost:4300/vendors?userId=" + userId;
+    // const url = "http://f5e86055a822a8e49928115361b1f752.resindevice.io/vendors?userId=" + userId;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getVendors request');
