@@ -4,22 +4,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var http   = require("../../resources/constants/http");
-var db = require('../../mongo/db');
-
 var logging_enabled = true;
 var allowedOrigins = ["*"];                                 // valid hosts for CORS
 
 // TODO - add handleError to places
-
-db.connect('mongodb://localhost:27017/test', function(err) {
-  if (err) {
-    console.log(JSON.stringify(err));
-    console.log('Unable to connect to Mongo.')
-    process.exit(1)
-  } else {
-    console.log('Mongo listening on port 27017...')
-  }
-})
 
 exports.getVendors = function(req,res){
     log("controller::getVendors");

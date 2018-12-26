@@ -1,6 +1,16 @@
 'use strict';
+
+var express = require('express');
+var mongoose = require('mongoose');
+var vendor = require('../../mongo/vendor/vendorAccess');
+var companion = require('../controllers/controller');
+
 module.exports = function(app) {
-  	var companion = require('../controllers/controller');
+    console.log('Registering ANAPNEO Routes...');
+
+    // DB Work
+    vendor.removeImages();
+    vendor.uploadImages();
 
     app.route('/img')
         .get(companion.getImg);
