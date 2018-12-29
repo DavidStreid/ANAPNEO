@@ -8,10 +8,6 @@ var companion = require('../controllers/controller');
 module.exports = function(app) {
     console.log('Registering ANAPNEO Routes...');
 
-    // DB Work
-    vendor.removeImages();
-    vendor.uploadImages();
-
     app.route('/img')
         .get(companion.getImg);
 
