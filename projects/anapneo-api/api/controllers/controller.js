@@ -22,6 +22,9 @@ exports.getVendors = function(req,res){
 
 // TODO - split into queryDB & sendResp functions
 function queryDBandSend( zipCode, res ){
+    res.contentType('application/json');
+    setCORSHeaders(res, allowedOrigins, ["GET"]);
+
     var vendorModel = mongoose.model('vendor')
 
     var vendorList = [];
@@ -50,8 +53,7 @@ function queryDBandSend( zipCode, res ){
         vendorList = vendors;
         const data = { vendors: vendorList };
 
-        res.contentType('application/json');
-        setCORSHeaders(res, allowedOrigins, ["GET"]);
+
         res.send(data);
     });
 }
