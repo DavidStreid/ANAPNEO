@@ -31,8 +31,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace":  "src/environments/environment.ts",
+                  "with":     "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -44,6 +44,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace":  "src/environments/environment.ts",
+                  "with":     "src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -55,6 +63,9 @@
           "configurations": {
             "production": {
               "browserTarget": "Anapneo:build:production"
+            },
+            "dev": {
+              "browserTarget": "Anapneo:build:dev"
             }
           }
         },
