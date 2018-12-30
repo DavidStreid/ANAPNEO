@@ -3,6 +3,7 @@ import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of'
 import { map, catchError } from 'rxjs/operators';
+import { environment }      from '../../environment';
 
 import ResponseHandlerUtil from '../../utils/services/responseHandler.util';
 
@@ -20,8 +21,7 @@ export class VendorInfoService {
   public getVendors(userId: String) {
     if( this.loggingEnabled ) console.log( "VendorInfoService::getVendors" );
 
-    const url = "http://localhost:4300/vendors?userId=" + userId;
-    // const url = "http://f5e86055a822a8e49928115361b1f752.resindevice.io/vendors?userId=" + userId;
+    const url = `${environment.anapneoService}/vendors?userId=${userId}`;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getVendors request');

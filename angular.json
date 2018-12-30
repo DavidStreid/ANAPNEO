@@ -33,6 +33,10 @@
                 {
                   "replace":  "src/environments/environment.ts",
                   "with":     "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace":  "projects/anapneo-lib/src/environment.ts",
+                  "with":     "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,

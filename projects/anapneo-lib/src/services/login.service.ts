@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { map, catchError } from 'rxjs/operators';
+import { Observable }       from 'rxjs/Observable';
+import { map, catchError }  from 'rxjs/operators';
+import { environment }      from '../environment';
 
 import ResponseHandlerUtil from '../utils/services/responseHandler.util';
 
@@ -16,9 +17,10 @@ export class LoginService {
   }
 
   login(userId: String, pwd: String) : Observable<HttpResponseBase>{
+    // TODO - Add logging util
     if( this.loggingEnabled ) console.log( "loginService::login" );
 
-    const url = "http://f5e86055a822a8e49928115361b1f752.resindevice.io/login";
+    const url = `${environment.anapneoService}/login`;
     const body = { userId, pwd };
 
     return this.http.post( url, body ).pipe(
