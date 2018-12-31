@@ -222,7 +222,7 @@
           "options": {
             "tsConfig": "projects/anapneo-lib/tsconfig.lib.json",
             "project": "projects/anapneo-lib/ng-package.json"
-          }
+          },
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
