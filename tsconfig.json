@@ -23,18 +23,6 @@
       ],
       "anapneo-lib/*": [
         "dist/anapneo-lib/*"
-      ],
-      "server": [
-        "dist/server"
-      ],
-      "server/*": [
-        "dist/server/*"
-      ],
-      "server-lib": [
-        "dist/server-lib"
-      ],
-      "server-lib/*": [
-        "dist/server-lib/*"
       ]
     }
   }
