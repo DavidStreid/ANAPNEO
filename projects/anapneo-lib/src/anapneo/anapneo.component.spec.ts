@@ -1,33 +1,41 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { AnapneoComponent } from './anapneo.component';
+import { SideBarComponent } from '../sidebar/sidebar.component';
+import { UserProfileService } from '../userProfile/userProfile.service';
 
-/*
+// TODO - Replace with real router tests
+import { RouterTestingModule } from '@angular/router/testing';
+
 describe('AnapneoComponent', () => {
+  let component: AnapneoComponent;
+  let fixture: ComponentFixture<AnapneoComponent>;
+  let userProfileServiceSpy: jasmine.SpyObj<UserProfileService>;
+
   beforeEach(async(() => {
+    const spy = jasmine.createSpyObj('UserProfileService', ['getCoordinates']);
+
     TestBed.configureTestingModule({
-      declarations: [
-        AnapneoComponent
-      ],
+      imports: [ RouterTestingModule ],
+      declarations: [ AnapneoComponent, SideBarComponent ],
+      providers: [ { provide: UserProfileService, useValue: spy } ]
     }).compileComponents();
+
+    userProfileServiceSpy = TestBed.get(UserProfileService);
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AnapneoComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'ThankYouForSmoking'`, () => {
-    const fixture = TestBed.createComponent(AnapneoComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ThankYouForSmoking');
-  });
-
-  it('TODO', () => {
-    const fixture = TestBed.createComponent(AnapneoComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AnapneoComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  // TODO - Mock Router Links (https://angular.io/guide/testing#components-with-routerlink)
+  it('has correct routing', () => {
     const compiled = fixture.debugElement.nativeElement;
     // TODO - Add test on load
   });
 });
-*/
