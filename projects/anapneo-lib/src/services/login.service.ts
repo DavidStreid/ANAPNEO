@@ -20,7 +20,15 @@ export class LoginService {
     // TODO - Add logging util
     if( this.loggingEnabled ) console.log( "loginService::login" );
 
-    const url = `${environment.anapneoService}/login`;
+    const anapneoService = environment['anapneoService'] || null;
+
+    // TODO - Error handling/backup logic
+    if( ! anapneoService ){
+      const err = 'Anapneo service url is not defined in config';
+      return Observable.create( (observer) => { observer.error(err) } );
+    }
+
+    const url = `${anapneoService}/login`;
     const body = { userId, pwd };
 
     return this.http.post( url, body ).pipe(

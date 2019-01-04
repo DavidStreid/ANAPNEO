@@ -22,7 +22,7 @@ export class UserProfileService {
     if( this.logging ) console.log( 'User: ' + user + ', Password: ' + password );
     this.loginService.login(user, password).subscribe({
       next: (res) => this.userProfile['authToken'] = res['authToken'] || null,
-      error: (e) => console.log('User Login Failed: ' + e)
+      error: (e) => console.error('User Login Failed: ' + e)
     });
   }
 

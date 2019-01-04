@@ -21,7 +21,15 @@ export class VendorInfoService {
   public getVendors(userId: String) {
     if( this.loggingEnabled ) console.log( "VendorInfoService::getVendors" );
 
-    const url = `${environment.anapneoService}/vendors?userId=${userId}`;
+    const anapneoService = environment['anapneoService'] || null;
+
+    // TODO - Error handling/backup logic
+    if( ! anapneoService ){
+      const err = 'Anapneo service url is not defined in config';
+      return Observable.create( (observer) => { observer.error(err) } );
+    }
+
+    const url = `${anapneoService}/vendors?userId=${userId}`;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getVendors request');

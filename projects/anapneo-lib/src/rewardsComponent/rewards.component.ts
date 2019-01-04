@@ -21,7 +21,7 @@ export class RewardsComponent {
   getVendors(): void {
     this.vendorInfoService.getVendors('streid').subscribe({
       next:     (vendors) => { this.vendors = vendors['vendors'] || [];   },
-      error:    (err)     => { console.error('Error: ' + err);            },
+      error:    (err)     => { console.error('GetVendors Error: ' + err);            },
       complete: ()        => { }
     });
   }
