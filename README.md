@@ -6,8 +6,7 @@ An app-based rewards program to improve lung cancer prognosis. You can take a lo
 ## GETTING STARTED
 ~~~~
 $ git clone https://github.com/DavidStreid/ANAPNEO.git
-$ cd ANAPNEO
-$ ./anapneo.sh
+$ npm run go
 ~~~~
 
 Server should be started at http://localhost:4200/
