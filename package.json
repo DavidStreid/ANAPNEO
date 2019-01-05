@@ -13,7 +13,7 @@
     "dev-client": "ng serve --configuration=dev >> ./log/client.log 2>&1 &",
     "dev-server": "nodemon ./src/server/server.js >> ./log/server.log 2>&1 &",
     "dev-db": "mongod >> ./log/db.log 2>&1 &",
-    "go": "npm run dev-db && npm run dev-client && npm run dev-server && echo Go_to_localhost::4200",
+    "go": "npm run setup && npm run dev-db && npm run dev-client && npm run dev-server && echo Go_to_localhost::4200",
     "build-client": "ng build anapneo-lib --configuration=prod",
     "deploy-server": "cp -rf projects/anapneo-api /Users/Bike_Thoughts/code/node/bioHub/server"
   },
