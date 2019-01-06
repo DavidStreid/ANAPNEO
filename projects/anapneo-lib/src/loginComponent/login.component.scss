@@ -25,11 +25,36 @@
 }
 
 .login-field {
+  height: 35px;
   width: 250px;
   margin: auto;
 }
 
 .login-button {
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100px;
-  margin: auto;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.login-input {
+  border-color: #d9d9d9;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+  outline: 0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.login-text{
+  font-style: italic;
+  font-size: 20px;
+  color: #8c8c8c;
+}
+
+::-webkit-input-placeholder {
+  font-size: 14px;
+  text-align: left;
+  opacity: 0.5;
 }
