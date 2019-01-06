@@ -1,7 +1,6 @@
 import { Component }              from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserProfileService }     from '../userProfile/userProfile.service';
-import EncodedFiles from '../assets/encodedImgs/siteImgs';
 
 @Component({
   selector: 'user-login',
@@ -12,13 +11,7 @@ import EncodedFiles from '../assets/encodedImgs/siteImgs';
 export class LoginComponent {
   // TODO - Add logger (make seperate class/util)
 
-  public anapneoImgSrc: String;
-
-  constructor(private userProfileService: UserProfileService){
-    const encodedFilesClass: EncodedFiles = new EncodedFiles();
-    const encodedImgs: Object = encodedFilesClass.getImgs();
-    this.anapneoImgSrc = encodedImgs['anapneoLogo'];
-  }
+  constructor(private userProfileService: UserProfileService){}
 
   loginForm = new FormGroup({
     user: new FormControl(''),
