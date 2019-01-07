@@ -1,6 +1,11 @@
 @import "../styles";
 @import "../assets/styles/app-button";
 
+.login-container {
+  height: 400px;
+  position: relative;
+}
+
 .input-label{
   display: inline-block;
   width: 20%;
