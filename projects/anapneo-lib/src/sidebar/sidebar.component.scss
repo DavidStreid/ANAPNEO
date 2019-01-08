@@ -1,19 +1,23 @@
 @import "../styles";
 
+.sidebar p {
+  color: #29648a;
+}
+
 .sidebar{
   background-color: #EAEAEA;
 }
 
-.active {
-  color: #8bc34a;
+.active .nav-select {
+  background-color: #c2cbd1;
 }
 
 .nav-select:hover {
   border-bottom: 1px solid #29648A;
-  background: white;
+  background: #c2cbd1;
   border: 1px solid #007bff;
 }
 
-a {
+a:-webkit-any-link {
   text-decoration: none;
 }
