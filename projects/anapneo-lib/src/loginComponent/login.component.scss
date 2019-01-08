@@ -41,6 +41,16 @@
   margin-right: auto;
   width: 100px;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  border-color: #c2cbd1;
+  color: #d9d9d9;
+}
+
+.login-button p {
+  color: #8c8c8c;
+}
+
+.login-button:hover {
+  background-color: #29648a;
 }
 
 .login-input {
