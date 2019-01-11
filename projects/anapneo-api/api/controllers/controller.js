@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var atob = require('atob');
 
+// DB APIs
+var usersAccess = require('../../mongo/users/usersAccess');
+
 var http   = require("../../resources/constants/http");
 var logging_enabled = true;
 var allowedOrigins = ["*"];                                 // valid hosts for CORS
@@ -103,17 +106,16 @@ exports.login = function(req,res){
   log("controller::login");
   setCORSHeaders(res, allowedOrigins, ["POST"]);
 
-  const asciiUsr = req.body.userId;
-  const asciiPwd = req.body.pwd;
+  const asciiName = req.body.userId;
+  const asciiPassword = req.body.pwd;
 
   // Converts to binary representation of string
-  const pwd = atob(asciiUsr);
-  const usr = atob(asciiPwd);
+  const password = atob(asciiPassword);
+  const name = atob(asciiName);
 
-  // TODO - Create application token based off of login-info
-  const authToken = asciiUsr + asciiPwd;
-
-  res.send({ authToken });
+  usersAccess.login(name, password).then((loginStatus) => {
+    res.send( loginStatus );
+  });
 }
 
 exports.getPrescriptions = function(req,res){
