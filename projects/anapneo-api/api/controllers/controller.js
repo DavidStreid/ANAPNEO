@@ -15,20 +15,31 @@ var allowedOrigins = ['*'];                                 // valid hosts for C
 // TODO - add handleError to places
 
 exports.getVendors = function(req,res){
+    setCORSHeaders(res, allowedOrigins, ['GET'])
     logger.log('controller::getVendors');
 
-    // TODO - Make vendor list dependent on the userId that comes in, get zipcode
-    const userId = req.query.userId || null;
-    if(! userId){ return handleError('UserID not provided', res, 404); }
-    const zipCode = 11216;
+    usersAccess.isValidSession('test').then(result => {
+      if( result.success ){
+        // TODO - Make vendor list dependent on the userId that comes in, get zipcode
+        const userId = req.query.userId || null;
+        if(! userId){ return handleError('UserID not provided', res, 404); }
+        const zipCode = 11216;
 
-    queryDBandSend(zipCode, res);
+        // TODO - refactor
+        queryDBandSend(zipCode, res);
+      } else {
+        console.log(result);
+        // res.send(result);
+        res.send({result})
+      }
+    })
+
+
 }
 
 // TODO - split into queryDB & sendResp functions
 function queryDBandSend( zipCode, res ){
     res.contentType('application/json');
-    setCORSHeaders(res, allowedOrigins, ['GET']);
 
     var vendorModel = mongoose.model('vendor')
 
