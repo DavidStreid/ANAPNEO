@@ -40,7 +40,7 @@ function saveUserToken(name, password, token){
 }
 
 exports.login = function(name, password) {
-  logger.log('userAccess::userExists');
+  logger.log('userAccess::login');
 
   var userModel = mongoose.model('user');
   return userModel.findOne({ name }).then((result) => {
