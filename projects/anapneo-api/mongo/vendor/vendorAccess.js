@@ -2,6 +2,7 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const path = require("path");
+var logger = require("../../utils/logger");
 
 const loggingEnabled = true;
 
@@ -9,6 +10,7 @@ const imgPath = './vendorImg';
 const vendorModel = getVendorModel();
 
 exports.removeImages = function() {
+    logger.log("vendorAccess::removeImages");
     const vendorModel = mongoose.model('vendor')
 
     vendorModel.deleteMany(function (err) {
@@ -18,7 +20,7 @@ exports.removeImages = function() {
 }
 
 exports.uploadImages = function() {
-    if(loggingEnabled) console.log('vendorAccess::uploadImages');
+    logger.log("vendorAccess::uploadImages");
 
     // List of vendors taken from object
     // TODO - Take from service

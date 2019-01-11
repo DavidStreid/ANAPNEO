@@ -3,6 +3,7 @@ var request = require('request');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var atob = require('atob');
+var logger = require('../../utils/logger');
 
 // DB APIs
 var usersAccess = require('../../mongo/users/usersAccess');
@@ -14,7 +15,7 @@ var allowedOrigins = ["*"];                                 // valid hosts for C
 // TODO - add handleError to places
 
 exports.getVendors = function(req,res){
-    log("controller::getVendors");
+    logger.log('controller::getVendors');
 
     // TODO - Make vendor list dependent on the userId that comes in, get zipcode
     const userId = req.query.userId || null;
@@ -35,13 +36,13 @@ function queryDBandSend( zipCode, res ){
     vendorModel.find({ zipCode }, function (err, vendors) {
         // Error Case
         if (err) {
-            log('ERROR: ' + name);
+            logger.log('ERROR: ' + name);
             errors.push( { name, err } );
             return;
         }
         // Null vendor case
         else if ( !vendors ) {
-            log('NULL VENDOR: ' + name);
+            logger.log('NULL VENDOR: ' + name);
             errors.push( { name, err: 'No vendor data for ' + name } );
             return;
         }
@@ -62,7 +63,7 @@ function queryDBandSend( zipCode, res ){
     });
 }
 exports.getImg = function(req,res){
-    log("controller::getImg");
+    logger.log('controller::getImg');
 
     setCORSHeaders(res, allowedOrigins, ["GET"]);
 
@@ -78,7 +79,7 @@ exports.getImg = function(req,res){
     var vendorModel = mongoose.model('vendor')
     var vendorDoc = new vendorModel;
 
-    log('querying for ' + name);
+    logger.log('querying for ' + name);
 
     vendorModel.findOne({ name }, function (err, vendor) {
         if (err) return handleError(err, res, 500);
@@ -95,7 +96,7 @@ exports.getImg = function(req,res){
 
 exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost
-    log( "PRE-FLIGHT REQUEST - login" );
+    logger.log( 'PRE-FLIGHT REQUEST - login' );
 
     setCORSHeaders(res, allowedOrigins, ["POST"]);
     console.log(http.responses.get(200));
@@ -103,8 +104,8 @@ exports.loginOptions = function(req,res){
 }
 
 exports.login = function(req,res){
-  log("controller::login");
   setCORSHeaders(res, allowedOrigins, ["POST"]);
+  logger.log('controller::login');
 
   const asciiName = req.body.userId;
   const asciiPassword = req.body.pwd;
@@ -119,8 +120,8 @@ exports.login = function(req,res){
 }
 
 exports.getPrescriptions = function(req,res){
-    log("controller::getPrescriptions");
     setCORSHeaders(res, allowedOrigins, ["GET"]);
+    logger.log('controller::getPrescriptions');
 
     // TODO - Parse out and validate authentication token
 
@@ -142,8 +143,8 @@ exports.getPrescriptions = function(req,res){
 }
 
 exports.getDoctors = function(req,res){
-  log("controller::getDoctors");
   setCORSHeaders(res, allowedOrigins, ["GET"]);
+  logger.log('controller::getDoctors');
 
   // TODO - Parse out and validate authentication token
 
@@ -163,40 +164,34 @@ exports.getDoctors = function(req,res){
 
 
 exports.textPost = function(req,res){
-  log("controller::textPost")
-  setCORSHeaders(res, allowedOrigins, ["POST"]);
+  logger.log('controller::textPost')
+  setCORSHeaders(res, allowedOrigins, ['POST']);
   const text = req.body.text;
   res.send({'text': text});
 }
 
 exports.textPostOptions = function(req,res){
   // Handles pre-flight request textPost
-  setCORSHeaders(res, allowedOrigins, ["POST"]);
+  setCORSHeaders(res, allowedOrigins, ['POST']);
   res.sendStatus(200);
 }
 
 exports.helloWorld = function(req, res){
-  log("controller::helloWorld")
-  setCORSHeaders(res, allowedOrigins, ["GET"]);
+  logger.log('controller::helloWorld')
+  setCORSHeaders(res, allowedOrigins, ['GET']);
   res.send({'text': 'Hello World!'});
 }
 
 function setCORSHeaders(res, origins, methods){
   // Returns CORS headers in pre-flight request
-  res.setHeader("Access-Control-Allow-Origin", origins.join(",") );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader('Access-Control-Allow-Methods', methods.join(","));
-  res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-}
-
-function log(msg){
-    if( logging_enabled ){
-        console.log(msg);
-    }
+  res.setHeader('Access-Control-Allow-Origin', origins.join(',') );
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', methods.join(','));
+  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
 }
 
 function handleError(message, resp, statusCode){
-    log('ERROR: ' + message);
+    logger.log('ERROR: ' + message);
 
     const body = { 'error': message }
     if(statusCode){

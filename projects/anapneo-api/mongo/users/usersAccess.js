@@ -2,12 +2,15 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const path = require("path");
+var logger = require("../../utils/logger");
 
 const loggingEnabled = true;
 
 const userModel = getUserModel();
 
 exports.removeUsers = function() {
+  logger.log('userAccess::removeUsers')
+
   const userModel = mongoose.model('user')
 
   userModel.deleteMany(function (err) {
@@ -17,7 +20,7 @@ exports.removeUsers = function() {
 }
 
 exports.addUser = function(name, password, type) {
-  if(loggingEnabled) console.log('userAccess::addUser');
+  logger.log('userAccess::addUser');
 
   // Create & save user
   var userDoc = createUserDoc(name, password, type);
@@ -32,12 +35,12 @@ exports.addUser = function(name, password, type) {
  * will require this token
  */
 function saveUserToken(name, password, token){
-  if(loggingEnabled) console.log('userAccess::saveUserToken');
+  logger.log('userAccess::saveUserToken');
   // TODO - implement
 }
 
 exports.login = function(name, password) {
-  if(loggingEnabled) console.log('userAccess::userExists');
+  logger.log('userAccess::userExists');
 
   var userModel = mongoose.model('user');
   return userModel.findOne({ name }).then((result) => {
