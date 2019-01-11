@@ -18,7 +18,8 @@ export class UserProfileService {
     this.encryptUtil = new EncryptUtil();
 
     // TODO - Remove once login feature is fully integrated
-    this.login("David","dumbPassword");
+    // this.login("DavidStreid","test");  // GOOD LOGIN
+    this.login("NO_NAME","123");          // BAD LOGIN
   }
 
   login(user: String, password: String){
