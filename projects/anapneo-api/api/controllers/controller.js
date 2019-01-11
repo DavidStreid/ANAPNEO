@@ -2,6 +2,7 @@
 var request = require('request');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var atob = require('atob');
 
 var http   = require("../../resources/constants/http");
 var logging_enabled = true;
@@ -102,8 +103,15 @@ exports.login = function(req,res){
   log("controller::login");
   setCORSHeaders(res, allowedOrigins, ["POST"]);
 
+  const asciiUsr = req.body.userId;
+  const asciiPwd = req.body.pwd;
+
+  // Converts to binary representation of string
+  const pwd = atob(asciiUsr);
+  const usr = atob(asciiPwd);
+
   // TODO - Create application token based off of login-info
-  const authToken = Math.floor(Math.random()*1000000000000);
+  const authToken = asciiUsr + asciiPwd;
 
   res.send({ authToken });
 }

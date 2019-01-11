@@ -20,6 +20,7 @@
   "author": "David Streid",
   "license": "Apache-2.0",
   "dependencies": {
+    "atob": "^2.1.2",
     "express": "*",
     "fs": "0.0.1-security",
     "mongoose": "^5.3.15",
