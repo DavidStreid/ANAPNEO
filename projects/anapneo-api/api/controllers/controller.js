@@ -8,9 +8,9 @@ var logger = require('../../utils/logger');
 // DB APIs
 var usersAccess = require('../../mongo/users/usersAccess');
 
-var http   = require("../../resources/constants/http");
+var http   = require('../../resources/constants/http');
 var logging_enabled = true;
-var allowedOrigins = ["*"];                                 // valid hosts for CORS
+var allowedOrigins = ['*'];                                 // valid hosts for CORS
 
 // TODO - add handleError to places
 
@@ -28,7 +28,7 @@ exports.getVendors = function(req,res){
 // TODO - split into queryDB & sendResp functions
 function queryDBandSend( zipCode, res ){
     res.contentType('application/json');
-    setCORSHeaders(res, allowedOrigins, ["GET"]);
+    setCORSHeaders(res, allowedOrigins, ['GET']);
 
     var vendorModel = mongoose.model('vendor')
 
@@ -65,7 +65,7 @@ function queryDBandSend( zipCode, res ){
 exports.getImg = function(req,res){
     logger.log('controller::getImg');
 
-    setCORSHeaders(res, allowedOrigins, ["GET"]);
+    setCORSHeaders(res, allowedOrigins, ['GET']);
 
     const name = req.query.name || '';
     if(! name){
@@ -98,14 +98,15 @@ exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost
     logger.log( 'PRE-FLIGHT REQUEST - login' );
 
-    setCORSHeaders(res, allowedOrigins, ["POST"]);
+    setCORSHeaders(res, allowedOrigins, ['POST']);
     console.log(http.responses.get(200));
     res.sendStatus(200);
 }
 
 exports.login = function(req,res){
-  setCORSHeaders(res, allowedOrigins, ["POST"]);
   logger.log('controller::login');
+
+  setCORSHeaders(res, allowedOrigins, ['POST']);
 
   const asciiName = req.body.userId;
   const asciiPassword = req.body.pwd;
@@ -120,8 +121,8 @@ exports.login = function(req,res){
 }
 
 exports.getPrescriptions = function(req,res){
-    setCORSHeaders(res, allowedOrigins, ["GET"]);
     logger.log('controller::getPrescriptions');
+    setCORSHeaders(res, allowedOrigins, ['GET']);
 
     // TODO - Parse out and validate authentication token
 
@@ -143,8 +144,8 @@ exports.getPrescriptions = function(req,res){
 }
 
 exports.getDoctors = function(req,res){
-  setCORSHeaders(res, allowedOrigins, ["GET"]);
   logger.log('controller::getDoctors');
+  setCORSHeaders(res, allowedOrigins, ['GET']);
 
   // TODO - Parse out and validate authentication token
 
