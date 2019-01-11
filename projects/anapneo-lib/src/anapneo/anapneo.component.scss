@@ -4,9 +4,14 @@
   height: 100vh;
 }
 
+#header {
+  height: 15%;
+  background-color: #29648A;
+}
+
 #body {
+  height: 85%;
   width: 100vw;
-  padding-bottom: 40px;
 }
 
 /* sidebar-view & main-vieiw on different lines */
@@ -18,7 +23,7 @@
   margin-right: 10vw;
 }
 .sidebar-view {
-  width: 80vw;
+  width: 100vw;
   display: inline-block;
   margin-left: 10vw;
   margin-right: 10vw;
