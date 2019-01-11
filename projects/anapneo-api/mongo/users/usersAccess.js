@@ -9,7 +9,7 @@ const loggingEnabled = true;
 const userModel = getUserModel();
 
 exports.removeUsers = function() {
-  logger.log('userAccess::removeUsers')
+  logger.debug('userAccess::removeUsers')
 
   const userModel = mongoose.model('user')
 
@@ -20,7 +20,7 @@ exports.removeUsers = function() {
 }
 
 exports.addUser = function(name, password, type) {
-  logger.log('userAccess::addUser');
+  logger.debug('userAccess::addUser');
 
   // Create & save user
   var userDoc = createUserDoc(name, password, type);
@@ -35,12 +35,12 @@ exports.addUser = function(name, password, type) {
  * will require this token
  */
 function saveUserToken(name, password, token){
-  logger.log('userAccess::saveUserToken');
   // TODO - implement
+  logger.debug('userAccess::saveUserToken');
 }
 
 exports.login = function(name, password) {
-  logger.log('userAccess::login');
+  logger.debug('userAccess::login');
 
   var userModel = mongoose.model('user');
   return userModel.findOne({ name }).then((result) => {
