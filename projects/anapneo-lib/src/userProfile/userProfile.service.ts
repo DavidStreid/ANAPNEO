@@ -28,9 +28,25 @@ export class UserProfileService {
     const encodedPassword = this.encryptUtil.encrypt(password);
 
     this.loginService.login(encodedUser, encodedPassword).subscribe({
-      next: (res) => this.userProfile['authToken'] = res['authToken'] || null,
+      next: ( loginStatus: Object ) => {
+        if( loginStatus.success ){
+          const token = loginStatus['token'];
+          if( token )
+            this.userProfile['authToken'] = token;
+          else {
+            this.handleLoginFailure('Login Unsuccessful: login token is null');
+          }
+        } else {
+          const error = loginStatus[ 'status' ] || 'ERROR';
+          this.handleLoginFailure(`Login Unsuccessful: ${error}`);
+        }
+      },
       error: (e) => console.error('User Login Failed: ' + e)
     });
+  }
+
+  handleLoginFailure(msg) {
+    // TODO - add a modal that will prompt the user to login again and give the reason why
   }
 
 	getCoordinates(){

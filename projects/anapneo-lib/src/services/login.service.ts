@@ -16,7 +16,7 @@ export class LoginService {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
-  login(userId: String, pwd: String) : Observable<HttpResponseBase>{
+  login(userId: String, pwd: String) : Observable<Object>{
     // TODO - Add logging util
     if( this.loggingEnabled ) console.log( "loginService::login" );
 
@@ -32,10 +32,18 @@ export class LoginService {
     const body = { userId, pwd };
 
     return this.http.post( url, body ).pipe(
-      map((response: HttpResponseBase) => {
-        console.log('Successful login');
-        return response
+      map((res: HttpResponseBase) => {
+        const success = res['success'] || false;
+        if( success && res['token'] != null ){
+          console.log('Successful login');
+          const token = res[ 'token' ];
+          return { success: true, token };
+        } else {
+          const status = res['status'] || 'Status unknown';
+          return { success: false, status };
+        }
       }),
-      catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
+      catchError( ( error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error) )
+    );
   }
 }
