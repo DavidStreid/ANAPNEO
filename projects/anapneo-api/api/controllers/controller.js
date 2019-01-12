@@ -127,6 +127,7 @@ exports.login = function(req,res){
   const name = atob(asciiName);
 
   usersAccess.login(name, password).then((loginStatus) => {
+    logger.log(`${loginStatus['status']} - User: ${name}, Password: ${password}`);
     res.send( loginStatus );
   });
 }
