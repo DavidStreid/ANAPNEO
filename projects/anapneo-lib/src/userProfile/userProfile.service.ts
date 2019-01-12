@@ -2,11 +2,12 @@ import { Injectable }       from '@angular/core';
 import { LocationService }  from '../services/location.service';
 import { LoginService }     from '../services/login.service';
 import EncryptUtil from '../utils/encrypt.util';
+import LoggerUtil from '../utils/logger.util';
 
 @Injectable()
 export class UserProfileService {
-  private logging: boolean = true;
   private encryptUtil;
+  private logger: any;
 
   public userProfile: Object = {
     coordinates: { 'latitude': null, 'longitude': null },
@@ -16,6 +17,7 @@ export class UserProfileService {
   constructor(private locationService:LocationService, private loginService:LoginService){
     this.getCoordinates();
     this.encryptUtil = new EncryptUtil();
+    this.logger = new LoggerUtil();
 
     // TODO - Remove once login feature is fully integrated
     // this.login("DavidStreid","test");  // GOOD LOGIN
@@ -23,7 +25,7 @@ export class UserProfileService {
   }
 
   login(user: String, password: String){
-    if( this.logging ) console.log( 'User: ' + user + ', Password: ' + password );
+    this.logger.debug( `User: ${user}, Password: ${password}` );
 
     const encodedUser = this.encryptUtil.encrypt(user);
     const encodedPassword = this.encryptUtil.encrypt(password);
