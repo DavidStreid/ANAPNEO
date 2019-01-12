@@ -30,7 +30,7 @@ export class UserProfileService {
 
     this.loginService.login(encodedUser, encodedPassword).subscribe({
       next: ( loginStatus: Object ) => {
-        if( loginStatus.success ){
+        if( loginStatus[ 'success' ] ){
           const token = loginStatus['token'];
           if( token )
             this.userProfile['authToken'] = token;
