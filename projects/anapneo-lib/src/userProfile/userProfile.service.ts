@@ -20,8 +20,12 @@ export class UserProfileService {
     this.logger = new LoggerUtil();
 
     // TODO - Remove once login feature is fully integrated
-    // this.login("DavidStreid","test");  // GOOD LOGIN
-    this.login("NO_NAME","123");          // BAD LOGIN
+    this.login("DavidStreid","test");  // GOOD LOGIN
+    // this.login("NO_NAME","123");          // BAD LOGIN
+  }
+
+  getAuthToken( ): string {
+    return this.userProfile[ 'authToken' ];
   }
 
   login(user: String, password: String){
@@ -34,8 +38,10 @@ export class UserProfileService {
       next: ( loginStatus: Object ) => {
         if( loginStatus[ 'success' ] ){
           const token = loginStatus['token'];
-          if( token )
+          if( token ){
+            this.logger.debug( `Login Successful - token: ${token}` );
             this.userProfile['authToken'] = token;
+          }
           else {
             this.handleLoginFailure('Login Unsuccessful: login token is null');
           }
@@ -49,6 +55,7 @@ export class UserProfileService {
   }
 
   handleLoginFailure(msg) {
+    this.logger.log( msg );
     // TODO - add a modal that will prompt the user to login again and give the reason why
   }
 
