@@ -1,5 +1,5 @@
 var logEnabled = true;
-var debugEnabled = false;
+var debugEnabled = true;
 
 exports.log = function(msg) {
                   if(logEnabled){
