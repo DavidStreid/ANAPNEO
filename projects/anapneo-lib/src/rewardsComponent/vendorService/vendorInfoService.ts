@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of'
 import { map, catchError } from 'rxjs/operators';
 import { environment }      from '../../environment';
 
+import { UserProfileService }     from '../../userProfile/userProfile.service';
 import ResponseHandlerUtil from '../../utils/services/responseHandler.util';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class VendorInfoService {
   private loggingEnabled: boolean = false;
   private responseHandlerUtil: ResponseHandlerUtil;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient, private userProfileService:UserProfileService){
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
@@ -29,7 +30,9 @@ export class VendorInfoService {
       return Observable.create( (observer) => { observer.error(err) } );
     }
 
-    const url = `${anapneoService}/vendors?userId=${userId}`;
+    const token = this.userProfileService.getAuthToken();
+
+    const url = `${anapneoService}/vendors?userId=${userId}&token=${token}`;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getVendors request');
