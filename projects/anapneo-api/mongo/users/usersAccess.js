@@ -114,7 +114,7 @@ function isValidSession( token ){
     var loginTS = result[ 'loginTS' ] || null;
 
     // Valid login timestamp that does not exceed the expiry time
-    if( loginTS && expiryTime > new Date(new Date().getTime()-(expiryTime)) ){
+    if( loginTS && loginTS > new Date(new Date().getTime()-(expiryTime)) ){
       status = `User profile with token ${token} is valid`;
       logger.log(status);
       return { status, success: true };
