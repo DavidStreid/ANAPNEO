@@ -18,7 +18,9 @@ exports.getVendors = function(req,res){
     setCORSHeaders(res, allowedOrigins, ['GET'])
     logger.log('controller::getVendors');
 
-    usersAccess.isValidSession('test').then(result => {
+    const token = req.query.token || null;
+
+    usersAccess.isValidSession(token).then(result => {
       if( result.success ){
         // TODO - Make vendor list dependent on the userId that comes in, get zipcode
         const userId = req.query.userId || null;
