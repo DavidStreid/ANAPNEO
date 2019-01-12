@@ -119,7 +119,7 @@ function isValidSession( token ){
       logger.log(status);
       return { status, success: true };
     }
-    status = `User profile with token ${token} is has expired`;
+    status = `User profile with token ${token} has expired`;
     logger.log(status);
     return { status, success: false };
   });
