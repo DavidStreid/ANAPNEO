@@ -1,6 +1,10 @@
 import { Component }              from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { UserProfileService }     from '../userProfile/userProfile.service';
+
+import { UserProfileService }   from '../userProfile/userProfile.service';
+import { LoginService }         from '../services/login.service';
+import EncryptUtil              from '../utils/encrypt.util';
+import LoggerUtil               from '../utils/logger.util';
 
 @Component({
   selector: 'user-login',
@@ -10,8 +14,17 @@ import { UserProfileService }     from '../userProfile/userProfile.service';
 
 export class LoginComponent {
   // TODO - Add logger (make seperate class/util)
+  private encryptUtil;
+  private logger: any;
 
-  constructor(private userProfileService: UserProfileService){}
+  constructor(private userProfileService: UserProfileService, private loginService:LoginService){
+    this.encryptUtil = new EncryptUtil();
+    this.logger = new LoggerUtil();
+
+    // TODO - Remove once login feature is fully integrated
+    this.login("DavidStreid","test");  // GOOD LOGIN
+    // this.login("NO_NAME","123");          // BAD LOGIN
+  }
 
   loginForm = new FormGroup({
     user: new FormControl(''),
@@ -21,7 +34,38 @@ export class LoginComponent {
   onSubmit() {
     let user = this.loginForm.value.user;
     let password = this.loginForm.value.password;
-    this.userProfileService.login(user, password);
+    this.login(user, password);
+  }
+
+  login(user: String, password: String){
+    this.logger.debug( `User: ${user}, Password: ${password}` );
+
+    const encodedUser = this.encryptUtil.encrypt(user);
+    const encodedPassword = this.encryptUtil.encrypt(password);
+
+    this.loginService.login(encodedUser, encodedPassword).subscribe({
+      next: ( loginStatus: Object ) => {
+        if( loginStatus[ 'success' ] ){
+          const token = loginStatus['token'];
+          if( token ){
+            this.userProfileService.setAuthToken(token);
+            this.logger.debug( `Login Successful with token ${token}` );
+          }
+          else {
+            this.handleLoginFailure('Login Unsuccessful: login token is null');
+          }
+        } else {
+          const error = loginStatus[ 'status' ] || 'ERROR';
+          this.handleLoginFailure(`Login Unsuccessful: ${error}`);
+        }
+      },
+      error: (e) => console.error('User Login Failed: ' + e)
+    });
+  }
+
+  handleLoginFailure(msg) {
+    this.logger.log( msg );
+    // TODO - add a modal that will prompt the user to login again and give the reason why
   }
 
   // TODO -
