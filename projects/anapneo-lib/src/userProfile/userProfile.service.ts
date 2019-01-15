@@ -18,7 +18,7 @@ export class UserProfileService {
   }
 
   setAuthToken(authToken: string): void {
-    this.userProfile.authToken = authToken;
+    this.userProfile[ 'authToken' ] = authToken;
   }
 
 	getCoordinates(){
