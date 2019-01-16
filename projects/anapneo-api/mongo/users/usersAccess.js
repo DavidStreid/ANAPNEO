@@ -58,11 +58,13 @@ exports.login = function(name, password) {
   logger.debug('userAccess::login');
 
   var userModel = mongoose.model('user');
-  return userModel.findOne({ name }).then((result) => {
-    if( result != null ){
-      var storedPassword = result[ 'password' ] || null;
+  return userModel.findOne({ name }).then((userDoc) => {
+    if( userDoc != null ){
+      var storedPassword = userDoc[ 'password' ] || null;
       if( password == storedPassword ){
-        logger.log(`Login Success - User: ${name}, Password: ${password}, Old Token: ${result[ 'token' ] || 'NOT_DEFINED'}`);
+        logger.log(`Login Success - User: ${name}, Password: ${password}, Old Token: ${userDoc[ 'token' ] || 'NOT_DEFINED'}`);
+
+        // TODO - Token creation
         var token = Math.floor(Math.random()*1000000000000);
 
         saveUserToken( name, password, token );
@@ -71,9 +73,11 @@ exports.login = function(name, password) {
                   status: 'User and password are correct',
                   token }
       }
+      // password doesn't match
       logger.log(`Login fail: Username and password do not match ( User: ${name}, Password: ${password} )`)
       return { status: 'User and password do not match', success: false }
     }
+    // User doesn't exist
     logger.log(`Login fail: User not found - ${name}`)
     return { status: 'User not found', success: false }
   });
