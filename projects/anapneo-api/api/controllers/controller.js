@@ -30,8 +30,6 @@ exports.getVendors = function(req,res){
         // TODO - refactor
         queryDBandSend(zipCode, res);
       } else {
-        console.log(result);
-        // res.send(result);
         res.send({result})
       }
     })
