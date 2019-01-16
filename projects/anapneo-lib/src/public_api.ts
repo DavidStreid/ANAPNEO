@@ -10,7 +10,7 @@ export { AnapneoComponent } from './anapneo/anapneo.component';
 export { AppointmentTrackerComponent } from './appointmentTrackerComponent/appointment-tracker.component';
 export { AppointmentDetailsComponent } from './appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 export { CalendarDateComponent } from './appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
-export { DocFinderComponent } from './docFinderComponent/doc-finder.component';
+export { CheckInsComponent } from './checkInsComponent/checkIns.component';
 export { HeaderComponent } from './header/header.component';
 export { LoginComponent } from './loginComponent/login.component';
 export { MyHealthComponent } from './myHealthComponent/myHealth.component';

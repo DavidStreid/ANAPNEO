@@ -3,7 +3,7 @@ import { RouterModule, Routes }         from '@angular/router';
 import { RewardsComponent }             from '../../rewardsComponent/rewards.component';
 import { MyHealthComponent }            from '../../myHealthComponent/myHealth.component';
 import { AppointmentTrackerComponent }  from '../../appointmentTrackerComponent/appointment-tracker.component';
-import { DocFinderComponent }           from '../../docFinderComponent/doc-finder.component';
+import { CheckInsComponent  }           from '../../checkInsComponent/checkIns.component';
 import { LoginComponent }               from '../../loginComponent/login.component';
 
 import { PageNotFoundComponent }        from '../../pageNotFoundComponent/pageNotFound.component';
@@ -46,7 +46,7 @@ export const appRoutes = [
   { path: 'rewards',      component: RewardsComponent },
   { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
-  { path: 'docs',          component: DocFinderComponent },
+  { path: 'check-ins',    component: CheckInsComponent },
   { path: 'login',        component: LoginComponent },
 
   // WildCard route

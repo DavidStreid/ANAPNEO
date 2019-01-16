@@ -17,7 +17,7 @@ import { MyHealthComponent }            from '../myHealthComponent/myHealth.comp
 import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/appointment-tracker.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
-import { DocFinderComponent }           from '../docFinderComponent/doc-finder.component';
+import { CheckInsComponent }            from '../checkInsComponent/checkIns.component';
 import { LoginComponent }               from '../loginComponent/login.component';
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 import { SideBarComponent }             from '../sidebar/sidebar.component';
@@ -39,7 +39,7 @@ const COMPONENTS  = [
                       AppointmentTrackerComponent,
                       AppointmentDetailsComponent,
                       CalendarDateComponent,
-                      DocFinderComponent,
+                      CheckInsComponent,
                       MyHealthComponent,
                       LoginComponent,
                       SideBarComponent
