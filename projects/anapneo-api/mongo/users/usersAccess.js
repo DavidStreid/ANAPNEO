@@ -107,26 +107,37 @@ function isValidSession( token ){
 
   let status;
 
-  return userModel.findOne({ token }).then((result) => {
-    if( result == null ){
+  return userModel.findOne({ token }).then((userDoc) => {
+    if( userDoc == null ){
       status = `User profile with token ${token} was not found`;
       logger.log(status);
       return { status, success: false };
     }
-
-
-    var loginTS = result[ 'loginTS' ] || null;
-
-    // Valid login timestamp that does not exceed the expiry time
-    if( loginTS && loginTS > new Date(new Date().getTime()-(expiryTime)) ){
-      status = `User profile with token ${token} is valid`;
+    if(isExpired(userDoc)){
+      status = `User profile with token ${token} has expired`;
       logger.log(status);
-      return { status, success: true };
+      return { status, success: false };
     }
-    status = `User profile with token ${token} has expired`;
+    status = `User profile with token ${token} is valid`;
     logger.log(status);
-    return { status, success: false };
+    return { status, success: true };
   });
+}
+
+/**
+ * This function determines if a userDoc has a non-expired login time
+ */
+function isExpired(userDoc) {
+  var loginTS = userDoc[ 'loginTS' ] || null;
+
+  var validTimeFrame = 1800000; // 30 minutes - 1000 * 60 * 30
+  var expiryTime = new Date(new Date().getTime()-(validTimeFrame));
+
+  // Valid login timestamp that does not exceed the expiry time
+  if( loginTS && loginTS > expiryTime ){
+    return false;
+  }
+  return true;
 }
 
 exports.isValidSession = isValidSession;
