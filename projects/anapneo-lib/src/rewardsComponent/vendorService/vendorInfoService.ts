@@ -19,6 +19,7 @@ export class VendorInfoService {
   }
 
   // TODO - Add correct return types
+  // TODO - need userId?
   public getVendors(userId: String) {
     if( this.loggingEnabled ) console.log( "VendorInfoService::getVendors" );
 
