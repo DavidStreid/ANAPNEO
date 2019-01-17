@@ -21,6 +21,9 @@ module.exports = function(app) {
     app.route('/vendors')
         .get(companion.getVendors);
 
+    app.route('/checkIns')
+        .get(companion.getCheckIns);
+
     app.route('/prescriptions')
         .get(companion.getPrescriptions);
 

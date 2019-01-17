@@ -1,3 +1,5 @@
 <div>
-  <p>CHECK-INS: Advocates and community will connect here</p>
+  <div *ngFor="let checkIn of checkIns">
+    <h1>{{checkIn.name}}</h1>
+  </div>
 </div>

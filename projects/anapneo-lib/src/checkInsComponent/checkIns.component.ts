@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CheckInsService } from './checkIns.service';
 
 @Component({
   selector: 'check-ins',
@@ -7,5 +8,19 @@ import { Component } from '@angular/core';
 })
 
 export class CheckInsComponent {
+  public checkIns: Object[];
 
+  constructor(private checkInsService: CheckInsService) {}
+
+  ngOnInit() {
+    this.getCheckIns();
+  }
+
+  private getCheckIns() {
+    this.checkInsService.getCheckIns().subscribe({
+      next:     (res)     => { this.checkIns = res['checkIns'] || [];       },
+      error:    (err)     => { console.error('GetCheckIns Error: ' + err);  },
+      complete: ()        => { }
+    });
+  }
 }

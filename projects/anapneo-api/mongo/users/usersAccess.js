@@ -8,8 +8,32 @@ const loggingEnabled = true;
 
 const userModel = getUserModel();
 
+exports.getCheckIns = function(token) {
+  logger.debug('userAccess::getCheckIns');
+
+  return findUser(token).then((user) => {
+    if( user != null ){
+      logger.debug( `Retrieved user checkIns for ${getUserString(user)}` )
+
+      var mockCheckIns = {
+        checkIns: [
+          {
+            name: 'David',
+            role: 'barber'
+          }
+        ]
+      };
+      return mockCheckIns;
+      // return user['checkIns'] || {};
+    } else {
+      return { checkIns: [] };
+      logger.log( `No user found for token ${token}` );
+    }
+  });
+}
+
 exports.removeUsers = function() {
-  logger.debug('userAccess::removeUsers')
+  logger.debug('userAccess::removeUsers');
 
   const userModel = mongoose.model('user')
 
@@ -106,14 +130,13 @@ function isValidSession( token ){
   var userModel = mongoose.model('user');
 
   let status;
-
   return userModel.findOne({ token }).then((userDoc) => {
     if( userDoc == null ){
       status = `User profile with token ${token} was not found`;
       logger.log(status);
       return { status, success: false };
     }
-    if(isExpired(userDoc)){
+    if(isLoginExpired(userDoc)){
       status = `User profile with token ${token} has expired`;
       logger.log(status);
       return { status, success: false };
@@ -125,9 +148,30 @@ function isValidSession( token ){
 }
 
 /**
+ * This method uses a uniquely identifying token to return the user doc
+ */
+function findUser(token){
+  return userModel.findOne({ token }).then((userDoc) => {
+    if( userDoc == null ){
+      status = `User profile with token ${token} was not found`;
+      logger.log(status);
+      return null;
+    }
+    if(isLoginExpired(userDoc)){
+      status = `User profile with token ${token} has expired`;
+      logger.log(status);
+      return null;
+    }
+    status = `User profile with token ${token} is valid`;
+    logger.log(status);
+    return userDoc;
+  });
+}
+
+/**
  * This function determines if a userDoc has a non-expired login time
  */
-function isExpired(userDoc) {
+function isLoginExpired(userDoc) {
   var loginTS = userDoc[ 'loginTS' ] || null;
 
   var validTimeFrame = 1800000; // 30 minutes - 1000 * 60 * 30
@@ -149,9 +193,18 @@ function getUserModel(){
         password: String,
         role: String,
         token: String,      // This token is used to provide access to the application and will be sent with each request
-        loginTS: Date       // This tracks the login time of a user
+        loginTS: Date,      // This tracks the login time of a user
+        checkIns: Object
     });
     const userModel = mongoose.model('user', userData);
 
     return userModel;
+}
+
+function getUserString(userDoc) {
+  var name = userDoc['name'] || 'NO_NAME';
+  var password = userDoc['password'] || 'NO_PASSWORD';
+  var token = userDoc['token'];
+
+  return `Name: ${name}, Password: ${password}, Token: ${token}`;
 }
