@@ -20,10 +20,6 @@ export class LoginComponent {
   constructor(private userProfileService: UserProfileService, private loginService:LoginService){
     this.encryptUtil = new EncryptUtil();
     this.logger = new LoggerUtil();
-
-    // TODO - Remove once login feature is fully integrated
-    this.login("DavidStreid","test");  // GOOD LOGIN
-    // this.login("NO_NAME","123");          // BAD LOGIN
   }
 
   loginForm = new FormGroup({
