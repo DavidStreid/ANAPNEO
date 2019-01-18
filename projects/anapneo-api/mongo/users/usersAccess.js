@@ -194,7 +194,7 @@ function getUserModel(){
         role: String,
         token: String,      // This token is used to provide access to the application and will be sent with each request
         loginTS: Date,      // This tracks the login time of a user
-        checkIns: Object
+        checkIns: Array
     });
     const userModel = mongoose.model('user', userData);
 
