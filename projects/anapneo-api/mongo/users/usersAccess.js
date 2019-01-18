@@ -71,7 +71,7 @@ function saveUserToken(name, password, token){
     if(err) {
       logger.log(err);
     } else {
-      logger.log(`Saved login token for user ${name}`);
+      logger.log(`Saved login token for user ${name}: ${token}`);
     }
   }
 
