@@ -10,7 +10,7 @@ module.exports = function(app){
   vendor.uploadImages();
 
   // user.removeUsers();
-  user.addMockUser();
+  // user.addMockUser();
 
   routes(app);
 }
