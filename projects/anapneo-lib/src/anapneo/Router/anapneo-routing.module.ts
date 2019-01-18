@@ -48,10 +48,10 @@ export const appRoutes = [
   { path: 'login',        component: LoginComponent },
 
   // WildCard route
-  { path: '**',           component: LoginComponent },
+  { path: '**',           component: CheckInsComponent },
 
   // No Path route
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/check-ins', pathMatch: 'full' },
 ];
 
 // forChild used when imported lazily (only one forRoot allowed)

@@ -1,5 +1,5 @@
-import { Component }              from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, Output, EventEmitter }  from '@angular/core';
+import { FormGroup, FormControl }           from '@angular/forms';
 
 import { UserProfileService }   from '../userProfile/userProfile.service';
 import { LoginService }         from '../services/login.service';
@@ -16,6 +16,8 @@ export class LoginComponent {
   // TODO - Add logger (make seperate class/util)
   private encryptUtil;
   private logger: any;
+
+  @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
 
   constructor(private userProfileService: UserProfileService, private loginService:LoginService){
     this.encryptUtil = new EncryptUtil();
@@ -46,6 +48,7 @@ export class LoginComponent {
           if( token ){
             this.userProfileService.setAuthToken(token);
             this.logger.debug( `Login Successful with token ${token}` );
+            this.isLoggedIn.emit(true);
           }
           else {
             this.handleLoginFailure('Login Unsuccessful: login token is null');
