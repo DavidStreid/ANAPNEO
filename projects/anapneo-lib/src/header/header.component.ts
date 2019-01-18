@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 
 export class HeaderComponent {
-  public title: String = "ANAPNEO";
+  public title: String = 'HealthAdv';
 }
