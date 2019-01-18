@@ -3,11 +3,9 @@
     <calendar-date [day]="day" [month]="month"></calendar-date>
   </div>
   <div class="appointment-details">
-    <p class="appt-title margin-bottom-none">{{title}}</p>
+    <p class="appt-title margin-bottom-none">{{type}}</p>
     <div class="appt-location">
-      <p class="appt-place margin-bottom-none">{{place}}</p>
-      <p class="appt-address margin-bottom-none">{{address['street']}}</p>
-      <p class="appt-address margin-bottom-none">{{address['city']}}, {{address['state']}} {{address['zipCode']}}</p>
+      <p class="appt-place margin-bottom-none">{{contact}}</p>
     </div>
   </div>
 </div>

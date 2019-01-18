@@ -12,16 +12,17 @@ export class AppointmentDetailsComponent implements OnChanges {
 
   public day: number;
   public month: number;
-  public address: object;
-  public place: object;
-  public title: string;
 
+  public contact: string;
+  public type: string;
 
   ngOnChanges() {
-    this.day = this.appointment['date']['day'] || '';       // number
-    this.month = this.appointment['date']['month'] || '';   // number
-    this.title = this.appointment['title'] || '';
-    this.place = this.appointment['place'] || '';
-    this.address = this.appointment['address'] || {};
+    const date = this.appointment['date'] || {};
+
+    this.day = date['day'] || '';
+    this.month = date['month'] || '';
+
+    this.contact = this.appointment['contact'] || '';
+    this.type = this.appointment['type'] || '';
   }
 }

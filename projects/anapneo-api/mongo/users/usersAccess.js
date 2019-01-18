@@ -220,18 +220,18 @@ exports.addMockUser = function() {
   userDoc.role = 'patient';
   userDoc.checkIns = [
     {
-      name: 'David',
-      role: 'barber',
+      name: 'Suite V Brooklyn',
+      type: 'barber',
+      address: {
+        street: '775 Nostrand Ave',
+        city: 'Brooklyn',
+        state: 'NY',
+        zipCode: 11216
+      },
       appointments: [
         {
-          title: 'Haircut',
-          place: 'Suite V Brooklyn',
-          address: {
-            street: '775 Nostrand Ave',
-            city: 'Brooklyn',
-            state: 'NY',
-            zipCode: 11216
-          },
+          contact: 'David Streid',
+          type: 'Haircut',
           date: {
             day: 30,
             month: 1,
