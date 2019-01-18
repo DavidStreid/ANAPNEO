@@ -218,7 +218,27 @@ exports.addMockUser = function() {
   userDoc.name = 'DavidStreid';
   userDoc.password = 'test';
   userDoc.role = 'patient';
-  userDoc.checkIns = [ { name: 'David', role: 'barber' } ];
+  userDoc.checkIns = [
+    {
+      name: 'David',
+      role: 'barber',
+      appointments: [
+        {
+          title: 'Haircut',
+          place: 'Suite V Brooklyn',
+          address: {
+            street: '775 Nostrand Ave',
+            city: 'Brooklyn',
+            state: 'NY',
+            zipCode: 11216
+          },
+          date: {
+            day: 30,
+            month: 1,
+            year: 2019
+          }
+        } ]
+    } ];
 
   userDoc.save(function (err) {
      if (err) return console.log(err);
