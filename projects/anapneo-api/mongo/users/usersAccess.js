@@ -13,18 +13,9 @@ exports.getCheckIns = function(token) {
 
   return findUser(token).then((user) => {
     if( user != null ){
-      logger.debug( `Retrieved user checkIns for ${getUserString(user)}` )
-
-      var mockCheckIns = {
-        checkIns: [
-          {
-            name: 'David',
-            role: 'barber'
-          }
-        ]
-      };
-      return mockCheckIns;
-      // return user['checkIns'] || {};
+      var checkIns = user['checkIns'] || [];
+      logger.log( `Retrieved user checkIns for ${getUserString(user)} - CheckIns: ${JSON.stringify(checkIns)}` );
+      return { checkIns };
     } else {
       return { checkIns: [] };
       logger.log( `No user found for token ${token}` );
