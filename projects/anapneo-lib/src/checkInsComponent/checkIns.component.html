@@ -1,6 +1,10 @@
 <div>
   <div *ngFor="let checkIn of checkIns">
-    <h1>{{checkIn.name}}</h1>
+    <div class="margin-bottom-md">
+      <check-ins-viewer [name]="checkIn.name"
+                        [type]="checkIn.type"
+                        [address]="checkIn.address"></check-ins-viewer>
+    </div>
     <div class="appointment-tracker-container">
       <div *ngFor="let appt of checkIn.appointments">
         <appointment-details [appointment]="appt"></appointment-details>

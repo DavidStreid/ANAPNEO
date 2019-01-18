@@ -20,6 +20,7 @@ import { CheckInsComponent }            from '../checkInsComponent/checkIns.comp
 import { LoginComponent }               from '../loginComponent/login.component';
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 import { SideBarComponent }             from '../sidebar/sidebar.component';
+import { CheckInsViewerComponent }      from '../checkInsComponent/check-ins-viewer/check-ins-viewer.component';
 
 // Services
 import { LocationService }    from '../services/location.service';
@@ -39,6 +40,7 @@ const COMPONENTS  = [
                       AppointmentDetailsComponent,
                       CalendarDateComponent,
                       CheckInsComponent,
+                      CheckInsViewerComponent,
                       MyHealthComponent,
                       LoginComponent,
                       SideBarComponent
