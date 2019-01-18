@@ -199,6 +199,17 @@ function getUserString(userDoc) {
 
   return `Name: ${name}, Password: ${password}, Token: ${token}`;
 }
+
+exports.removeUsers = function() {
+    logger.log("userAccess::removeUsers");
+    const userModel = mongoose.model('user')
+
+    userModel.deleteMany(function (err) {
+        if (err) throw err;
+    });
+    console.error('Removed users from user collection');
+}
+
 exports.addMockUser = function() {
   logger.debug('userAccess::addMockUser');
 
