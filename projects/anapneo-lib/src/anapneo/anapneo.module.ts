@@ -14,7 +14,6 @@ import { VendorComponent }              from '../rewardsComponent/vendorComponen
 import { HeaderComponent }              from '../header/header.component';
 import { RewardsInfoComponent }         from '../rewardsComponent/rewardsInfoComponent/rewards-info.component';
 import { MyHealthComponent }            from '../myHealthComponent/myHealth.component';
-import { AppointmentTrackerComponent }  from '../appointmentTrackerComponent/appointment-tracker.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 import { CheckInsComponent }            from '../checkInsComponent/checkIns.component';
@@ -37,7 +36,6 @@ const COMPONENTS  = [
                       HeaderComponent,
                       RewardsComponent,
                       PageNotFoundComponent,
-                      AppointmentTrackerComponent,
                       AppointmentDetailsComponent,
                       CalendarDateComponent,
                       CheckInsComponent,

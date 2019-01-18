@@ -2,7 +2,6 @@ import { NgModule }                     from '@angular/core';
 import { RouterModule, Routes }         from '@angular/router';
 import { RewardsComponent }             from '../../rewardsComponent/rewards.component';
 import { MyHealthComponent }            from '../../myHealthComponent/myHealth.component';
-import { AppointmentTrackerComponent }  from '../../appointmentTrackerComponent/appointment-tracker.component';
 import { CheckInsComponent  }           from '../../checkInsComponent/checkIns.component';
 import { LoginComponent }               from '../../loginComponent/login.component';
 
@@ -44,7 +43,6 @@ export const appRoutes = [
       })
   */
   { path: 'rewards',      component: RewardsComponent },
-  { path: 'appointments', component: AppointmentTrackerComponent },
   { path: 'health',       component: MyHealthComponent },
   { path: 'check-ins',    component: CheckInsComponent },
   { path: 'login',        component: LoginComponent },
