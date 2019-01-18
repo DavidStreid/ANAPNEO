@@ -18,9 +18,10 @@
 .main-view{
   width: 80vw;
   display: inline-block;
-  margin-top: 40px;
+  padding-top: 40px;
   margin-left: 10vw;
   margin-right: 10vw;
+  overflow-y: scroll;
 }
 .sidebar-view {
   width: 100vw;
