@@ -208,3 +208,18 @@ function getUserString(userDoc) {
 
   return `Name: ${name}, Password: ${password}, Token: ${token}`;
 }
+exports.addMockUser = function() {
+  logger.debug('userAccess::addMockUser');
+
+  var userDoc = new userModel;
+
+  userDoc.name = 'DavidStreid';
+  userDoc.password = 'test';
+  userDoc.role = 'patient';
+  userDoc.checkIns = [ { name: 'David', role: 'barber' } ];
+
+  userDoc.save(function (err) {
+     if (err) return console.log(err);
+     console.log('saved ' + userDoc.name + ' to users collection');
+  });
+}
