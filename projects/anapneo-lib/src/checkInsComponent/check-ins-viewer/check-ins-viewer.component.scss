@@ -1,6 +1,6 @@
 @import "../../styles";
 
-.rewards-container{
+.viewer-container{
   position: relative;
   height: 120px;
   width: 80%;
@@ -18,21 +18,9 @@
   position: relative;
 }
 
-.profile-info {
+.checkIn-info {
   width: 70%;
   display: inline-block;
   position: relative;
   vertical-align: top;
-}
-
-.profile-name {
-  direction: rtl;
-}
-
-.profile-rewards {
-  direction: ltr;
-}
-
-.userProfile-img {
-  height: 100%;
 }
