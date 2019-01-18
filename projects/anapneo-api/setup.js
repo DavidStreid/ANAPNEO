@@ -9,6 +9,7 @@ module.exports = function(app){
   vendor.removeImages();
   vendor.uploadImages();
 
+  // Uncomment these when userModel has changed
   // user.removeUsers();
   // user.addMockUser();
 
