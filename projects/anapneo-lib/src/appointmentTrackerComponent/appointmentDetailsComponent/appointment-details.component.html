@@ -2,9 +2,11 @@
   <div class="appointment-date">
     <calendar-date [day]="day" [month]="month"></calendar-date>
   </div>
-  <div class="appointment-details">
-    <p class="appt-title margin-bottom-none">{{type}}</p>
-    <div class="appt-location">
+  <div class="appointment-details fill-height position-rel">
+    <div class="padding-hor-10 padding-vert-10">
+      <p class="appt-title margin-bottom-none">{{type}}</p>
+    </div>
+    <div class="appt-location position-abs padding-hor-10 padding-vert-10">
       <p class="appt-place margin-bottom-none">{{contact}}</p>
     </div>
   </div>
