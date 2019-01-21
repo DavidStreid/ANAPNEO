@@ -129,6 +129,15 @@ p,h1 {
  **************************/
 
 /* This is for vertically centering on all browsers
+
+    <div class="outer">
+      <div class="middle">
+        <div class="inner">
+          <p>...</p>
+        </div>
+      </div>
+    </div>
+
       REF - https://stackoverflow.com/questions/396145/how-to-vertically-center-a-div-for-all-browsers
 */
 .outer {
