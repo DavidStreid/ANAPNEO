@@ -228,7 +228,17 @@ exports.addMockUser = function() {
         state: 'NY',
         zipCode: 11216
       },
+      services: [ 'Hypertension Screening' ],
       appointments: [
+        {
+          contact: 'David Streid',
+          type: 'Haircut',
+          date: {
+            day: 24,
+            month: 12,
+            year: 2018
+          }
+        },
         {
           contact: 'David Streid',
           type: 'Haircut',

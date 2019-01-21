@@ -13,6 +13,8 @@ export class CheckInsViewerComponent{
   public type: String;
   @Input()
   public address: Object = {};
+  @Input()
+  public services: String[];
 
   public profileImg: String
 

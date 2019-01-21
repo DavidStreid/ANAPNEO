@@ -3,7 +3,8 @@
     <div class="margin-bottom-md">
       <check-ins-viewer [name]="checkIn.name"
                         [type]="checkIn.type"
-                        [address]="checkIn.address"></check-ins-viewer>
+                        [address]="checkIn.address"
+                        [services]="checkIn.services"></check-ins-viewer>
     </div>
     <div class="appointment-tracker-container">
       <div *ngFor="let appt of checkIn.appointments">
