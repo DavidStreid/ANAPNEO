@@ -25,10 +25,6 @@ export class MyHealthComponent{
       {
         name: 'Eric Toig',
         type: 'Primary Care'
-      },
-      {
-        name: 'House',
-        type: 'Oncologist'
       }
     ];
 
@@ -44,7 +40,7 @@ export class MyHealthComponent{
         frequency: 'daily'
       },
       {
-        name: 'NicodermCQ',
+        name: 'Diuretics',
         qty: 1,
         frequency: 'daily'
       }
