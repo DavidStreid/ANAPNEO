@@ -218,6 +218,8 @@ exports.addMockUser = function() {
   userDoc.name = 'DavidStreid';
   userDoc.password = 'test';
   userDoc.role = 'patient';
+
+  // TODO - Add constants
   userDoc.checkIns = [
     {
       name: 'Suite V Brooklyn',
@@ -237,6 +239,13 @@ exports.addMockUser = function() {
             day: 24,
             month: 12,
             year: 2018
+          },
+          checkedIn: true,
+          checkInData: {
+            'Blood Pressure': {
+              'systolic': 120,
+              'diastolic': 80
+            }
           }
         },
         {
@@ -246,7 +255,8 @@ exports.addMockUser = function() {
             day: 30,
             month: 1,
             year: 2019
-          }
+          },
+          checkedIn: false
         } ]
     } ];
 

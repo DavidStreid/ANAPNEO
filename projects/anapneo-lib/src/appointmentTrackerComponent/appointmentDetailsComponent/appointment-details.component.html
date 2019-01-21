@@ -2,15 +2,15 @@
   <div class="appointment-date">
     <calendar-date [day]="day" [month]="month"></calendar-date>
   </div>
-  <div class="appointment-details fill-height position-rel">
+  <div class="appointment-details fill-height position-rel" [ngClass]="{ 'checkedIn': appointment.checkedIn }">
     <div class="block padding-hor-10 padding-top-10">
       <p class="font-size-22 text-right margin-bottom-none">{{type}}</p>
     </div>
     <div class="block padding-hor-10 padding-top-5">
-      <p class="font-size-14 margin-bottom-none">Services: {{type}}</p>
-    </div>
-    <div class="block padding-hor-10 padding-vert-10">
       <p class="font-size-14 margin-bottom-none">Advocate: {{contact}}</p>
+    </div>
+    <div class="block padding-hor-10 padding-top-5" *ngFor="let checkIn of checkInData | keyvalue">
+      <p class="font-size-14 margin-bottom-none">{{checkIn.key}}: {{checkIn.value}}</p>
     </div>
   </div>
 </div>
