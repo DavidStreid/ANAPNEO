@@ -3,11 +3,14 @@
     <calendar-date [day]="day" [month]="month"></calendar-date>
   </div>
   <div class="appointment-details fill-height position-rel">
-    <div class="padding-hor-10 padding-vert-10">
-      <p class="appt-title margin-bottom-none">{{type}}</p>
+    <div class="block padding-hor-10 padding-top-10">
+      <p class="font-size-22 text-right margin-bottom-none">{{type}}</p>
     </div>
-    <div class="appt-location position-abs padding-hor-10 padding-vert-10">
-      <p class="appt-place margin-bottom-none">{{contact}}</p>
+    <div class="block padding-hor-10 padding-top-5">
+      <p class="font-size-14 margin-bottom-none">Services: {{type}}</p>
+    </div>
+    <div class="block padding-hor-10 padding-vert-10">
+      <p class="font-size-14 margin-bottom-none">Advocate: {{contact}}</p>
     </div>
   </div>
 </div>

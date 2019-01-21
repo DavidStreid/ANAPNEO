@@ -9,6 +9,10 @@ p,h1 {
   text-align:center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .padding-vertical-sm {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -40,6 +44,14 @@ p,h1 {
 
 .padding-bottom-md {
   padding-bottom: 20px;
+}
+
+.padding-top-5 {
+  padding-top: 5px;
+}
+
+.padding-top-10 {
+  padding-top: 10px;
 }
 
 .padding-bottom-10 {
@@ -135,9 +147,6 @@ p,h1 {
 }
 .position-rel {
   position: relative;
-}
-.position-abs {
-  position: absolute;
 }
 
 /**************************
