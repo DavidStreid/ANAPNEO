@@ -16,7 +16,7 @@ export class AppointmentDetailsComponent implements OnChanges {
   public contact: string;
   public type: string;
 
-  public checkInData: Object = {};
+  public checkInData: any = {};
 
   ngOnChanges() {
     const date = this.appointment['date'] || {};
