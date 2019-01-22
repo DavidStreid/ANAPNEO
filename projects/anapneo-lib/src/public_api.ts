@@ -7,7 +7,6 @@ export { AnapneoModule } from './anapneo/anapneo.module';
 export { AnapneoComponent } from './anapneo/anapneo.component';
 
 // Child Components
-export { AppointmentTrackerComponent } from './appointmentTrackerComponent/appointment-tracker.component';
 export { AppointmentDetailsComponent } from './appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 export { CalendarDateComponent } from './appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 export { CheckInsComponent } from './checkInsComponent/checkIns.component';
