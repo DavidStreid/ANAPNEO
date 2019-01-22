@@ -16,6 +16,7 @@ export class CheckInsComponent {
     this.getCheckIns();
   }
 
+  // TODO - cache response
   private getCheckIns() {
     this.checkInsService.getCheckIns().subscribe({
       next:     (res)     => { this.checkIns = res['checkIns'] || [];       },

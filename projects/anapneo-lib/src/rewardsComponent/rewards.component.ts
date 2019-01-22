@@ -18,6 +18,7 @@ export class RewardsComponent {
   /*
    * Get vendors from service and assigns to member vendors variable
    */
+  // TODO - cache response
   getVendors(): void {
     this.vendorInfoService.getVendors('streid').subscribe({
       next:     (vendors) => { this.vendors = vendors['vendors'] || [];   },
