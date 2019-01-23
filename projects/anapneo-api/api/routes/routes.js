@@ -27,6 +27,7 @@ module.exports = function(app) {
     app.route('/prescriptions')
         .get(companion.getPrescriptions);
 
+    // TODO - remove
     app.route('/doctors')
         .get(companion.getDoctors);
 
