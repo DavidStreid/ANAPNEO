@@ -44,8 +44,6 @@ exports.getVendors = function(req,res){
         res.send({result})
       }
     })
-
-
 }
 
 // TODO - split into queryDB & sendResp functions
