@@ -33,6 +33,7 @@ export class VendorInfoService {
 
     const token = this.userProfileService.getAuthToken();
 
+    // TODO - userId is unnecessary
     const url = `${anapneoService}/vendors?userId=${userId}&token=${token}`;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
