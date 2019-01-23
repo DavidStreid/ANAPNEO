@@ -219,6 +219,8 @@ exports.removeUsers = function() {
 }
 
 exports.addMockUser = function() {
+  // TODO - Add constants
+  // TODO - Better data model (Seperate User, Advocates, Check-In Data, etc.)
   logger.debug('userAccess::addMockUser');
 
   var userDoc = new userModel;
@@ -227,7 +229,7 @@ exports.addMockUser = function() {
   userDoc.password = 'test';
   userDoc.role = 'patient';
 
-  // TODO - Add constants
+  // TODO - Should be a map
   userDoc.checkIns = [
     {
       name: 'Suite V Brooklyn',
