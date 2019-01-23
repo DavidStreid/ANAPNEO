@@ -137,6 +137,9 @@ p,h1 {
 .block {
   display: block;
 }
+.inline-block {
+  display: inline-block;
+}
 
 .fill-height {
   height: 100%;
@@ -144,6 +147,9 @@ p,h1 {
 
 .fill-width {
   width: 100%;
+}
+.width-100 {
+  width: 100px;
 }
 .position-rel {
   position: relative;
@@ -180,4 +186,12 @@ p,h1 {
 .inner {
   margin-left: auto;
   margin-right: auto;
+}
+
+/*
+    Centers img in a div. Requires a width
+ */
+.center-img {
+    margin: auto;
+    display: block;
 }
