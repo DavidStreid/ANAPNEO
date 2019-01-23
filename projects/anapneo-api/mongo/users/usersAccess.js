@@ -77,12 +77,20 @@ exports.login = function(name, password) {
     if( userDoc != null ){
       var storedPassword = userDoc[ 'password' ] || null;
       if( password == storedPassword ){
-        logger.log(`Login Success - User: ${name}, Password: ${password}, Old Token: ${userDoc[ 'token' ] || 'NOT_DEFINED'}`);
+        var token = userDoc[ 'token' ];
+        logger.log(`Login Success - User: ${name}, Password: ${password}, Old Token: ${token}`);
 
-        // TODO - Token creation
-        var token = Math.floor(Math.random()*1000000000000);
+        // Re-assign token if needed
+        if( isLoginExpired(userDoc) || token == null ){
+          logger.log('Token is null or expired - creating a new one...');
 
-        saveUserToken( name, password, token );
+          // TODO - Token creation
+          token = Math.floor(Math.random()*1000000000000);
+          saveUserToken( name, password, token );
+        } else {
+          logger.log('Re-using token');
+        }
+
         return {
                   success: true,
                   status: 'User and password are correct',
