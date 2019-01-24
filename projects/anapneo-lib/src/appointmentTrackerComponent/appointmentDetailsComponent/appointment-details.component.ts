@@ -34,6 +34,7 @@ export class AppointmentDetailsComponent implements OnChanges {
     }
   }
 
+  // TODO - put into util
   /**
    * Parses out each type of check In data into a readable form
    */
