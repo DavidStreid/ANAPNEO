@@ -4,8 +4,8 @@
       <p class="font-white font-size-22">PRESCRIPTIONS:</p>
     </div>
     <div class="margin-left-md">
-      <div class="block" *ngFor="let prsc of prescriptions">
-        <p class="font-white font-size-14">{{ prsc.name }}</p>
+      <div class="block" *ngFor="let prsc of healthProfile.prescriptions | keyvalue">
+        <p class="font-white font-size-14">{{ prsc.key }}</p>
       </div>
     </div>
   </div>
@@ -14,28 +14,12 @@
       <p class="font-white font-size-22">DOCTORS:</p>
     </div>
     <div class="margin-left-md">
-      <div class="flow-root" *ngFor="let dr of doctors">
+      <div class="flow-root" *ngFor="let dr of healthProfile.doctors | keyvalue">
         <div class="float-left">
-          <p class="font-white font-size-14">{{dr.type}}</p>
+          <p class="font-white font-size-14">{{dr.key}}</p>
         </div>
         <div class="float-right">
-          <p class="font-white font-size-14">{{dr.name}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--TODO - Make Dynamic-->
-  <div class="health-container padding-top-md">
-    <div class="health-title">
-      <p class="font-white font-size-22">Blood Pressure:</p>
-    </div>
-    <div class="margin-left-md">
-      <div class="flow-root">
-        <div class="float-left">
-          <p class="font-white font-size-14">12-24-2018</p>
-        </div>
-        <div class="float-right">
-          <p class="font-white font-size-14">80/120</p>
+          <p class="font-white font-size-14">{{dr.value}}</p>
         </div>
       </div>
     </div>

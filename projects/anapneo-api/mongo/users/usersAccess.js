@@ -8,6 +8,21 @@ const loggingEnabled = true;
 
 const userModel = getUserModel();
 
+exports.getHealth = function(token) {
+  logger.debug('userAccess::getHealth');
+
+  return findUser(token).then((user) => {
+    if( user != null ){
+      var healthProfile = user['healthProfile'] || {};
+      logger.log( `Retrieved user health profile for ${getUserString(user)} - Profile: ${JSON.stringify(healthProfile)}` );
+      return { healthProfile };
+    } else {
+      return { healthProfile: [] };
+      logger.log( `No user found for token ${token}` );
+    }
+  });
+}
+
 exports.getCheckIns = function(token) {
   logger.debug('userAccess::getCheckIns');
 
@@ -185,21 +200,6 @@ function isLoginExpired(userDoc) {
 
 exports.isValidSession = isValidSession;
 
-function getUserModel(){
-    // Model of users
-    const userData = new Schema({
-        name: String,
-        password: String,
-        role: String,
-        token: String,      // This token is used to provide access to the application and will be sent with each request
-        loginTS: Date,      // This tracks the login time of a user
-        checkIns: Array
-    });
-    const userModel = mongoose.model('user', userData);
-
-    return userModel;
-}
-
 function getUserString(userDoc) {
   var name = userDoc['name'] || 'NO_NAME';
   var password = userDoc['password'] || 'NO_PASSWORD';
@@ -216,6 +216,23 @@ exports.removeUsers = function() {
         if (err) throw err;
     });
     console.error('Removed users from user collection');
+}
+
+
+function getUserModel(){
+    // Model of users
+    const userData = new Schema({
+        name: String,
+        password: String,
+        role: String,
+        token: String,      // This token is used to provide access to the application and will be sent with each request
+        loginTS: Date,      // This tracks the login time of a user
+        checkIns: Array,
+        healthProfile: Object
+    });
+    const userModel = mongoose.model('user', userData);
+
+    return userModel;
 }
 
 exports.addMockUser = function() {
@@ -269,6 +286,31 @@ exports.addMockUser = function() {
           checkedIn: false
         } ]
     } ];
+
+  userDoc.healthProfile = {
+    prescriptions: {
+      'MultiVitamin': {
+        qty: 1,
+        frequency: 'daily'
+      },
+      'Diuretics': {
+        qty: 1,
+        frequency: 'daily'
+      }
+    },
+    doctors: {
+      primary: 'Eric Toig'
+    },
+    checkIns: {
+      'Blood Pressure': [
+        {
+          'systolic': 120,
+          'diastolic': 80,
+          'date': '12-24-2018'
+        }
+      ]
+    }
+  }
 
   userDoc.save(function (err) {
      if (err) return console.log(err);

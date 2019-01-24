@@ -28,8 +28,9 @@ import { LoginService }       from '../services/login.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
 import { VendorInfoService }  from '../rewardsComponent/vendorService/vendorInfoService';
 import { CheckInsService }    from '../checkInsComponent/checkIns.service';
+import { MyHealthService }    from '../myHealthComponent/myHealth.service';
 
-const SERVICES    = [ LocationService, UserProfileService, LoginService, VendorInfoService, CheckInsService ];
+const SERVICES    = [ LocationService, UserProfileService, LoginService, VendorInfoService, CheckInsService, MyHealthService ];
 const COMPONENTS  = [
                       RewardsComponent,
                       RewardsInfoComponent,

@@ -14,6 +14,18 @@ var allowedOrigins = ['*'];                                 // valid hosts for C
 
 // TODO - add handleError to places
 
+
+exports.getHealth = function(req,res){
+  setCORSHeaders(res, allowedOrigins, ['GET'])
+  logger.log('controller::getHealth');
+
+  const token = req.query.token || null;
+
+  usersAccess.getHealth(token).then(result => {
+    res.send(result);
+  });
+}
+
 exports.getCheckIns = function(req,res){
   setCORSHeaders(res, allowedOrigins, ['GET'])
   logger.log('controller::getCheckIns');
