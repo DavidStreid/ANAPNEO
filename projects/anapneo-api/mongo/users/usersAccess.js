@@ -218,10 +218,10 @@ exports.removeUsers = function() {
     console.error('Removed users from user collection');
 }
 
-
 function getUserModel(){
     // Model of users
     const userData = new Schema({
+        _id: Schema.Types.ObjectId,
         name: String,
         password: String,
         role: String,
@@ -235,19 +235,22 @@ function getUserModel(){
     return userModel;
 }
 
+function createUserDoc(name, password, role, checkIns, healthProfile) {
+  var userDoc = new userModel({
+    _id: new mongoose.Types.ObjectId(),
+    name, password, role, checkIns, healthProfile
+  });
+
+  return userDoc;
+}
+
 exports.addMockUser = function() {
   // TODO - Add constants
   // TODO - Better data model (Seperate User, Advocates, Check-In Data, etc.)
   logger.debug('userAccess::addMockUser');
 
-  var userDoc = new userModel;
-
-  userDoc.name = 'DavidStreid';
-  userDoc.password = 'test';
-  userDoc.role = 'patient';
-
   // TODO - Should be a map
-  userDoc.checkIns = [
+  var checkIns = [
     {
       name: 'Suite V Brooklyn',
       type: 'barber',
@@ -285,9 +288,9 @@ exports.addMockUser = function() {
           },
           checkedIn: false
         } ]
-    } ];
-
-  userDoc.healthProfile = {
+    }
+  ];
+  var healthProfile = {
     prescriptions: {
       'MultiVitamin': {
         qty: 1,
@@ -312,6 +315,7 @@ exports.addMockUser = function() {
     }
   }
 
+  var userDoc = createUserDoc('DavidStreid', 'test', 'patient', checkIns, healthProfile);
   userDoc.save(function (err) {
      if (err) return console.log(err);
      console.log('saved ' + userDoc.name + ' to users collection');

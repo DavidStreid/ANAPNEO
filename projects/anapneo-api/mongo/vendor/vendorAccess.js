@@ -64,17 +64,18 @@ exports.uploadImages = function() {
     vendorModel:    Mongoose Model
  */
 function createVendorDoc(name, imgLoc, type, zipCode, contentType, vendorModel){
-    // Create document instance for vendor
-    var vendorDoc = new vendorModel;
-
     // Save image to vendors collection
     var stringBuffer = fs.readFileSync(path.resolve(__dirname, imgLoc));
+    var img = { data: stringBuffer, contentType };
 
-    vendorDoc.img.data = stringBuffer;
-    vendorDoc.img.contentType = contentType;
-    vendorDoc.name = name;
-    vendorDoc.type = type;
-    vendorDoc.zipCode = zipCode;
+    // Create document instance for vendor
+    var vendorDoc = new vendorModel({
+      _id: new mongoose.Types.ObjectId(),
+      name,
+      type,
+      zipCode,
+      img
+    });
 
     return vendorDoc;
 }
@@ -82,6 +83,7 @@ function createVendorDoc(name, imgLoc, type, zipCode, contentType, vendorModel){
 function getVendorModel(){
     // Model of vendors
     const vendorData = new Schema({
+        _id: Schema.Types.ObjectId,
         img: { data: Buffer, contentType: String },
         name: String,
         type: String,
