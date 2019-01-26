@@ -5,13 +5,17 @@ var vendor = require('./mongo/vendor/vendorAccess');
 var user = require('./mongo/users/usersAccess');
 
 module.exports = function(app){
+  routes(app);
+
   // DB Work
   vendor.removeImages();
   vendor.uploadImages();
 
-  // Uncomment these when userModel has changed
+  // Uncomment user methods when userModel changes
   // user.removeUsers();
-  // user.addMockUser();
+  vendor.addAdvocates().then( (product) => {
+    user.addMockUser();
+  });
 
-  routes(app);
+
 }

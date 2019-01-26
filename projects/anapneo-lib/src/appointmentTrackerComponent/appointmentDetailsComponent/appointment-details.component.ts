@@ -10,8 +10,7 @@ export class AppointmentDetailsComponent implements OnChanges {
   @Input()
   public appointment: object;
 
-  public day: number;
-  public month: number;
+  public date: object;
 
   public contact: string;
   public type: string;
@@ -19,35 +18,32 @@ export class AppointmentDetailsComponent implements OnChanges {
   public checkInData: any = {};
 
   ngOnChanges() {
-    const date = this.appointment['date'] || {};
-
-    this.day = date['day'] || '';
-    this.month = date['month'] || '';
-
+    this.date = this.appointment['date'] || {};
     this.contact = this.appointment['contact'] || '';
     this.type = this.appointment['type'] || '';
 
     // Parse out checkInData if present
     const checkInData = this.appointment['checkInData'] || null;
     if( checkInData !== null && checkInData !== undefined){
-      this.checkInData = this.parseCheckInData(checkInData);
+      this.assignCheckInData(checkInData);
     }
   }
 
-  // TODO - put into util
   /**
    * Parses out each type of check In data into a readable form
    */
-  parseCheckInData(checkInData: Object) {
-    Object.keys(checkInData).forEach(function(key) {
-      switch(key) {
+  assignCheckInData(checkInData: Object[]) {
+    for (const checkIn of checkInData) {
+      const type = checkIn[ 'type' ];
+      const data = checkIn[ 'data' ] || {};
+
+      switch(type) {
         case 'Blood Pressure':
-          checkInData[key] = `${checkInData[key]['systolic']}/${checkInData[key]['diastolic']}`;
+          this.checkInData[type] = `${data['systolic']}/${data['diastolic']}`;
           break;
         default:
-          console.log(`${key}: Not a valid checkIn type`);
+          console.log(`${type}: Not a valid checkIn type`);
       }
-    });
-    return checkInData;
+    }
   }
 }

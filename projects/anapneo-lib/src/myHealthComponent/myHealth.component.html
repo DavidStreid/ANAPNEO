@@ -4,7 +4,7 @@
       <p class="font-white font-size-22">PRESCRIPTIONS:</p>
     </div>
     <div class="margin-left-md">
-      <div class="block" *ngFor="let prsc of healthProfile.prescriptions | keyvalue">
+      <div class="block" *ngFor="let prsc of healthProfile[ 'prescriptions' ] | keyvalue">
         <p class="font-white font-size-14">{{ prsc.key }}</p>
       </div>
     </div>
@@ -14,12 +14,34 @@
       <p class="font-white font-size-22">DOCTORS:</p>
     </div>
     <div class="margin-left-md">
-      <div class="flow-root" *ngFor="let dr of healthProfile.doctors | keyvalue">
+      <div class="flow-root" *ngFor="let dr of healthProfile[ 'doctors' ] | keyvalue">
         <div class="float-left">
           <p class="font-white font-size-14">{{dr.key}}</p>
         </div>
         <div class="float-right">
           <p class="font-white font-size-14">{{dr.value}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="health-container white-border-bottom padding-top-md">
+    <div class="health-title">
+      <p class="font-white font-size-22">CHECK-INs:</p>
+    </div>
+    <div class="margin-left-md">
+      <div class="flow-root" *ngFor="let type of checkIns | keyvalue">
+        <div class="flow-root">
+          <div class="float-left">
+            <p class="font-white font-size-14">{{ type.key }} </p>
+          </div>
+        </div>
+        <div class="flow-root" *ngFor="let entry of type.value">
+          <div class="float-left">
+            <p class="font-white font-size-14">{{entry.date}}</p>
+          </div>
+          <div class="float-right">
+            <p class="font-white font-size-14">{{entry.data}}</p>
+          </div>
         </div>
       </div>
     </div>

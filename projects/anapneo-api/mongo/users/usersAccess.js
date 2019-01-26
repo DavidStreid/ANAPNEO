@@ -3,26 +3,90 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const path = require("path");
 var logger = require("../../utils/logger");
+var vendor = require("../vendor/vendorAccess");
 
 const loggingEnabled = true;
 
 const userModel = getUserModel();
 
+/**
+ * Returns User Model
+ */
+exports.getUserModel = function() {
+  return userModel;
+}
+
+/**
+ * Returns health profile for a user identified by input token
+ */
 exports.getHealth = function(token) {
   logger.debug('userAccess::getHealth');
 
   return findUser(token).then((user) => {
     if( user != null ){
       var healthProfile = user['healthProfile'] || {};
-      logger.log( `Retrieved user health profile for ${getUserString(user)} - Profile: ${JSON.stringify(healthProfile)}` );
-      return { healthProfile };
+      var checkInsByVendor = user['checkIns'] || {};
+      var res = { healthProfile, checkIns: getCheckInByType(checkInsByVendor) };
+
+      logger.log( `Retrieved health data for ${getUserString(user)}: ${JSON.stringify(res)}` );
+      return res;
     } else {
-      return { healthProfile: [] };
       logger.log( `No user found for token ${token}` );
+      return { healthProfile: [], checkIns: {} };
     }
   });
 }
 
+/**
+ *  Formats checkIns data stored for service respone
+ *
+ *  INPUT:
+ *        CheckIns: [ {
+ *          advocate: ...,
+ *          appointments: [ {  ...
+ *                             checkedInData: [ { ..., type: ... } ]
+ *                           } ]
+ *        }
+ *
+ *   OUTPUT:
+ *       CheckIns: [ { type: [] }, ...  ]
+ */
+function getCheckInByType(checkIns){
+  // Convert from mongoose doc to object
+  var checkInsObj = checkIns.toObject();
+
+  // Add initial object to be reduced, or element to be reduced if input is empty
+  checkInsObj.unshift({});
+
+  var checkInsByType = checkInsObj.reduce( function(checkInsByType, vendorCheckIn) {
+    let appointments = vendorCheckIn[ 'appointments' ] || [];
+
+    appointments.forEach( (appt) => {
+      let date = appt[ 'date' ] || {};
+      let checkInData = appt[ 'checkInData' ] || [];
+
+      checkInData.forEach( (cid) => {
+        let type = cid[ 'type' ] || 'INVALID_TYPE';
+        let data = cid[ 'data' ] || {};
+        let datapoint = { date,  data };
+
+        if (type in checkInsByType) {
+          checkInsByType[ type ].push( datapoint );
+        } else {
+          checkInsByType[ type ] = [ datapoint ];
+        }
+      });
+    } );
+
+    return checkInsByType;
+  });
+
+  return checkInsByType;
+}
+
+/**
+ * Gets CheckIns of a user identified by input token
+ */
 exports.getCheckIns = function(token) {
   logger.debug('userAccess::getCheckIns');
 
@@ -56,7 +120,7 @@ var addUser = function(name, password, type) {
   var userDoc = createUserDoc(name, password, type);
   userDoc.save(function (err) {
      if (err) return handleError(err);
-     console.log('saved ' + userDoc.name + ' to users collection');
+     logger.log('saved ' + userDoc.name + ' to users collection');
   });
 }
 
@@ -165,7 +229,7 @@ function isValidSession( token ){
  * This method uses a uniquely identifying token to return the user doc
  */
 function findUser(token){
-  return userModel.findOne({ token }).then((userDoc) => {
+  return userModel.findOne({ token }).populate('checkIns.advocate ').then((userDoc) => {
     if( userDoc == null ){
       status = `User profile with token ${token} was not found`;
       logger.log(status);
@@ -218,6 +282,9 @@ exports.removeUsers = function() {
     console.error('Removed users from user collection');
 }
 
+/**
+ * Returns Mongoose model for user
+ */
 function getUserModel(){
     // Model of users
     const userData = new Schema({
@@ -227,14 +294,99 @@ function getUserModel(){
         role: String,
         token: String,      // This token is used to provide access to the application and will be sent with each request
         loginTS: Date,      // This tracks the login time of a user
-        checkIns: Array,
-        healthProfile: Object
+        healthProfile: Object,
+        checkIns: [
+          {
+            advocate: { type: Schema.Types.ObjectId, ref: 'advocate' },
+            appointments: Array
+          }
+        ]
     });
     const userModel = mongoose.model('user', userData);
 
     return userModel;
 }
 
+/**
+ * Adds Mock Users to mongodb
+ */
+exports.addMockUser = function() {
+  // TODO - Add constants
+  logger.debug('userAccess::addMockUser');
+  var checkIns = [];
+
+  const mockVendorName = 'Suite V Brooklyn';
+  var advocateModel = vendor.getAdvocateModel();
+
+  advocateModel.findOne({ name: mockVendorName }).then((advocateDoc) => {
+    if(advocateDoc == null){
+      logger.log( `saved (checkIns): ${mockVendorName} did not exist`);
+      return;
+    } else {
+      logger.debug( `saved (checkIns): ${mockVendorName} found in advocates collection`);
+      checkIns.push(
+        {
+          advocate: advocateDoc._id,
+          appointments: [
+            {
+              contact: 'David Streid',
+              type: 'Haircut',
+              date: {
+                day: 24,
+                month: 12,
+                year: 2018
+              },
+              checkedIn: true,
+              checkInData: [ {
+                type: 'Blood Pressure',
+                data: {
+                  'systolic': 120,
+                  'diastolic': 80
+                }
+              } ]
+            },
+            {
+              contact: 'David Streid',
+              type: 'Haircut',
+              date: {
+                day: 30,
+                month: 1,
+                year: 2019
+              },
+              checkedIn: false
+            }
+          ]
+        }
+      );
+    }
+  }).then( () => {
+    var healthProfile = {
+      prescriptions: {
+        'MultiVitamin': {
+          qty: 1,
+          frequency: 'daily'
+        },
+        'Diuretics': {
+          qty: 1,
+          frequency: 'daily'
+        }
+      },
+      doctors: {
+        primary: 'Eric Toig'
+      }
+    }
+
+    var userDoc = createUserDoc('DavidStreid', 'test', 'patient', checkIns, healthProfile);
+    userDoc.save(function (err) {
+       if (err) return logger.log(err);
+       logger.log('saved ' + userDoc.name + ' to users collection');
+    });
+  });
+}
+
+/**
+ * Creates Mongoose doc for user
+ */
 function createUserDoc(name, password, role, checkIns, healthProfile) {
   var userDoc = new userModel({
     _id: new mongoose.Types.ObjectId(),
@@ -242,82 +394,4 @@ function createUserDoc(name, password, role, checkIns, healthProfile) {
   });
 
   return userDoc;
-}
-
-exports.addMockUser = function() {
-  // TODO - Add constants
-  // TODO - Better data model (Seperate User, Advocates, Check-In Data, etc.)
-  logger.debug('userAccess::addMockUser');
-
-  // TODO - Should be a map
-  var checkIns = [
-    {
-      name: 'Suite V Brooklyn',
-      type: 'barber',
-      address: {
-        street: '775 Nostrand Ave',
-        city: 'Brooklyn',
-        state: 'NY',
-        zipCode: 11216
-      },
-      services: [ 'Hypertension Screening' ],
-      appointments: [
-        {
-          contact: 'David Streid',
-          type: 'Haircut',
-          date: {
-            day: 24,
-            month: 12,
-            year: 2018
-          },
-          checkedIn: true,
-          checkInData: {
-            'Blood Pressure': {
-              'systolic': 120,
-              'diastolic': 80
-            }
-          }
-        },
-        {
-          contact: 'David Streid',
-          type: 'Haircut',
-          date: {
-            day: 30,
-            month: 1,
-            year: 2019
-          },
-          checkedIn: false
-        } ]
-    }
-  ];
-  var healthProfile = {
-    prescriptions: {
-      'MultiVitamin': {
-        qty: 1,
-        frequency: 'daily'
-      },
-      'Diuretics': {
-        qty: 1,
-        frequency: 'daily'
-      }
-    },
-    doctors: {
-      primary: 'Eric Toig'
-    },
-    checkIns: {
-      'Blood Pressure': [
-        {
-          'systolic': 120,
-          'diastolic': 80,
-          'date': '12-24-2018'
-        }
-      ]
-    }
-  }
-
-  var userDoc = createUserDoc('DavidStreid', 'test', 'patient', checkIns, healthProfile);
-  userDoc.save(function (err) {
-     if (err) return console.log(err);
-     console.log('saved ' + userDoc.name + ' to users collection');
-  });
 }

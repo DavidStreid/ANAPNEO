@@ -3,11 +3,91 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const path = require("path");
 var logger = require("../../utils/logger");
+var user = require("../users/usersAccess");
 
 const loggingEnabled = true;
-
 const imgPath = './vendorImg';
 const vendorModel = getVendorModel();
+const advocateModel = createAdvocateModel();
+
+/**
+ * Returns mongoose model for advocates
+ */
+exports.getAdvocateModel = function() {
+  return advocateModel;
+}
+
+/**
+ * Adds Mock Advocates
+ */
+exports.addAdvocates = function(){
+  logger.debug('vendorAccess::addAdvocates');
+
+  var address = createAddress('775 Nostrand Ave', 'Brooklyn', 'NY', 11216);
+  var advocateDoc = createAdvocateDoc('Suite V Brooklyn', 'barber', address, [ 'Hypertension Screening' ]);
+
+  // Save images to db
+  return advocateDoc.save().then( (advocate) => {
+    logger.debug(`Saved ${advocate['name']} to advocates collection`);
+  })
+}
+
+/**
+ * This method uses queries by a unique advocate name
+ */
+exports.getAdvocate = function(id){
+  return advocateModel.findOne({ id }).then((advocateDoc) => {
+    if( advocateDoc == null ){
+      status = `Advocate Id: ${id} was not found`;
+      logger.log(status);
+      return;
+    }
+    status = `Advocate Id: ${id} was FOUND`;
+    logger.log(status);
+    return advocateDoc;
+  });
+}
+
+/**
+ * Creates address object
+ */
+function createAddress(street, city, state, zipCode){
+  var address = { street, city, state, zipCode };
+  return address;
+}
+
+/**
+ * Creates Advocates Doc
+ */
+function createAdvocateDoc(name, type, address, services){
+  var advocateDoc = new advocateModel({
+    _id: new mongoose.Types.ObjectId(),
+    name, type, address, services
+  });
+
+  return advocateDoc;
+}
+
+/**
+ * Returns Advocates Model
+ *
+ *    _id:      Mongoose id for advocate
+ *    name:     Name of Advocate
+ *    type:     Type of Business (E.g. haircut)
+ *    address:  Address where advocate is located
+ *    services: Health services offered by the advocate
+ */
+function createAdvocateModel(){
+    const advocateData = new Schema({
+        _id: Schema.Types.ObjectId,
+        name: String,
+        type: String,
+        address: Object,
+        services: Array
+    });
+    const advocateModel = mongoose.model('advocate', advocateData);
+    return advocateModel;
+}
 
 exports.removeImages = function() {
     logger.log("vendorAccess::removeImages");
@@ -51,8 +131,6 @@ exports.uploadImages = function() {
         });
     });
 }
-
-
 /*
     Creates a vendor doc, a model instance given the input schema
 
@@ -79,7 +157,6 @@ function createVendorDoc(name, imgLoc, type, zipCode, contentType, vendorModel){
 
     return vendorDoc;
 }
-
 function getVendorModel(){
     // Model of vendors
     const vendorData = new Schema({

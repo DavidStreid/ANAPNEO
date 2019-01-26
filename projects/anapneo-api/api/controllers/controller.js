@@ -6,15 +6,14 @@ var atob = require('atob');
 var logger = require('../../utils/logger');
 
 // DB APIs
-var usersAccess = require('../../mongo/users/usersAccess');
+var usersAccess   = require('../../mongo/users/usersAccess');
+var vendorAccess  = require('../../mongo/vendor/vendorAccess');
 
 var http   = require('../../resources/constants/http');
 var logging_enabled = true;
 var allowedOrigins = ['*'];                                 // valid hosts for CORS
 
 // TODO - add handleError to places
-
-
 exports.getHealth = function(req,res){
   setCORSHeaders(res, allowedOrigins, ['GET'])
   logger.log('controller::getHealth');
@@ -33,7 +32,14 @@ exports.getCheckIns = function(req,res){
   const token = req.query.token || null;
 
   usersAccess.getCheckIns(token).then(result => {
-    res.send(result);
+    if( result == null || result == undefined ){
+      logger.log( `No CheckIns for found for user with token ${token}` );
+      res.send( { checkIns: [] });
+      return;
+    }
+
+    var checkIns = result[ 'checkIns' ] || [];
+    res.send({ checkIns });
   })
 }
 
