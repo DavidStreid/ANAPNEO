@@ -1,0 +1,5 @@
+<div id="alert-container">
+  <div id="inner-alert-container">
+    <ngb-alert *ngIf="message" [type]="type" (close)="message = null">{{ message }}</ngb-alert>
+  </div>
+</div>

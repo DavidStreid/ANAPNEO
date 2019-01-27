@@ -1,0 +1,42 @@
+@import '../../styles.scss';
+
+#alert-container {
+  width: 100%;
+  min-width: 200px;
+  display: block;
+  margin-top: 10px;
+}
+
+#inner-alert-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ngb-alert {
+  text-align: center;
+  font-style: italic;
+  font-family: futura;
+}
+
+/* ng-deep allows us to cascade styles to children of the component */
+::ng-deep .alert-customInfo  {
+  color: #31708f;
+  background-color: #f2f6fc;
+  border-color: #d0ddf2;
+}
+
+@media screen and (min-width: 700px) {
+  #alert-size {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  #alert-size {
+    width: 450px;
+  }
+}
+
+
+

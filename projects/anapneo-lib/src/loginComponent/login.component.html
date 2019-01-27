@@ -1,6 +1,14 @@
 <div class="outer login-container">
   <div class="middle">
     <div class="inner">
+      <div class="alert-container">
+        <ngbd-alert-selfclosing
+          [defaultMsg]="statusMsg"
+          [lifetime]="msgLifeTime"
+          [subject]="msgSubject"
+          [leaveMsg]=false
+          [type]="alertType"></ngbd-alert-selfclosing>
+      </div>
       <form class="login-form margin-top-md" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="block login-field">
           <p class="login-text">Welcome</p>

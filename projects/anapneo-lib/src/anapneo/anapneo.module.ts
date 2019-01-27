@@ -2,6 +2,7 @@ import { CommonModule }           from '@angular/common';
 import { NgModule }         from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AnapneoRoutingModule } from './Router/anapneo-routing.module';
 
@@ -21,6 +22,7 @@ import { LoginComponent }               from '../loginComponent/login.component'
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 import { SideBarComponent }             from '../sidebar/sidebar.component';
 import { CheckInsViewerComponent }      from '../checkInsComponent/check-ins-viewer/check-ins-viewer.component';
+import { NgbdAlertSelfclosing }         from '../common-components/alertSelfClosingComponent/alert-selfclosing';
 
 // Services
 import { LocationService }    from '../services/location.service';
@@ -44,7 +46,8 @@ const COMPONENTS  = [
                       CheckInsViewerComponent,
                       MyHealthComponent,
                       LoginComponent,
-                      SideBarComponent
+                      SideBarComponent,
+                      NgbdAlertSelfclosing
 ];
 
 @NgModule({
@@ -55,6 +58,7 @@ const COMPONENTS  = [
   imports: [
     CommonModule,
     HttpClientModule,
+    NgbAlertModule,
     AnapneoRoutingModule,
     ReactiveFormsModule
   ],
