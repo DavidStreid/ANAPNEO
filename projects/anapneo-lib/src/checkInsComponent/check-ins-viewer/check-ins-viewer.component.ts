@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import EncodedFiles from '../../assets/encodedImgs/siteImgs';
 
 @Component({
@@ -8,15 +8,20 @@ import EncodedFiles from '../../assets/encodedImgs/siteImgs';
 })
 export class CheckInsViewerComponent{
   @Input()
-  public name: String;
-  @Input()
-  public type: String;
-  @Input()
-  public address: Object = {};
-  @Input()
-  public services: String[];
+  public advocate: Object;
 
+  public name: String;
+  public type: String;
+  public address: Object = {};
+  public services: String[];
   public profileImg: String
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.name     = this.advocate[ 'name' ]     || 'INVALID_NAME';
+    this.type     = this.advocate[ 'type' ]     || 'INVALID_TYPE';
+    this.address  = this.advocate[ 'address' ]  || {};
+    this.services = this.advocate[ 'services' ] || '';
+  }
 
   constructor(){
     const encodedFilesClass: EncodedFiles = new EncodedFiles();
