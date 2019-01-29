@@ -3,6 +3,8 @@ import { NgModule }         from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AnapneoRoutingModule } from './Router/anapneo-routing.module';
 
@@ -59,6 +61,8 @@ const COMPONENTS  = [
     CommonModule,
     HttpClientModule,
     NgbAlertModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     AnapneoRoutingModule,
     ReactiveFormsModule
   ],

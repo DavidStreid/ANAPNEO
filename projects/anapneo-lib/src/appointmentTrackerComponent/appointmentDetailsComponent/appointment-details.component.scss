@@ -16,13 +16,9 @@
   width: 65%;
   border: solid 2px #29648A;
   border-radius: 5px;
-  padding: 5px 10px;
+  margin: 5px 10px;
   display: inline-block;
   vertical-align: top;
-}
-
-.checkedIn {
-  background-color: #afb8c9;
 }
 
 .appt-address{
@@ -31,4 +27,24 @@
 
 .appt-title {
   font-size: 20px;
+}
+
+/* Used to make room for check-icon if the appointment's checkedIn value is false, i.e. Needs a toggle to be "checkedIn" */
+.width-80-important {
+  width: 80% !important;
+}
+
+.check-in{
+  width: 20%;
+  vertical-align: top;
+  border-left: 3px #29648A solid;
+  background-color: #daf1da;
+}
+.check-in p {
+  font-size: 60px;
+  margin: auto;     /* hor-center */
+}
+
+.checkedIn {
+  background-color: #e6e6e6;
 }

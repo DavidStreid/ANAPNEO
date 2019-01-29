@@ -140,6 +140,9 @@ p,h1 {
 .inline-block {
   display: inline-block;
 }
+.inline-flex {
+  display: inline-flex;
+}
 
 .fill-height {
   height: 100%;
@@ -153,6 +156,9 @@ p,h1 {
 }
 .position-rel {
   position: relative;
+}
+.position-abs {
+  position: absolute;
 }
 
 /**************************
