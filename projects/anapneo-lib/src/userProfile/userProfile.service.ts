@@ -13,6 +13,7 @@ export class UserProfileService {
     this.getCoordinates();
   }
 
+  // TODO - Use JWT & set in 'HttpOnly' cookie
   getAuthToken(): string {
     return this.userProfile[ 'authToken' ];
   }
