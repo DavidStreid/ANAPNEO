@@ -17,10 +17,11 @@ export class CheckInsViewerComponent{
   public profileImg: String
 
   ngOnChanges(changes: SimpleChanges) {
-    this.name     = this.advocate[ 'name' ]     || 'INVALID_NAME';
-    this.type     = this.advocate[ 'type' ]     || 'INVALID_TYPE';
-    this.address  = this.advocate[ 'address' ]  || {};
-    this.services = this.advocate[ 'services' ] || '';
+    this.name     = this.advocate[ 'name' ]         || 'INVALID_NAME';
+    this.type     = this.advocate[ 'type' ]         || 'INVALID_TYPE';
+    this.address  = this.advocate[ 'address' ]      || {};
+    const serviceMap = this.advocate[ 'services' ]  || {};
+    this.services = Object.keys(serviceMap);
   }
 
   constructor(){
