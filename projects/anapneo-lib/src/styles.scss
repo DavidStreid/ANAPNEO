@@ -146,22 +146,16 @@ p,h1 {
   font-style: italic;
 }
 
-.blue-header-container {
-  position: relative;
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  background-color: #29648A;
-  padding: 20px;
-  border-radius: 15px;
-}
-
 .float-right {
   float: right
 }
 
 .float-left {
   float: left;
+}
+
+.blue-background {
+  background-color: #29648A;
 }
 
 /* TOOD - Find better way, block doesn't work */
@@ -319,4 +313,15 @@ p,h1 {
 }
 .myButton:hover {
   background-color: #1a7dff;
+}
+
+/* Styling for the main container - what user will focus on when they click a tab */
+.content-container{
+  position: relative;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: #29648A;
+  padding: 20px;
+  border-radius: 15px;
 }
