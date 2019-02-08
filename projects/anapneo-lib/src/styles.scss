@@ -13,6 +13,10 @@ p,h1 {
   text-align: right;
 }
 
+.vert-align-top {
+  vertical-align: top;
+}
+
 .padding-vertical-sm {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -33,9 +37,22 @@ p,h1 {
   padding-bottom: 10px;
 }
 
+.padding-left-10 {
+  padding-left: 10px;
+}
+
 .padding-hor-10 {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.padding-hor-md {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.padding-top-sm {
+  padding-top: 5px;
 }
 
 .padding-top-md {
@@ -58,6 +75,11 @@ p,h1 {
   padding-bottom: 10px;
 }
 
+.margin-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .no-margin-left {
   margin-left: 0px !important;
 }
@@ -66,12 +88,24 @@ p,h1 {
   margin-left: 20px;
 }
 
+.margin-right-md {
+  margin-right: 20px;
+}
+
 .margin-top-md {
   margin-top: 20px;
 }
-
+/* TODO: This should be margin-top-10 */
 .margin-top-sm {
   margin-top: 10px;
+}
+
+.margin-bottom-sm {
+  margin-bottom: 5px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
 }
 
 .margin-bottom-md {
@@ -80,11 +114,6 @@ p,h1 {
 
 .margin-bottom-none {
   margin-bottom: 0px;
-}
-
-.padding-hor-md {
-  padding-left: 20px;
-  padding-right: 20px;
 }
 
 .white-border-bottom {
@@ -102,9 +131,19 @@ p,h1 {
 .font-size-22 {
   font-size: 22px;
 }
-
+.font-size-100{
+  font-size: 100px;
+}
 .font-white {
   color: white;
+}
+
+.font-gray {
+  color: #8c8c8c;
+}
+
+.italicize {
+  font-style: italic;
 }
 
 .blue-header-container {
@@ -147,12 +186,20 @@ p,h1 {
 .fill-height {
   height: 100%;
 }
-
+.heightPer-80 {
+  height: 80%;
+}
+.heightPer-20 {
+  height: 20%;
+}
 .fill-width {
   width: 100%;
 }
 .width-100 {
   width: 100px;
+}
+.widthPer-20 {
+  width: 20%;
 }
 .position-rel {
   position: relative;
@@ -174,6 +221,23 @@ p,h1 {
   outline: 0;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
+.gray-border-right-input {
+  border-color: #d9d9d9;
+  border-left: 0px;
+  border-right: 2px solid #d9d9d9;
+  border-top: 0px;
+  outline: 0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.gray-border-right-input::-webkit-input-placeholder, gray-borderless-input::-webkit-input-placeholder {
+  font-size: 14px;
+  font-weight: normal;
+  text-align: left;
+  opacity: 0.5;
+}
+
 /* This is for vertically centering on all browsers
 
     <div class="outer">
@@ -202,6 +266,23 @@ p,h1 {
   margin-left: auto;
   margin-right: auto;
 }
+.blue-border-bottom{
+  border-bottom: 3px #29648A solid;
+}
+
+
+/*
+    Vertical align text in div
+      REF - https://stackoverflow.com/questions/2939914/how-do-i-vertically-align-text-in-a-div
+*/
+.vert-text-parent{        /* Apply to parent div */
+  display: table;
+  text-align: center;
+}
+.vert-text-child {        /* Apply to child p */
+  display: table-cell;
+  vertical-align: middle;
+}
 
 /*
     Centers img in a div. Requires a width
@@ -209,4 +290,33 @@ p,h1 {
 .center-img {
     margin: auto;
     display: block;
+}
+
+
+/* Set Radius, height, width, and padding */
+.myButton{
+  text-align:center;
+  border-style: solid;
+  border-color: #cce2ff;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #039be5;
+  text-align: center;
+  cursor: pointer;
+}
+.myButton:focus {
+   outline: 0;
+}
+.myButton p {
+  font-family: Futura;
+  position: relative;
+  text-align: center;
+  margin: 0px 2px;
+  color: #039be5;
+}
+.myButton:hover p{
+	color: #ffffff;
+}
+.myButton:hover {
+  background-color: #1a7dff;
 }

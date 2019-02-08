@@ -1,25 +1,86 @@
-<div class="appointment-container position-rel">
+<div class="margin-bottom-10 position-rel" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
   <div class="appointment-date">
     <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
   </div>
-  <div class="appointment-details fill-height position-abs" [ngClass]="{ 'checkedIn': appointment['checkedIn'] }">
-    <div class="inline-block fill-width" [ngClass]="{ 'width-80-important': !appointment['checkedIn'] }">
-      <div class="block padding-hor-10 padding-top-10">
-        <p class="font-size-22 text-right margin-bottom-none">{{type}}</p>
+  <div class="appointment-details fill-height display-block position-abs"
+       [@variableHeight]="showForm || promptSubmit ? 'form-height' : 'no-style'"
+       [ngClass]="{ 'checkedIn': appointment['checkedIn'] }">
+    <!--   __________________________
+          |                 |        |
+          |   MAIN BODY     | TOGGLE |
+          |_________________|________|
+    -->
+    <!-- MAIN BODY -->
+    <div class="inline-block fill-height"
+         [@variableWidth]="(!showForm && appointment['checkedIn']) ? 'width-100' : 'width-80'">
+      <!-- APPOINTMENT DETAILS -->
+      <div class="fill-width"
+           [@variableHeight]="promptSubmit ? 'display-none' : 'no-style'">
+        <div class="block padding-hor-10 padding-top-10">
+          <p class="font-size-22 text-right margin-bottom-none">{{type}}</p>
+        </div>
+        <div class="block padding-hor-10 padding-top-5">
+          <p class="font-size-14 margin-bottom-none">Advocate: {{contact}}</p>
+        </div>
+        <div class="block padding-hor-10 padding-top-5" *ngFor="let checkIn of checkInData | keyvalue">
+          <p class="font-size-14 margin-bottom-none">{{checkIn.key}}: {{checkIn.value}}</p>
+        </div>
       </div>
-      <div class="block padding-hor-10 padding-top-5">
-        <p class="font-size-14 margin-bottom-none">Advocate: {{contact}}</p>
-      </div>
-      <div class="block padding-hor-10 padding-top-5" *ngFor="let checkIn of checkInData | keyvalue">
-        <p class="font-size-14 margin-bottom-none">{{checkIn.key}}: {{checkIn.value}}</p>
+      <!-- CHECK-IN-FORM -->
+      <form class="login-form padding-top-sm padding-left-10" [formGroup]="checkInForm"
+            [hidden]="!showForm" (ngSubmit)="onSubmit()">
+        <div class="vert-align-top inline-block">
+          <div class="fill-width margin-bottom-10 block">
+            <p class="font-gray font-size-14 margin-bottom-none">Enter Data for <span class="italicize">{{currType}}</span></p>
+          </div>
+          <div class="fill-width block">
+            <div *ngFor="let field of services[currType]">
+              <input class="gray-border-right-input fill-height float-right inline-block margin-right-md width-100 margin-bottom-sm" type="text"
+                     [placeholder]="field"
+                     [formControlName]="field">
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- SUBMIT CHECK-IN -->
+      <div class="fill-width fill-height margin-auto vert-text-parent"  [hidden]="!promptSubmit" (click)="submitForm()">
+        <div class="vert-text-child margin-auto fill-width">
+          <div>
+            <p class="font-size-100 margin-bottom-none"><i class="fa fa-check"></i></p>
+          </div>
+          <div class="margin-auto">
+            <p class="font-size-22">Submit</p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="check-in inline-flex fill-height position-abs"
-         (click)="checkIn()"
-         (mouseenter) ="mouseEnter('check-in')"  (mouseleave) ="mouseLeave('check-in')"
-         [@variableWidth]="checkExpand ? '30' : '20'"
+
+    <!-- TOGGLE -->
+    <div class="check-in inline-flex fill-height position-abs widthPer-20 vert-align-top"
          [hidden]="appointment['checkedIn']">
-      <p><i class="fa fa-check"></i></p>
+
+      <!-- SHOW FORM -->
+      <div class="vert-text-parent fill-height fill-width" (click)="checkIn()" [hidden]="showForm || promptSubmit">
+        <p class="check-in-icon vert-text-child" ><i class="fa fa-check"></i></p>
+      </div>
+
+      <!-- FORM OPTIONS -->
+      <div class="fill-height fill-width" [hidden]="!showForm && !promptSubmit">
+        <div class="vert-text-parent fill-width heightPer-20 blue-border-bottom" (click)="closeForm()">
+          <p class="font-size-22 vert-text-child"><i class="fa fa-close" aria-hidden="true"></i></p>
+        </div>
+        <div class="vert-text-parent fill-width heightPer-80">
+          <div class="nav-buttons fill-width vert-text-parent" (click)="goForward()"
+               [@variableHeight]="currType ? 'height-100' : 'display-none'">
+            <p class="check-in-icon vert-text-child"><i class="fa fa-angle-right"></i></p>
+          </div>
+
+          <div class="nav-buttons fill-width vert-text-parent" (click)="checkIn()"
+               [@variableHeight]="!currType ? 'height-100' : 'display-none'">
+            <p class="check-in-icon vert-text-child"><i class="fa fa-angle-left"></i></p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

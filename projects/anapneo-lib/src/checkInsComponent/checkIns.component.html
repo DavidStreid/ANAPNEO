@@ -1,12 +1,12 @@
 <div>
   <div *ngFor="let checkIn of checkIns">
     <div class="margin-bottom-md">
-      <check-ins-viewer [advocate]="checkIn.advocate"></check-ins-viewer>
+      <check-ins-viewer [advocate]="checkIn['advocate']"></check-ins-viewer>
     </div>
-    <div class="appointment-tracker-container">
-      <div *ngFor="let appt of checkIn.appointments">
-        <appointment-details [appointment]="appt"></appointment-details>
-      </div>
+    <div *ngFor="let appt of checkIn.appointments">
+      <appointment-details  [appointment]="appt"
+                            [services]="parseServices(checkIn['advocate'])"
+                            [advocate]="checkIn['advocate']"></appointment-details>
     </div>
   </div>
 </div>

@@ -24,6 +24,11 @@ module.exports = function(app) {
     app.route('/checkIns')
         .get(companion.getCheckIns);
 
+    app.route('/updateCheckIn')
+        .options(companion.updateCheckInOptions);
+    app.route('/updateCheckIn')
+        .post(companion.updateCheckIn);
+
     app.route('/prescriptions')
         .get(companion.getPrescriptions);
 

@@ -18,18 +18,36 @@ exports.getAdvocateModel = function() {
 }
 
 /**
- * Adds Mock Advocates
+ * Returns the id for the advocate given its name
+ *
+ * @name, String - Advocate name
+ * @return, Schema.Types.ObjectId - Id of the advocate
  */
-exports.addAdvocates = function(){
+exports.getAdvocateIdFromName = function(name) {
+  logger.debug('vendorAccess::getAdvocateFromName');
+  return advocateModel.findOne({ name }).then((advocateDoc) => {
+    if( advocateDoc == null ){
+      logger.log(`Advocate '${name}' was NOT FOUND`);
+      return;
+    }
+    logger.log(`Advocate '${name}' was FOUND`);
+    return advocateDoc._id;
+  });
+}
+
+/**
+ * Adds Mock Advocates
+ *
+ * @name, String - Advocate name
+ */
+exports.addAdvocates = function(name){
   logger.debug('vendorAccess::addAdvocates');
 
   var address = createAddress('775 Nostrand Ave', 'Brooklyn', 'NY', 11216);
-  var advocateDoc = createAdvocateDoc('Suite V Brooklyn', 'barber', address, [ 'Hypertension Screening' ]);
+  var services = { 'Blood Pressure': [ 'diastolic', 'systolic' ] }
+  var advocateDoc = createAdvocateDoc(name, 'barber', address, services );
 
-  // Save images to db
-  return advocateDoc.save().then( (advocate) => {
-    logger.debug(`Saved ${advocate['name']} to advocates collection`);
-  })
+  return advocateDoc.save();
 }
 
 /**
@@ -86,6 +104,15 @@ function createAdvocateModel(){
     });
     const advocateModel = mongoose.model('advocate', advocateData);
     return advocateModel;
+}
+
+/**
+ * Removes all documents from the advocates collection
+ */
+exports.removeAdvocates = function() {
+    logger.debug("vendorAccess::removeAdvocates");
+    const vendorModel = mongoose.model('advocate')
+    return vendorModel.deleteMany();
 }
 
 exports.removeImages = function() {

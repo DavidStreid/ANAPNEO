@@ -22,19 +22,20 @@ exports.getUserModel = function() {
 exports.getHealth = function(token) {
   logger.debug('userAccess::getHealth');
 
-  return findUser(token).then((user) => {
-    if( user != null ){
-      var healthProfile = user['healthProfile'] || {};
-      var checkInsByVendor = user['checkIns'] || {};
-      var res = { healthProfile, checkIns: getCheckInByType(checkInsByVendor) };
+  return findUser(token, 'checkIns')
+    .then((user) => {
+      if( user != null ){
+        var healthProfile = user['healthProfile'] || {};
+        var checkIns      = user['checkIns'] || [];
+        var res           = { healthProfile, checkIns: checkIns };
 
-      logger.log( `Retrieved health data for ${getUserString(user)}: ${JSON.stringify(res)}` );
-      return res;
-    } else {
-      logger.log( `No user found for token ${token}` );
-      return { healthProfile: [], checkIns: {} };
-    }
-  });
+        logger.log( `Retrieved health data for ${getUserString(user)}: ${JSON.stringify(res)}` );
+        return res;
+      } else {
+        logger.log( `No user found for token ${token}` );
+        return { healthProfile: [], checkIns: [] };
+      }
+    });
 }
 
 /**
@@ -96,21 +97,64 @@ exports.getCheckIns = function(token) {
       logger.log( `Retrieved user checkIns for ${getUserString(user)} - CheckIns: ${JSON.stringify(checkIns)}` );
       return { checkIns };
     } else {
-      return { checkIns: [] };
       logger.log( `No user found for token ${token}` );
+      return { checkIns: [] };
     }
   });
 }
 
+/**
+ * Returns the userId for the user of a unique token
+ *
+ * @return - Schema.Types.ObjectId
+ */
+exports.getUserIdFromToken = function(token) {
+  logger.debug('userAccess::getUserIdFromToken');
+  return findUser(token).then( (userDoc, err) => {
+    if( err ) {
+      logger.log('No id found for invalid token');
+      throw( err);
+    }
+    logger.log(`UserDoc id: ${userDoc._id} was retrieved from token ${token}`);
+    return userDoc._id;
+  });
+}
+
+
+/**
+ * This method uses a uniquely identifying token to return the user doc
+ *
+ * @token - Token used for identification
+ * @populateFields - String of fields to populate
+ */
+function findUser(token, populateFields = ''){
+  logger.debug('userAccess::findUser');
+
+  return userModel
+    .findOne({ token })
+    .populate(populateFields)
+    .then((userDoc) => {
+      if( userDoc == null ){
+        status = `User profile with token ${token} was not found`;
+        logger.log(status);
+        return null;
+      }
+      if(isLoginExpired(userDoc)){
+        status = `User profile with token ${token} has expired`;
+        logger.log(status);
+        return null;
+      }
+      status = `User profile with token ${token} is valid`;
+      logger.log(status);
+      return userDoc;
+    });
+}
+exports.findUser = findUser;
+
 exports.removeUsers = function() {
   logger.debug('userAccess::removeUsers');
-
   const userModel = mongoose.model('user')
-
-  userModel.deleteMany(function (err) {
-    if (err) throw err;
-  });
-  console.error('Removed users from user collection');
+  return userModel.deleteMany();
 }
 
 var addUser = function(name, password, type) {
@@ -123,12 +167,15 @@ var addUser = function(name, password, type) {
      logger.log('saved ' + userDoc.name + ' to users collection');
   });
 }
-
 exports.addUser = addUser;
 
 /**
  * Saves a temporary token to the user profile. All requests for sensitive data
  * will require this token
+ *
+ * @name, String - User name
+ * @password, String - Password for user's account
+ * @token, String - token for session
  */
 function saveUserToken(name, password, token){
   logger.debug('userAccess::saveUserToken');
@@ -226,27 +273,6 @@ function isValidSession( token ){
 }
 
 /**
- * This method uses a uniquely identifying token to return the user doc
- */
-function findUser(token){
-  return userModel.findOne({ token }).populate('checkIns.advocate ').then((userDoc) => {
-    if( userDoc == null ){
-      status = `User profile with token ${token} was not found`;
-      logger.log(status);
-      return null;
-    }
-    if(isLoginExpired(userDoc)){
-      status = `User profile with token ${token} has expired`;
-      logger.log(status);
-      return null;
-    }
-    status = `User profile with token ${token} is valid`;
-    logger.log(status);
-    return userDoc;
-  });
-}
-
-/**
  * This function determines if a userDoc has a non-expired login time
  */
 function isLoginExpired(userDoc) {
@@ -275,11 +301,7 @@ function getUserString(userDoc) {
 exports.removeUsers = function() {
     logger.log("userAccess::removeUsers");
     const userModel = mongoose.model('user')
-
-    userModel.deleteMany(function (err) {
-        if (err) throw err;
-    });
-    console.error('Removed users from user collection');
+    return userModel.deleteMany();
 }
 
 /**
@@ -288,19 +310,14 @@ exports.removeUsers = function() {
 function getUserModel(){
     // Model of users
     const userData = new Schema({
-        _id: Schema.Types.ObjectId,
+        _id: { type: Schema.ObjectId, auto: true },
         name: String,
         password: String,
         role: String,
         token: String,      // This token is used to provide access to the application and will be sent with each request
         loginTS: Date,      // This tracks the login time of a user
         healthProfile: Object,
-        checkIns: [
-          {
-            advocate: { type: Schema.Types.ObjectId, ref: 'advocate' },
-            appointments: Array
-          }
-        ]
+        checkIns: [ { type: Schema.Types.ObjectId, ref: 'checkIn' } ]
     });
     const userModel = mongoose.model('user', userData);
 
@@ -310,78 +327,27 @@ function getUserModel(){
 /**
  * Adds Mock Users to mongodb
  */
-exports.addMockUser = function() {
+exports.addMockUser = function(name) {
   // TODO - Add constants
   logger.debug('userAccess::addMockUser');
   var checkIns = [];
-
-  const mockVendorName = 'Suite V Brooklyn';
-  var advocateModel = vendor.getAdvocateModel();
-
-  advocateModel.findOne({ name: mockVendorName }).then((advocateDoc) => {
-    if(advocateDoc == null){
-      logger.log( `saved (checkIns): ${mockVendorName} did not exist`);
-      return;
-    } else {
-      logger.debug( `saved (checkIns): ${mockVendorName} found in advocates collection`);
-      checkIns.push(
-        {
-          advocate: advocateDoc._id,
-          appointments: [
-            {
-              contact: 'David Streid',
-              type: 'Haircut',
-              date: {
-                day: 24,
-                month: 12,
-                year: 2018
-              },
-              checkedIn: true,
-              checkInData: [ {
-                type: 'Blood Pressure',
-                data: {
-                  'systolic': 120,
-                  'diastolic': 80
-                }
-              } ]
-            },
-            {
-              contact: 'David Streid',
-              type: 'Haircut',
-              date: {
-                day: 30,
-                month: 1,
-                year: 2019
-              },
-              checkedIn: false
-            }
-          ]
-        }
-      );
-    }
-  }).then( () => {
-    var healthProfile = {
-      prescriptions: {
-        'MultiVitamin': {
-          qty: 1,
-          frequency: 'daily'
-        },
-        'Diuretics': {
-          qty: 1,
-          frequency: 'daily'
-        }
+  var healthProfile = {
+    prescriptions: {
+      'MultiVitamin': {
+        qty: 1,
+        frequency: 'daily'
       },
-      doctors: {
-        primary: 'Eric Toig'
+      'Diuretics': {
+        qty: 1,
+        frequency: 'daily'
       }
+    },
+    doctors: {
+      primary: 'Eric Toig'
     }
-
-    var userDoc = createUserDoc('DavidStreid', 'test', 'patient', checkIns, healthProfile);
-    userDoc.save(function (err) {
-       if (err) return logger.log(err);
-       logger.log('saved ' + userDoc.name + ' to users collection');
-    });
-  });
+  }
+  var userDoc = createUserDoc(name, 'test', 'patient', checkIns, healthProfile);
+  return userDoc.save();
 }
 
 /**
@@ -389,7 +355,6 @@ exports.addMockUser = function() {
  */
 function createUserDoc(name, password, role, checkIns, healthProfile) {
   var userDoc = new userModel({
-    _id: new mongoose.Types.ObjectId(),
     name, password, role, checkIns, healthProfile
   });
 

@@ -24,4 +24,16 @@ export class CheckInsComponent {
       complete: ()        => { }
     });
   }
+
+  /*
+   * Used by template to extract service data
+   */
+  public parseServices(advocate: Object) {
+    if(! advocate){
+      console.log('ERROR: Null advocate field in template parsing');
+      return {};
+    }
+    const services = advocate[ 'services' ] || {};
+    return services;
+  }
 }

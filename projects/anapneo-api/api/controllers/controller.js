@@ -8,6 +8,7 @@ var logger = require('../../utils/logger');
 // DB APIs
 var usersAccess   = require('../../mongo/users/usersAccess');
 var vendorAccess  = require('../../mongo/vendor/vendorAccess');
+var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
 
 var http   = require('../../resources/constants/http');
 var logging_enabled = true;
@@ -30,17 +31,42 @@ exports.getCheckIns = function(req,res){
   logger.log('controller::getCheckIns');
 
   const token = req.query.token || null;
-
-  usersAccess.getCheckIns(token).then(result => {
-    if( result == null || result == undefined ){
-      logger.log( `No CheckIns for found for user with token ${token}` );
+  checkInsAccess.getUserCheckIns(token).then( checkIns => {
+    if( checkIns == null || checkIns.length == 0 ) {
+      logger.log( `No CheckIns found for user with token ${token}` );
       res.send( { checkIns: [] });
       return;
     }
-
-    var checkIns = result[ 'checkIns' ] || [];
     res.send({ checkIns });
   })
+}
+
+exports.updateCheckInOptions = function(req,res){
+  logger.debug( 'PRE-FLIGHT REQUEST - updateCheckIn' );
+
+  setCORSHeaders(res, allowedOrigins, ['POST']);
+  console.log(http.responses.get(200));
+  res.sendStatus(200);
+}
+
+exports.updateCheckIn = function(req, res){
+  logger.debug('controller::updateCheckIn');
+
+  setCORSHeaders(res, allowedOrigins, ['GET'])
+  const checkIn       = req.body.checkIn || {};
+  const token         = req.body.token;
+  const advocateName  = req.body.advocate;
+
+  return usersAccess.getUserIdFromToken(token)
+    .then(  (userId) => {
+      return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
+        checkInsAccess.updateCheckIn(checkIn, userId, advocateId).then(function (status) {
+                                                                  res.send({status});
+                                                                });
+      })
+    .catch( (err) => {
+      logger.log(err); res.send({ status: err} ) } );
+    });
 }
 
 exports.getVendors = function(req,res){

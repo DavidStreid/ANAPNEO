@@ -45,20 +45,39 @@ export class MyHealthComponent{
   }
 
   /**
-  * Assigns checkIn member variable based on checkInData of service response
+  * Formats service response into a map of checkIns
+  *
+  * @checkInList - [ {
+  *                     checkInData: [ { data: {}, type: '' } ],
+  *                     checkedIn: boolean, date: {}
+  *                   }, ... ]
+  * @return - { checkInType: [ { date: '', data: '' } ] }
   */
-  assignCheckInData(checkInData: Object) {
-    Object.keys(checkInData).forEach( (type) => {
-      let checkInsForType = checkInData[ type ] || [];
+  assignCheckInData(checkInList: Object[]) {
+    const checkInMap: Object = {};
 
-      checkInsForType.forEach( (checkIn) => {
-        let checkInEntry = checkIn['data'] || {};
-        let checkInDate = checkIn['date'] || {};
-        checkIn.data = this.formatCheckInEntryByType( type, checkIn.data  );
-        checkIn.date = `${checkInDate['month']}-${checkInDate['day']}-${checkInDate['year']}`;
-      });
+    checkInList.forEach( (checkIn) => {
+      // Only take data from checkins that have been registered
+      const checkedIn   = checkIn[ 'checkedIn' ] || false;
+      if( checkedIn ){
+        const checkInData = checkIn[ 'checkInData' ] || [];
+        checkInData.forEach( (entry) => {
+          let type = entry[ 'type' ] || 'INVALID_KEY';
+
+          let data          = this.formatCheckInEntryByType( type, entry[ 'data' ] );
+          const checkInDate = checkIn[ 'date' ] || {};
+          const date        = `${checkInDate['month']}-${checkInDate['day']}-${checkInDate['year']}`;
+
+          let formattedCheckIn = { date, data }
+          if( type in checkInMap ) {
+            checkInMap[ type ].push( formattedCheckIn );
+          } else {
+            checkInMap[ type ] = [ formattedCheckIn ]
+          }
+        });
+      }
     });
 
-    this.checkIns = checkInData;
+    this.checkIns = checkInMap;
   }
 }
