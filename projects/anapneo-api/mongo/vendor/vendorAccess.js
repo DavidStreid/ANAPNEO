@@ -61,7 +61,6 @@ function createAddress(street, city, state, zipCode){
  */
 function createAdvocateDoc(name, type, address, services){
   var advocateDoc = new advocateModel({
-    _id: new mongoose.Types.ObjectId(),
     name, type, address, services
   });
 
@@ -79,11 +78,11 @@ function createAdvocateDoc(name, type, address, services){
  */
 function createAdvocateModel(){
     const advocateData = new Schema({
-        _id: Schema.Types.ObjectId,
+        _id: { type: Schema.ObjectId, auto: true },
         name: String,
         type: String,
         address: Object,
-        services: Array
+        services: Object
     });
     const advocateModel = mongoose.model('advocate', advocateData);
     return advocateModel;
