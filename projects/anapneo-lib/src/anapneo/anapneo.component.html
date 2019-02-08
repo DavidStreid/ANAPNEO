@@ -2,7 +2,7 @@
   <div id="header">
     <header></header>
   </div>
-  <div id="body" class="no-margin-left">
+  <div id="body">
     <div *ngIf="!validLogin">
       <user-login (isLoggedIn)="isLoggedIn($event)" ></user-login>
     </div>

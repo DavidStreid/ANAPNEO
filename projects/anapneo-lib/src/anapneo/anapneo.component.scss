@@ -27,7 +27,6 @@
 .sidebar-view {
   width: 100vw;
   display: inline-block;
-  margin-left: 10vw;
   margin-right: 10vw;
 }
 
@@ -36,7 +35,6 @@
   .sidebar-view {
     width: 40%;
     height: 100%;
-    margin-left: 5%;
     margin-right: 2%;
     float: left;
   }
@@ -50,7 +48,6 @@
 @media (min-width: 900px) {
    .sidebar-view {
      width: 25%;
-     margin-left: 5%;
      margin-right: 5%;
    }
    .main-view {
@@ -61,15 +58,26 @@
  @media (min-width: 1250px) {
    .sidebar-view {
      width: 300px;
-     margin-left: 30px;
      margin-right: 30px;
    }
+   /* Start centering the main-view */
    .main-view {
-     width: 800px;
+     width: 825px;
+     margin: auto;
+     display: block;
    }
    #body {
-     width: 1200px;
-     margin: auto;
+     width: 100vw;
    }
  }
 
+/* Just keep expanding width */
+ @media (min-width: 1450px) {
+    .sidebar-view {
+      width: 25%;
+      margin-right: 5%;
+    }
+    .main-view {
+      width: 60%;
+    }
+ }
