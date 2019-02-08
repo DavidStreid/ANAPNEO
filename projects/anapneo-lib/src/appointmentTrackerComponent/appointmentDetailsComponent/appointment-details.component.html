@@ -1,8 +1,8 @@
-<div class="margin-bottom-10 position-rel" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
+<div class="margin-bottom-10 position-rel display-block clear-both" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
   <div class="appointment-date">
     <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
   </div>
-  <div class="appointment-details fill-height display-block position-abs"
+  <div class="appointment-details fill-height"
        [@variableHeight]="showForm || promptSubmit ? 'form-height' : 'no-style'"
        [ngClass]="{ 'checkedIn': appointment['checkedIn'] }">
     <!--   __________________________

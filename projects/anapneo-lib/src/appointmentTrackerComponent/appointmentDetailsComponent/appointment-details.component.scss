@@ -7,16 +7,19 @@
 .appointment-date {
   height: 100px;
   width: 30%;
-  display: inline-block;
+  float: left;
   position: relative;
 }
 
 .appointment-details{
-  width: 65%;
+  width: 60%;
   border: solid 2px #29648A;
   border-radius: 5px;
-  margin: 5px 10px;
-  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5%;
+  margin-right: 5%;
+  float: right;
   vertical-align: top;
 }
 
@@ -49,4 +52,15 @@
 
 .checkedIn {
   background-color: #e6e6e6;
+}
+
+/* Make appointment-details epxand while the date remains the same width - appears centered */
+@media (min-width: 1400px) {
+  .appointment-date {
+    width: 150px;
+    margin: 5px 10px;
+  }
+  .appointment-details {
+    width: 65%;
+  }
 }
