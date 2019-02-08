@@ -1,10 +1,10 @@
 .app-button{
   text-align:center;
   border-style: solid;
-  border-color: #cce2ff;
+  border-color: #c2cbd1;
   border-radius: 7px;
   background-color: #ffffff;
-  color: #039be5;
+  color: #d9d9d9;
   text-align: center;
   cursor: pointer;
 }
@@ -18,7 +18,7 @@
   position: relative;
   text-align: center;
   margin: 0px 2px;
-  color: #039be5;
+  color: #8c8c8c;
 }
 
 .app-button:hover p{
@@ -26,5 +26,5 @@
 }
 
 .app-button:hover {
-  background-color: #1a7dff;
+  background-color: #29648a;
 }
