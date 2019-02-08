@@ -290,35 +290,6 @@ p,h1 {
     display: block;
 }
 
-
-/* Set Radius, height, width, and padding */
-.myButton{
-  text-align:center;
-  border-style: solid;
-  border-color: #cce2ff;
-  border-radius: 7px;
-  background-color: #ffffff;
-  color: #039be5;
-  text-align: center;
-  cursor: pointer;
-}
-.myButton:focus {
-   outline: 0;
-}
-.myButton p {
-  font-family: Futura;
-  position: relative;
-  text-align: center;
-  margin: 0px 2px;
-  color: #039be5;
-}
-.myButton:hover p{
-	color: #ffffff;
-}
-.myButton:hover {
-  background-color: #1a7dff;
-}
-
 /* Styling for the main container - what user will focus on when they click a tab */
 .info-container{
   position: relative;
