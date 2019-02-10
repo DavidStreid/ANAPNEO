@@ -1,6 +1,10 @@
 <div class="appointment-container margin-bottom-10 position-rel display-block clear-both" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
-  <div class="appointment-date">
-    <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
+  <div class="appointment-date fill-height">
+    <div class="vert-text-parent fill-height fill-width">
+      <div class="vert-text-child">
+        <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
+      </div>
+    </div>
   </div>
   <div class="appointment-details fill-height"
        [@variableHeight]="showForm || promptSubmit ? 'form-height' : 'no-style'"
