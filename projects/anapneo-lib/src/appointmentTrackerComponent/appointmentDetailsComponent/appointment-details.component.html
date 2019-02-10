@@ -29,13 +29,13 @@
       <!-- CHECK-IN-FORM -->
       <form class="login-form padding-top-sm padding-left-10" [formGroup]="checkInForm"
             [hidden]="!showForm">
-        <div class="vert-align-top inline-block">
+        <div class="vert-align-top inline-block fill-width">
           <div class="fill-width margin-bottom-10 block">
             <p class="font-gray font-size-14 margin-bottom-none">Enter Data for <span class="italicize">{{currType}}</span></p>
           </div>
           <div class="fill-width block">
-            <div *ngFor="let field of services[currType]">
-              <input class="gray-border-right-input fill-height float-right inline-block margin-right-md width-100 margin-bottom-sm" type="text"
+            <div class="width-100 margin-auto" *ngFor="let field of services[currType]">
+              <input class="gray-border-right-input fill-width fill-height inline-block" type="text"
                      [placeholder]="field"
                      [formControlName]="field">
             </div>
