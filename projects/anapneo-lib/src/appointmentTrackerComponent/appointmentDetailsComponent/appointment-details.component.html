@@ -1,4 +1,4 @@
-<div class="margin-bottom-10 position-rel display-block clear-both" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
+<div class="appointment-container margin-bottom-10 position-rel display-block clear-both" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
   <div class="appointment-date">
     <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
   </div>
@@ -56,7 +56,7 @@
     </div>
 
     <!-- TOGGLE -->
-    <div class="check-in inline-flex fill-height position-abs widthPer-20 vert-align-top"
+    <div class="check-in inline-flex fill-height vert-align-top"
          [hidden]="appointment['checkedIn']">
 
       <!-- SHOW FORM -->

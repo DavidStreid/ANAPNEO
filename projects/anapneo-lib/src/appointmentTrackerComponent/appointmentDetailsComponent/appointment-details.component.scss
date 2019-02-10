@@ -1,7 +1,7 @@
 @import "../../styles";
 
 .appointment-container{
-  margin-bottom: 10px;
+  height: 140px;      /* This will be reset when the div is expanded */
 }
 
 .appointment-date {
@@ -12,6 +12,7 @@
 }
 
 .appointment-details{
+  height: 100%;
   width: 60%;
   border: solid 2px #29648A;
   border-radius: 5px;
