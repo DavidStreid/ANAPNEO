@@ -1,1 +1,11 @@
 @import "../styles";
+@import "../assets/styles/app-button";
+
+.add-checkIn-button {
+  width: 120px;
+  border-radius: 60px;
+}
+
+.add-checkIn-button p {
+  color: #29648a;
+}
