@@ -41,6 +41,35 @@ exports.getCheckIns = function(req,res){
   })
 }
 
+exports.submitPendingOptions = function(req,res){
+  logger.debug( 'PRE-FLIGHT REQUEST - submitPending' );
+
+  setCORSHeaders(res, allowedOrigins, ['POST']);
+  console.log(http.responses.get(200));
+  res.sendStatus(200);
+}
+
+exports.submitPending = function(req,res){
+  logger.debug('controller::submitPending');
+  setCORSHeaders(res, allowedOrigins, ['POST'])
+
+  const checkIn       = req.body.checkIn || {};
+  const token         = req.body.token;
+  const advocateName  = req.body.advocateName;
+
+  return usersAccess.getUserIdFromToken(token)
+    .then(  (userId) => {
+      return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
+        checkInsAccess.addPendingCheckIn(checkIn, userId, advocateId).then(function (status) {
+                                                                  logger.debug(`Status: ${status}`);
+                                                                  res.send({ status });
+                                                                });
+      })
+    .catch( (err) => {
+      logger.log(err); res.send({ status: err} ) } );
+    });
+}
+
 exports.updateCheckInOptions = function(req,res){
   logger.debug( 'PRE-FLIGHT REQUEST - updateCheckIn' );
 

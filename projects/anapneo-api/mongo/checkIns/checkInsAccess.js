@@ -193,31 +193,52 @@ exports.updateCheckIn = function(checkInUpdate, userId, advocateId) {
   })
 }
 
+exports.addPendingCheckIn = addPendingCheckIn;
+function addPendingCheckIn(checkInObject, userId, advocateId){
+  logger.debug('checkInsAccess::addPendingCheckIn');
+
+  // TODO - type checking
+  var name        = checkInObject[ 'contact' ] || '';
+  var type        = checkInObject[ 'type' ] || '';
+  var dateObj = new Date(checkInObject['date']);
+  // TODO - save date object instead of this created object
+  var date        = { day: dateObj.getDate(), month: dateObj.getMonth() + 1, year: dateObj.getFullYear() };
+
+  var checkedIn   = false;
+  var checkInData = [];
+  var checkInDoc = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
+
+  return addCheckIn(checkInDoc);
+}
+
 /**
  * Adds a new checkIn Mongoose doc to collection
  *
  * @checkInDoc, Mongoose Doc
  */
-exports.addCheckIn = addCheckIn;
 function addCheckIn(checkInDoc){
   logger.debug('checkInsAccess::addCheckIn');
 
   // Save checkIn to checkIn collection
-  checkInDoc.save().then(function (update, err) {
+  return checkInDoc.save().then(function (update, err) {
     if (err) {
      logger.log(`CheckInUpdate failed: ${err}`);
-     return;
+     return 'CheckIn add failed';
     }
 
     // Save reference to checkIn in userModel if checkIn has been saved
     logger.log(`Saved checkIn Doc ${checkInDoc._id}. Saving checkIn reference to user...`);
     var userId = checkInDoc.user;
     var userModel = users.getUserModel();
-    userModel.findOne({ _id: userId }).then( (userDoc) => {
+    return userModel.findOne({ _id: userId }).then( (userDoc) => {
       userDoc.checkIns.push(checkInDoc._id);
-      userDoc.save(function (err) {
-        if (err) return logger.log(err);
+      return userDoc.save().then(function (doc, err) {
+        if (err) {
+          logger.log(err);
+          return 'Add Check-In failed';
+        }
         logger.log(`Saved checkIn ${checkInDoc._id} to checkIns for user ${userDoc._id}`);
+        return 'Add Check-In success';
       });
     });
   });
