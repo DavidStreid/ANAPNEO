@@ -1,66 +1,26 @@
 @import "../../styles";
 
-.appointment-container{
-  height: 140px;      /* This will be reset when the div is expanded */
+.date-selector {
+  width: 60px;
+  height: 70px;
+  border-style: solid;
+  border-color: #c2cbd1;
+  border-radius: 7px;
+  padding: 8px;
 }
 
-.appointment-date {
-  width: 30%;
-  float: left;
-  position: relative;
-}
-
-.appointment-details{
-  height: 100%;
-  width: 60%;
-  border: solid 2px #29648A;
-  border-radius: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 5%;
-  margin-right: 5%;
-  float: right;
-  vertical-align: top;
-}
-
-.appt-address{
-  font-size: 12px;
-}
-
-.appt-title {
-  font-size: 20px;
-}
-
-.check-in{
-  width: 20%;
-  vertical-align: top;
-  border-left: 3px #29648A solid;
-  background-color: #edf2f9;
-}
-.check-in:hover {
-  cursor: pointer;
-}
-.check-in-icon {
-  font-size: 30px;
-}
-.go-back-icon {
-  font-size: 40px;
-}
-.nav-buttons {
-  min-height: 50%;
-}
-
-.checkedIn {
-  background-color: #e6e6e6;
-}
-
-/* Make appointment-details epxand while the date remains the same width - appears centered */
-@media (min-width: 1400px) {
-  .appointment-date {
-    width: 150px;
-    margin: 5px 10px;
+@media only screen and (min-width: 800px) {
+  /* Increase size of date selector - placeholder requires this width */
+  .date-selector {
+    width: 125px;
   }
-  .appointment-details {
-    width: 65%;
+  /* This centers the form in a table format */
+  .form-width {
+    margin-right: 15%;
   }
+}
+
+/* This eliminates the focus on the mat-datepicker */
+::ng-deep button:focus {
+  outline: 0px !important;
 }

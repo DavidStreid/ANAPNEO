@@ -1,57 +1,12 @@
-import { Component, Input, OnChanges }                  from '@angular/core';
-import { FormGroup, FormControl }                       from '@angular/forms';
-import { trigger, state, style, animate, transition, }  from '@angular/animations';
+import { Component, Input, Output, EventEmitter, OnChanges }  from '@angular/core';
+import { FormGroup, FormControl }                             from '@angular/forms';
 
 import { CheckInsService } from '../../checkInsComponent/checkIns.service';
 
 @Component({
   selector: 'appointment-details',
   templateUrl: 'appointment-details.component.html',
-  styleUrls: [ 'appointment-details.component.scss' ],
-  animations: [
-    trigger('variableHeight', [
-      state('height-50', style({
-        height: '50%'
-      })),
-      state('height-100', style({
-        height: '100%'
-      })),
-
-      state('form-height', style({
-        height: '200px'
-      })),
-      state('display-none', style({
-        display: 'none',
-      })),
-      state('no-style', style({})),
-      transition('* => form-height', [
-        animate('0.1s')
-      ]),
-      transition('form-height => *', [
-        animate('0.1s')
-      ]),
-    ]),
-    trigger('variableWidth', [
-      state('width-100', style({
-        width: '100%',
-        left: '0%',
-        'border-left': 'none',
-        'background-color': 'white'
-      })),
-      state('width-80', style({
-        width: '80%',
-        left: '0%',
-        'border-left': 'none',
-        'background-color': 'white'
-      })),
-      transition('* => width-100', [
-        animate('0.25s')
-      ]),
-      transition('width-100 => *', [
-        animate('0.1s')
-      ]),
-    ]),
-  ],
+  styleUrls: [ 'appointment-details.component.scss' ]
 })
 
 export class AppointmentDetailsComponent implements OnChanges {
@@ -61,28 +16,53 @@ export class AppointmentDetailsComponent implements OnChanges {
   public services: Object = {};
   @Input()
   public advocate: Object = {};
+  @Output()
+  public update: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public remove: EventEmitter<any> = new EventEmitter();
+
+  public checkInForm: FormGroup = new FormGroup({
+    apptDate: new FormControl('')
+  });
+
+  public state: String;                 // This determines the state of the form - entry, pending, complete
+  public savedFormData: Object = {};    // Saves form data entered
 
   public serviceTypes: string[] = [];
   public currType: string;
-
-  // Trigger for check expand animation
-  public showForm: boolean = true && this.appointment['checkedIn'];
-  public promptSubmit: boolean = false;
 
   public date: object;
   public contact: string;
   public type: string;
   public checkInData: any = {};
 
-  public savedFormData: Object = {};
-  public checkInForm: FormGroup = new FormGroup({});
-
   constructor(private checkInsService: CheckInsService) {}
 
+  // Returns whether date object is entered and needs to be filled in
+  isDateEmpty( date ){
+    if( date[ 'day' ] && date['month'] && date['year'] ){
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Executes dynamic parsing of inputs to generate the state of the appointment and generate checkInData if completed
+   */
   ngOnChanges() {
     this.date = this.appointment['date'] || {};
     this.contact = this.appointment['contact'] || '';
     this.type = this.appointment['type'] || '';
+    const checkedIn = this.appointment[ 'checkedIn' ] || false;
+
+    // Check the appointment to see what state it is in
+    if( this.isDateEmpty(this.date) ){
+      this.state = 'entry';
+    } else if( ! checkedIn ) {
+      this.state = 'pending';
+    } else {
+      this.state = 'completed';
+    }
 
     // Parse out checkInData if present
     const checkInData = this.appointment['checkInData'] || null;
@@ -92,7 +72,31 @@ export class AppointmentDetailsComponent implements OnChanges {
   }
 
   /**
+   * Takes data entered from the entry form and attempts to create a pending check-in. All portions of
+   * the entry form and the date object must be populated in order to submit
+   */
+  performUpdate(update: Object){
+    const contact = update[ 'advocate' ];
+    const type = update[ 'type' ];
+    const date = this.checkInForm.value[ 'apptDate' ] || '';
+    const advocateName: string = this.advocate[ 'name' ];
+
+    if( contact && contact !== '' &&
+        type && contact != '' &&
+        date && date != ''){
+      const pendingCheckIn: Object = { contact, type, date };
+      this.checkInsService.createPendingCheckIn(pendingCheckIn, advocateName).subscribe({
+        next:     (res)     => { this.updateCheckIns(); },     // Update the list of checkIns
+        error:    (err)     => { console.error('SubmitCheckIn Error: ' + err);  },
+        complete: ()        => { }
+      });
+    }
+  }
+
+  /**
    * Parses out each type of check In data into a readable form
+   *    TYPES:
+   *        BloodPressure - Creates systolic & diastolic entries
    */
   assignCheckInData(checkInData: Object[]) {
     for (const checkIn of checkInData) {
@@ -110,102 +114,16 @@ export class AppointmentDetailsComponent implements OnChanges {
   }
 
   /**
-   * Triggered on user action to check-in
+   * Emits event to parent component that the current appointment should be removed from the checkIn object
    */
-  checkIn(){
-    // Parse out services
-    this.serviceTypes = Object.keys(this.services);
-
-    if( this.serviceTypes.length > 0 ){
-      this.populateForm();
-      this.showForm = true;
-      this.promptSubmit = false;
-    } else {
-      this.promptSubmit = true;
-    }
+  public removeAppointment(event) {
+    this.remove.emit();
   }
 
   /**
    * Populates the form input with saved fields from services
    */
-  private populateForm() {
-    this.currType = this.serviceTypes.pop();
-    const serviceFields: string[] = this.services[this.currType] || [];
-    const formGroupObject: any = {};
-    for( let field of serviceFields){
-      formGroupObject[ field ] = new FormControl('');
-    }
-    this.checkInForm = new FormGroup(formGroupObject );
-  }
-
-  /**
-   * Triggers the form closing
-   */
-  closeForm() {
-    this.showForm = false;
-    this.promptSubmit = false;
-  }
-
-  /**
-   * Advances to next step in form and triggers submit option if end of form is reached
-   */
-  goForward() {
-    this.saveFormData();
-    // Advance service type to next type
-    if( this.serviceTypes.length > 0 ){
-      this.currType = this.serviceTypes.pop();
-    } else {
-      console.log( 'TIME TO SUBMIT' );
-      this.currType = null;
-      this.showForm = false;
-      this.promptSubmit = true;
-    }
-  }
-
-  /**
-   * Parses out currently saved form data
-   */
-  saveFormData() {
-    const serviceFields: string[] = this.services[this.currType] || [];
-    this.savedFormData[ this.currType ] = {};
-    for (var field of serviceFields) {
-      this.savedFormData[ this.currType ][ field ] = this.checkInForm.value[ field ];
-    }
-  }
-
-  /**
-   * Formats form data for request
-   */
-  formatFormData() {
-    const formatted = [];
-    for (let type in this.savedFormData) {
-      let data = this.savedFormData[ type ] || {};
-      let entry = { type, data };
-      formatted.push( entry );
-    }
-
-    return formatted;
-  }
-
-  /**
-   * Parses saved form data and submits to checkIn service
-   */
-  submitForm() {
-    const checkInData: Object = {
-      contact: this.contact,
-      type: this.type,
-      date: this.date,
-      checkedIn: true,
-      checkInData: this.formatFormData()
-    }
-    const advocateName: string = this.advocate[ 'name' ];
-
-    this.checkInsService.updateCheckIn(checkInData, advocateName).subscribe({
-      next:     (res)     => {
-        console.log( JSON.stringify(res) );
-      },
-      error:    (err)     => { console.error('SubmitCheckIn Error: ' + err);  },
-      complete: ()        => { }
-    });
+  public updateCheckIns() {
+    this.update.emit(); // Emits an event to update the checkins
   }
 }

@@ -1,12 +1,13 @@
-import { CommonModule }           from '@angular/common';
-import { NgModule }         from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AnapneoRoutingModule } from './Router/anapneo-routing.module';
+import { CommonModule }             from '@angular/common';
+import { NgModule }                 from '@angular/core';
+import { HttpClientModule }         from '@angular/common/http';
+import { ReactiveFormsModule }      from '@angular/forms';
+import { NgbAlertModule }           from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule }            from '@angular/platform-browser';
+import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
+import { AnapneoRoutingModule }     from './Router/anapneo-routing.module';
+import { MatDatepickerModule }      from '@angular/material/datepicker';
+import { MatInputModule, MatNativeDateModule, MatFormFieldModule }      from '@angular/material';
 
 // ROOT Component
 import { AnapneoComponent } from './anapneo.component';
@@ -18,6 +19,9 @@ import { HeaderComponent }              from '../header/header.component';
 import { RewardsInfoComponent }         from '../rewardsComponent/rewardsInfoComponent/rewards-info.component';
 import { MyHealthComponent }            from '../myHealthComponent/myHealth.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
+import { CompletedCheckInComponent }    from '../appointmentTrackerComponent/appointmentDetailsComponent/completedCheckInComponent/completed-checkIn.component';
+import { PendingCheckInComponent }      from '../appointmentTrackerComponent/appointmentDetailsComponent/pendingCheckInComponent/pending-checkIn.component';
+import { EntryFormComponent }           from '../appointmentTrackerComponent/appointmentDetailsComponent/entryFormComponent/entry-form.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 import { CheckInsComponent }            from '../checkInsComponent/checkIns.component';
 import { LoginComponent }               from '../loginComponent/login.component';
@@ -43,8 +47,11 @@ const COMPONENTS  = [
                       RewardsComponent,
                       PageNotFoundComponent,
                       AppointmentDetailsComponent,
+                      CompletedCheckInComponent,
+                      PendingCheckInComponent,
                       CalendarDateComponent,
                       CheckInsComponent,
+                      EntryFormComponent,
                       CheckInsViewerComponent,
                       MyHealthComponent,
                       LoginComponent,
@@ -63,10 +70,14 @@ const COMPONENTS  = [
     NgbAlertModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AnapneoRoutingModule,
-    ReactiveFormsModule
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    AnapneoRoutingModule
   ],
   exports:    [ AnapneoComponent, COMPONENTS ],
-  providers:  [ SERVICES ],
+  providers:  [ SERVICES, MatDatepickerModule ],
 })
 export class AnapneoModule { }

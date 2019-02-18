@@ -1,89 +1,37 @@
-<div class="appointment-container margin-bottom-10 position-rel display-block clear-both" [@variableHeight]="showForm ? 'form-height' : 'no-style'">
-  <div class="appointment-date fill-height">
-    <div class="vert-text-parent fill-height fill-width">
-      <div class="vert-text-child">
-        <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]"></calendar-date>
+<div class="margin-bottom-10 table">
+  <div class="table-cell position-rel">
+    <div class="absolutely-centered">
+      <div class="fill-width">
+        <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]" *ngIf="state !== 'entry'"></calendar-date>
+      </div>
+      <div class="date-selector" *ngIf="state === 'entry'">
+        <form [formGroup]="checkInForm">
+          <mat-form-field class="fill-width">
+            <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="apptDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </form>
       </div>
     </div>
   </div>
-  <div class="appointment-details fill-height"
-       [@variableHeight]="showForm || promptSubmit ? 'form-height' : 'no-style'"
-       [ngClass]="{ 'checkedIn': appointment['checkedIn'] }">
-    <!--   __________________________
-          |                 |        |
-          |   MAIN BODY     | TOGGLE |
-          |_________________|________|
-    -->
-    <!-- MAIN BODY -->
-    <div class="inline-block fill-height"
-         [@variableWidth]="(!showForm && appointment['checkedIn']) ? 'width-100' : 'width-80'">
-      <!-- APPOINTMENT DETAILS -->
-      <div class="fill-width"
-           [@variableHeight]="promptSubmit ? 'display-none' : 'no-style'">
-        <div class="block padding-hor-10 padding-top-10">
-          <p class="font-size-22 text-right margin-bottom-none">{{type}}</p>
-        </div>
-        <div class="block padding-hor-10 padding-top-5">
-          <p class="font-size-14 margin-bottom-none">Advocate: {{contact}}</p>
-        </div>
-        <div class="block padding-hor-10 padding-top-5" *ngFor="let checkIn of checkInData | keyvalue">
-          <p class="font-size-14 margin-bottom-none">{{checkIn.key}}: {{checkIn.value}}</p>
-        </div>
+  <div class="table-cell widthPer-70">
+    <div class="dark-blue-border form-width">
+      <div class="height-100" *ngIf="state === 'entry'">
+        <entry-form (update)="performUpdate($event)"
+                    (remove)="removeAppointment($event)"></entry-form>
       </div>
-      <!-- CHECK-IN-FORM -->
-      <form class="login-form padding-top-sm padding-left-10" [formGroup]="checkInForm"
-            [hidden]="!showForm">
-        <div class="vert-align-top inline-block fill-width">
-          <div class="fill-width margin-bottom-10 block">
-            <p class="font-gray font-size-14 margin-bottom-none">Enter Data for <span class="italicize">{{currType}}</span></p>
-          </div>
-          <div class="fill-width block">
-            <div class="width-100 margin-auto" *ngFor="let field of services[currType]">
-              <input class="gray-border-right-input fill-width fill-height inline-block" type="text"
-                     [placeholder]="field"
-                     [formControlName]="field">
-            </div>
-          </div>
-        </div>
-      </form>
-      <!-- SUBMIT CHECK-IN -->
-      <div class="fill-width fill-height margin-auto vert-text-parent"  [hidden]="!promptSubmit" (click)="submitForm()">
-        <div class="vert-text-child margin-auto fill-width">
-          <div>
-            <p class="font-size-100 margin-bottom-none"><i class="fa fa-check"></i></p>
-          </div>
-          <div class="margin-auto">
-            <p class="font-size-22">Submit</p>
-          </div>
-        </div>
+      <div class="height-100 shaded-blue-background" *ngIf="state === 'completed'">
+        <completed-checkIn [type]="type" [contact]="contact" [checkInData]="checkInData"></completed-checkIn>
       </div>
-    </div>
-
-    <!-- TOGGLE -->
-    <div class="check-in inline-flex fill-height vert-align-top"
-         [hidden]="appointment['checkedIn']">
-
-      <!-- SHOW FORM -->
-      <div class="vert-text-parent fill-height fill-width" (click)="checkIn()" [hidden]="showForm || promptSubmit">
-        <p class="check-in-icon vert-text-child" ><i class="fa fa-check"></i></p>
-      </div>
-
-      <!-- FORM OPTIONS -->
-      <div class="fill-height fill-width" [hidden]="!showForm && !promptSubmit">
-        <div class="vert-text-parent fill-width heightPer-20 blue-border-bottom" (click)="closeForm()">
-          <p class="font-size-22 vert-text-child"><i class="fa fa-close" aria-hidden="true"></i></p>
-        </div>
-        <div class="vert-text-parent fill-width heightPer-80">
-          <div class="nav-buttons fill-width vert-text-parent" (click)="goForward()"
-               [@variableHeight]="currType ? 'height-100' : 'display-none'">
-            <p class="check-in-icon vert-text-child"><i class="fa fa-angle-right"></i></p>
-          </div>
-
-          <div class="nav-buttons fill-width vert-text-parent" (click)="checkIn()"
-               [@variableHeight]="!currType ? 'height-100' : 'display-none'">
-            <p class="check-in-icon vert-text-child"><i class="fa fa-angle-left"></i></p>
-          </div>
-        </div>
+      <div class="height-150" *ngIf="state === 'pending'">
+        <pending-checkIn [type]="type"
+                         [contact]="contact"
+                         [date]="date"
+                         [checkInData]="checkInData"
+                         [services]="services"
+                         [advocate]="advocate"
+                         (updateCheckIns)="updateCheckIns()"></pending-checkIn>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CheckInsService } from './checkIns.service';
+import { Component, OnInit }    from '@angular/core';
+import { CheckInsService }      from './checkIns.service';
 
 @Component({
   selector: 'check-ins',
@@ -17,12 +17,51 @@ export class CheckInsComponent {
   }
 
   // TODO - cache response
-  private getCheckIns() {
+  public getCheckIns() {
     this.checkInsService.getCheckIns().subscribe({
-      next:     (res)     => { this.checkIns = res['checkIns'] || [];       },
+      next:     (res)     => { this.checkIns = this.parseCheckIns(res['checkIns'] || []);       },
       error:    (err)     => { console.error('GetCheckIns Error: ' + err);  },
       complete: ()        => { }
     });
+  }
+
+  /**
+   * Orders checkIns from service call by date
+   */
+  private parseCheckIns(checkIns: Object[]) {
+    function dateCompare(c1,c2) {
+      const c1Date: Object = c1[ 'date' ];
+      const c2Date: Object = c2[ 'date' ];
+
+      if( !c1Date ) {
+        return 1;
+      } else if( !c2Date ) {
+        return -1;
+      }
+
+      var diff = null;
+      for( var d of ['year', 'month', 'day'] ) {
+        if( c1Date[ d ] !== c2Date[ d ] ) {
+          diff = d;
+          break;
+        }
+      };
+      if( diff ) {
+        if( c1Date[ diff ] < c2Date[ diff ] ){
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        return 0;
+      }
+    }
+
+    checkIns.forEach( (ci) => {
+      ci['appointments'].sort(dateCompare);
+    });
+
+    return checkIns;
   }
 
   /*
@@ -35,5 +74,41 @@ export class CheckInsComponent {
     }
     const services = advocate[ 'services' ] || {};
     return services;
+  }
+
+  /**
+   * Creates an empty appointment object that will be added to that appointments entry of that user's advocate
+   */
+  addCheckIn(advocate: Object) {
+    const appt: Object = {
+      checkInData: [],
+      checkedIn: false,
+      contact: "",        // Needs to be updated by the AppointmentDetails component
+      date: {},           // Needs to be updated by the AppointmentDetails component
+      type: "",           // Needs to be updated by the AppointmentDetails component
+    }
+
+    // TODO - better way to add a checkIn object
+    for( let ci of this.checkIns ){
+      if( ci[ 'advocate' ] === advocate ){
+        ci[ 'appointments' ].push( appt );
+        return;
+      }
+    }
+    // TODO
+    alert( 'BUG: Could not find the advocate to update' );
+  }
+
+  /**
+   * Removes the appointment of index, aIdx, form the list of appointments for a checkIn
+   *    cIdx: Index of checkIn
+   *    aIdx: Index of appointment for checkIn
+   */
+  remove(cIdx, aIdx) {
+    const targetCheckIn: Object = this.checkIns[cIdx] || {};
+    const appointments: Object = targetCheckIn[ 'appointments' ];
+    if( appointments ){
+      targetCheckIn[ 'appointments' ].pop(aIdx);
+    }
   }
 }

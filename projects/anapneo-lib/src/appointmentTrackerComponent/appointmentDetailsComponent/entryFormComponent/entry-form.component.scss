@@ -1,0 +1,19 @@
+@import "../../../styles";
+
+.check-in{
+  width: 20%;
+  vertical-align: top;
+  border-left: 3px #29648A solid;
+  background-color: #edf2f9;
+}
+.check-in:hover {
+  cursor: pointer;
+}
+.check-in-icon {
+  font-size: 30px;
+}
+@media only screen and (min-width: 800px) {
+  .entry-form-input {
+    width: 200px;
+  }
+}

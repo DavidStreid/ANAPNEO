@@ -18,6 +18,29 @@ export class CheckInsService {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
+  /**
+   * Submits a pending check-in to be saved to the user's profile
+   */
+  public createPendingCheckIn(checkIn: Object, advocateName: String) {
+    if( this.loggingEnabled ) console.log( "CheckInsService::createPendingCheckIn" );
+    const anapneoService = environment['anapneoService'] || null;
+
+    // TODO - Error handling/backup logic
+    if( ! anapneoService ){
+      const err = 'Anapneo service url is not defined in config';
+      return Observable.create( (observer) => { observer.error(err) } );
+    }
+
+    // Add authentication token
+    const token = this.userProfileService.getAuthToken();
+    const req   = { token, checkIn, advocateName };
+
+    const url = `${anapneoService}/submitPending`;
+    return this.http.post(url, req).pipe(
+      map((response: HttpResponseBase) => { return response; }),
+      catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
+  }
+
   public updateCheckIn(checkIn: Object, advocate: string) {
     if( this.loggingEnabled ) console.log( "CheckInsService::updateCheckIn" );
     const anapneoService = environment['anapneoService'] || null;
