@@ -1,7 +1,7 @@
 @import "../../../styles";
 
 .check-in{
-  width: 19%;
+  width: 17%;
   vertical-align: top;
   border-left: 3px #29648A solid;
   background-color: #edf2f9;
@@ -15,5 +15,13 @@
 @media only screen and (min-width: 800px) {
   .entry-form-input {
     width: 200px;
+  }
+  .check-in{
+    width: 18%;
+  }
+}
+@media only screen and (min-width: 1050px) {
+  .check-in{
+    width: 19%;
   }
 }
