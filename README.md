@@ -6,6 +6,7 @@ An app that connects community leaders to members who may benefit from a check-i
 ## GETTING STARTED
 ~~~~
 $ git clone https://github.com/DavidStreid/ANAPNEO.git
+$ cd ANAPNEO
 $ npm run go
 ~~~~
 
