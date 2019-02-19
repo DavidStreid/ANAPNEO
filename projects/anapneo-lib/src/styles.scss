@@ -255,16 +255,7 @@ p,h1 {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-.gray-border-right-input {
-  border-color: #d9d9d9;
-  border-left: 0px;
-  border-right: 2px solid #d9d9d9;
-  border-top: 0px;
-  outline: 0;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-
-.gray-border-right-input::-webkit-input-placeholder, gray-borderless-input::-webkit-input-placeholder {
+.gray-borderless-input::-webkit-input-placeholder {
   font-size: 14px;
   font-weight: normal;
   text-align: left;
