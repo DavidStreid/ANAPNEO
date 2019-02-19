@@ -36,10 +36,7 @@ export class PendingCheckInComponent implements OnChanges {
   public checkInForm: FormGroup = new FormGroup({});
 
   constructor(private checkInsService: CheckInsService) {}
-  ngOnChanges() {
-    // TODO - Add checks to see if all inputs are available
-    this.initCheckIn();
-  }
+  ngOnChanges() {}
 
   /**
    * Triggered on user action to check-in
