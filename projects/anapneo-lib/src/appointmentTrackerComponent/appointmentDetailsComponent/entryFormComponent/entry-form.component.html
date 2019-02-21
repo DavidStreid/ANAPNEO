@@ -1,22 +1,21 @@
 <form class="inline-block fill-height fill-width" [formGroup]="entryForm" (ngSubmit)="submitEntry()">
   <div class="fill-height fill-width">
     <div class="widthPer-80 fill-height inline-block padding-vert-10 padding-hor-10">
-      <div class="block padding-hor-10 padding-top-10">
-        <div class="entry-form-input">
-          <input class="gray-borderless-input fill-width fill-height inline-block" type="text"
-                 placeholder="Enter checkIn type"
-                 formControlName="type">
-        </div>
-      </div>
-      <div class="fill-width block padding-hor-10 padding-top-5">
-        <div class="entry-form-input">
-          <input class="gray-borderless-input fill-width fill-height inline-block" type="text"
-                 placeholder="Enter contact name"
-                 formControlName="advocate">
+      <div class="vert-text-parent fill-height width-125 margin-auto">
+        <div class="vert-text-child">
+          <div class="entry-form-input margin-auto">
+            <input class="gray-borderless-input fill-width fill-height inline-block" type="text"
+                   placeholder="Enter checkIn type"
+                   formControlName="type">
+          </div>
+          <div class="entry-form-input margin-auto">
+            <input class="gray-borderless-input fill-width fill-height inline-block" type="text"
+                   placeholder="Enter contact name"
+                   formControlName="advocate">
+          </div>
         </div>
       </div>
     </div>
-
     <!-- TOGGLE -->
     <div class="check-in float-right fill-height vert-align-top">
       <div class="fill-height fill-width">

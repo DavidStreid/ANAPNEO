@@ -4,14 +4,16 @@
       <completed-checkIn [type]="type" [contact]="contact" [checkInData]="checkInData"></completed-checkIn>
     </div>
     <!-- CHECK-IN-FORM -->
-    <form class="login-form padding-top-sm padding-left-10" [formGroup]="checkInForm" [hidden]="! workingForm || promptSubmit">
-      <div class="vert-align-top inline-block fill-width">
-        <div class="fill-width margin-bottom-10 block">
+    <form class="login-form padding-top-sm padding-left-10 fill-height" [formGroup]="checkInForm" [hidden]="! workingForm || promptSubmit">
+      <div class="vert-align-top inline-block fill-height fill-width">
+        <div class="fill-width heightPer-20 block">
           <p class="font-gray font-size-14 margin-bottom-none">Enter Data for <span class="italicize">{{currType}}</span></p>
         </div>
-        <div class="fill-width block">
-          <div class="width-100 margin-auto" *ngFor="let field of services[currType]">
-            <input class="gray-borderless-input fill-width fill-height inline-block" type="text"
+        <div class="heightPer-60 margin-auto block vert-text-parent">
+          <div class="vert-text-child">
+            <input *ngFor="let field of services[currType]"
+                   class="gray-borderless-input width-100 block"
+                   type="text"
                    [placeholder]="field"
                    [formControlName]="field">
           </div>
