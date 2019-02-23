@@ -40,7 +40,9 @@ p,h1 {
 .padding-left-10 {
   padding-left: 10px;
 }
-
+.padding-left-md {
+  padding-left: 20px;
+}
 .padding-hor-10 {
   padding-left: 10px;
   padding-right: 10px;
@@ -224,6 +226,12 @@ p,h1 {
 .width-125 {
   width: 125px;
 }
+.widthPer-40 {
+  width: 40%;
+}
+.widthPer-50 {
+  width: 50%;
+}
 .widthPer-80 {
   width: 80%;
 }
@@ -253,7 +261,7 @@ p,h1 {
 
 /* This is a nice simple input - little border, little mess */
 .gray-borderless-input {
-  border-color: #d9d9d9;
+  border: 1px #d9d9d9 solid;
   border-left: 0px;
   border-right: 0px;
   border-top: 0px;
