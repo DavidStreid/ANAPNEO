@@ -14,9 +14,6 @@ export { HeaderComponent } from './header/header.component';
 export { LoginComponent } from './loginComponent/login.component';
 export { MyHealthComponent } from './myHealthComponent/myHealth.component';
 export { PageNotFoundComponent } from './pageNotFoundComponent/pageNotFound.component';
-export { RewardsComponent } from './rewardsComponent/rewards.component';
-export { RewardsInfoComponent } from './rewardsComponent/rewardsInfoComponent/rewards-info.component';
-export { VendorComponent } from './rewardsComponent/vendorComponent/vendor.component';
 
 // Exported services
 export { UserProfileService } from './userProfile/userProfile.service';

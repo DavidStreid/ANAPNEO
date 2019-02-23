@@ -13,10 +13,7 @@ import { MatInputModule, MatNativeDateModule, MatFormFieldModule }      from '@a
 import { AnapneoComponent } from './anapneo.component';
 
 // CHILD Components
-import { RewardsComponent }             from '../rewardsComponent/rewards.component';
-import { VendorComponent }              from '../rewardsComponent/vendorComponent/vendor.component';
 import { HeaderComponent }              from '../header/header.component';
-import { RewardsInfoComponent }         from '../rewardsComponent/rewardsInfoComponent/rewards-info.component';
 import { MyHealthComponent }            from '../myHealthComponent/myHealth.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CompletedCheckInComponent }    from '../appointmentTrackerComponent/appointmentDetailsComponent/completedCheckInComponent/completed-checkIn.component';
@@ -34,17 +31,12 @@ import { NgbdAlertSelfclosing }         from '../common-components/alertSelfClos
 import { LocationService }    from '../services/location.service';
 import { LoginService }       from '../services/login.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
-import { VendorInfoService }  from '../rewardsComponent/vendorService/vendorInfoService';
 import { CheckInsService }    from '../checkInsComponent/checkIns.service';
 import { MyHealthService }    from '../myHealthComponent/myHealth.service';
 
-const SERVICES    = [ LocationService, UserProfileService, LoginService, VendorInfoService, CheckInsService, MyHealthService ];
+const SERVICES    = [ LocationService, UserProfileService, LoginService, CheckInsService, MyHealthService ];
 const COMPONENTS  = [
-                      RewardsComponent,
-                      RewardsInfoComponent,
-                      VendorComponent,
                       HeaderComponent,
-                      RewardsComponent,
                       PageNotFoundComponent,
                       AppointmentDetailsComponent,
                       CompletedCheckInComponent,
