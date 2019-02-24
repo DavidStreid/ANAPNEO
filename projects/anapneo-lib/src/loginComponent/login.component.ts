@@ -3,7 +3,7 @@ import { FormGroup, FormControl }           from '@angular/forms';
 import { Subject }                          from 'rxjs';
 
 import { UserProfileService }   from '../userProfile/userProfile.service';
-import { LoginService }         from '../services/login.service';
+import { LoginService }         from '../services/login-service/login.service';
 import TYPES                    from '../common-components/alertSelfClosingComponent/alert-constants';
 import EncryptUtil              from '../utils/encrypt.util';
 import LoggerUtil               from '../utils/logger.util';

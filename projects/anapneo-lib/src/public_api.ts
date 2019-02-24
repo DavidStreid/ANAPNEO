@@ -18,4 +18,4 @@ export { PageNotFoundComponent } from './pageNotFoundComponent/pageNotFound.comp
 // Exported services
 export { UserProfileService } from './userProfile/userProfile.service';
 export { LocationService } from './services/location.service';
-export { LoginService } from './services/login.service';
+export { LoginService } from './services/login-service/login.service';

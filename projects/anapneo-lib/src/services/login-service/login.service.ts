@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 import { Observable }       from 'rxjs/Observable';
 import { map, catchError }  from 'rxjs/operators';
-import { environment }      from '../environment';
+import { environment }      from '../../environment';
 
-import ResponseHandlerUtil from '../utils/services/responseHandler.util';
+import ResponseHandlerUtil from '../../utils/services/responseHandler.util';
 
 @Injectable()
 export class LoginService {

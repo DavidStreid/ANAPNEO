@@ -14,6 +14,7 @@ describe('LoginService Server Integration Test', () => {
     loginService = TestBed.get(LoginService);
   });
 
+  /*
   it('Good User: Success', () => {
     expect(loginService.anapneoService).not.toBeNull();
     loginService.login('RGF2aWRTdHJlaWQ=', 'dGVzdA==')
@@ -33,4 +34,5 @@ describe('LoginService Server Integration Test', () => {
                     });
 
   });
+  */
 });
