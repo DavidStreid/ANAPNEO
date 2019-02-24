@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./anapneo.component.scss']
 })
 export class AnapneoComponent {
-  public validLogin: boolean;
+  public validLogin: boolean = false;
   isLoggedIn(evt){
     this.validLogin = evt;
   }
