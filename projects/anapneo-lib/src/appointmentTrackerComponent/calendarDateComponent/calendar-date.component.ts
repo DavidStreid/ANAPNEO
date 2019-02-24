@@ -19,7 +19,7 @@ export class CalendarDateComponent{
     this.dateUtil = new DateUtil();
   }
 
-  displayMonth(month: number): string {
+  public displayMonth(month: number): string {
     return this.dateUtil.getMonthString( month );
   }
 }
