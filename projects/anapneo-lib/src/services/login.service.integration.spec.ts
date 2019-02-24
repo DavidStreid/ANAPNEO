@@ -2,7 +2,7 @@ import { LoginService } from './login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
-describe('LoginService Integration Test', () => {
+describe('LoginService Server Integration Test', () => {
   let loginService: LoginService;
 
   beforeEach(() => {
