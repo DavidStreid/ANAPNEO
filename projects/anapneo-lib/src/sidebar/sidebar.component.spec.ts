@@ -24,7 +24,6 @@ describe('SidebarComponent', () => {
   });
 
   it('Nav Tabs should be present: MyHealth & CheckIns', () => {
-    const debugElement = fixture.debugElement;
     const allTabs = fixture.debugElement.queryAll(By.css('.nav-select'));
     expect( allTabs.length ).toBe(2);
 
