@@ -1,18 +1,18 @@
 <div class="sidebar fill-height">
   <nav class="nav-tabs">
-    <a class="text-center nav-router" routerLink="/health" routerLinkActive="active">
+    <a id="my-health-tab" class="text-center nav-router" routerLink="/health" routerLinkActive="active">
       <div class="nav-select padding-top-md padding-bottom-10 white-border-bottom">
         <p class="font-size-18">My Health</p>
       </div>
     </a>
     <!--TODO: ADD FIND-DOC FEATURE-->
-    <a class="text-center nav-router" routerLink="/check-ins" routerLinkActive="active">
+    <a id="check-ins-nav" class="text-center nav-router" routerLink="/check-ins" routerLinkActive="active">
       <div class="nav-select padding-top-md padding-bottom-10 white-border-bottom">
         <p class="font-size-18">Check-Ins</p>
       </div>
     </a>
   </nav>
-  <div class="padding-vert-md text-center padding-hor-md">
+  <div id="app-description" class="padding-vert-md text-center padding-hor-md">
     <p class="font-size-22">{{ descriptionTest }}</p>
   </div>
 </div>
