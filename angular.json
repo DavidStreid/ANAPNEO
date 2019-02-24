@@ -162,7 +162,18 @@
             "main": "projects/anapneo-lib/src/test.ts",
             "tsConfig": "projects/anapneo-lib/tsconfig.spec.json",
             "karmaConfig": "projects/anapneo-lib/karma.conf.js"
-          }
+          },
+          "configurations": {
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace":  "projects/anapneo-lib/src/environment.ts",
+                  "with":     "src/environments/environment.test.ts"
+                }
+              ]
+
+            }
+          },
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
