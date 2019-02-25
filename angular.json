@@ -164,14 +164,21 @@
             "karmaConfig": "projects/anapneo-lib/karma.conf.js"
           },
           "configurations": {
-            "test": {
+            "unit": {
               "fileReplacements": [
                 {
                   "replace":  "projects/anapneo-lib/src/environment.ts",
-                  "with":     "src/environments/environment.test.ts"
+                  "with":     "src/environments/environment.test.unit.ts"
                 }
               ]
-
+            },
+            "integrate": {
+              "fileReplacements": [
+                {
+                  "replace":  "projects/anapneo-lib/src/environment.ts",
+                  "with":     "src/environments/environment.test.integrate.ts"
+                }
+              ]
             }
           },
         },
