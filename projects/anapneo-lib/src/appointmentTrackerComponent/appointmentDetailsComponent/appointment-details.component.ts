@@ -126,4 +126,17 @@ export class AppointmentDetailsComponent implements OnChanges {
   public updateCheckIns() {
     this.update.emit(); // Emits an event to update the checkins
   }
+
+  public parseDay(date: Object) {
+    if( date ){
+      return date[ 'day' ];
+    }
+    return null;
+  }
+  public parseMonth(date: Object) {
+    if( date ){
+      return date[ 'month' ];
+    }
+    return null;
+  }
 }

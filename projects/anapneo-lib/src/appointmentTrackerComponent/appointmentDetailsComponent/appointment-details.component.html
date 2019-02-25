@@ -2,7 +2,7 @@
   <div class="table-cell position-rel">
     <div class="absolutely-centered">
       <div class="fill-width">
-        <calendar-date [day]="date[ 'day' ]" [month]="date[ 'month' ]" *ngIf="state !== 'entry'"></calendar-date>
+        <calendar-date [day]="parseDay(day)" [month]="parseMonth(date)" *ngIf="state !== 'entry'"></calendar-date>
       </div>
       <div class="date-selector" *ngIf="state === 'entry'">
         <form [formGroup]="checkInForm">
