@@ -14,9 +14,9 @@ export class AppointmentDetailsComponent implements OnChanges {
   @Input()
   public appointment: Appointment;
   @Input()
-  public services: Object = {};
+  public services: Object;
   @Input()
-  public advocate: Object = {};
+  public advocate: Object;
   @Output()
   public update: EventEmitter<any> = new EventEmitter();
   @Output()
