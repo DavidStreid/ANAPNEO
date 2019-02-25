@@ -39,14 +39,6 @@ export class AppointmentDetailsComponent implements OnChanges {
 
   constructor(private checkInsService: CheckInsService) {}
 
-  // Returns whether date object is entered and needs to be filled in
-  isDateEmpty( date ){
-    if( date[ 'day' ] && date['month'] && date['year'] ){
-      return false;
-    }
-    return true;
-  }
-
   /**
    * Executes dynamic parsing of inputs to generate the state of the appointment and generate checkInData if completed
    */
@@ -68,7 +60,7 @@ export class AppointmentDetailsComponent implements OnChanges {
 
     // Parse out checkInData if present
     const checkInData = this.appointment.checkInData || null;
-    if( checkInData !== null && checkInData !== undefined){
+    if( checkInData !== null ){
       this.assignCheckInData(checkInData);
     }
   }
@@ -77,17 +69,17 @@ export class AppointmentDetailsComponent implements OnChanges {
    * Takes data entered from the entry form and attempts to create a pending check-in. All portions of
    * the entry form and the date object must be populated in order to submit
    */
-  performUpdate(update: Object){
-    const contact = update[ 'advocate' ];
-    const type = update[ 'type' ];
-    const date = this.checkInForm.value[ 'apptDate' ] || '';
-    const advocateName: string = this.advocate[ 'name' ];
+  public performUpdate(update: Object){
+    const contact: string   = update[ 'advocate' ]  || ''; // TODO - change field to contact
+    const type: string      = update[ 'type' ]      || '';
+    const date: string      = this.checkInForm.value[ 'apptDate' ] || '';
+    const advName: string   = this.advocate[ 'name' ] || '';
 
-    if( contact && contact !== '' &&
-        type && contact != '' &&
-        date && date != ''){
+    if( contact !== '' &&
+        type !== '' &&
+        date !== ''){
       const pendingCheckIn: Object = { contact, type, date };
-      this.checkInsService.createPendingCheckIn(pendingCheckIn, advocateName).subscribe({
+      this.checkInsService.createPendingCheckIn(pendingCheckIn, advName).subscribe({
         next:     (res)     => { this.updateCheckIns(); },     // Update the list of checkIns
         error:    (err)     => { console.error('SubmitCheckIn Error: ' + err);  },
         complete: ()        => { }
@@ -140,5 +132,15 @@ export class AppointmentDetailsComponent implements OnChanges {
       return date[ 'month' ];
     }
     return null;
+  }
+
+  /**
+   * Returns whether date object is entered and needs to be filled in
+   */
+  isDateEmpty( date ){
+    if( date[ 'day' ] && date['month'] && date['year'] ){
+      return false;
+    }
+    return true;
   }
 }
