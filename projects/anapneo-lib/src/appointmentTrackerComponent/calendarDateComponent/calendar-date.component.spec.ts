@@ -43,10 +43,10 @@ describe('CalendarDate Component', () => {
       'Oct': 10,
       'Nov': 11,
       'Dec': 12
-    }
+    };
 
     Object.keys(months).forEach( (m: string) => {
       expect( component.displayMonth(months[m]) ).toBe(m);
-    })
-  })
+    });
+  });
 });

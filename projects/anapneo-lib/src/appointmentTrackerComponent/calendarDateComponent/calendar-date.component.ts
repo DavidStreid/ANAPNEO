@@ -7,7 +7,7 @@ import DateUtil from '../../utils/date.util';
   styleUrls: [ 'calendar-date.component.scss' ]
 })
 
-export class CalendarDateComponent{
+export class CalendarDateComponent {
   @Input()
   month: number;
   @Input()

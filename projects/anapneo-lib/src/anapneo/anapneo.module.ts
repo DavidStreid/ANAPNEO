@@ -17,7 +17,7 @@ import { HeaderComponent }              from '../header/header.component';
 import { MyHealthComponent }            from '../myHealthComponent/myHealth.component';
 import { AppointmentDetailsComponent }  from '../appointmentTrackerComponent/appointmentDetailsComponent/appointment-details.component';
 import { CompletedCheckInComponent }    from '../appointmentTrackerComponent/appointmentDetailsComponent/completedCheckInComponent/completed-checkIn.component';
-import { PendingCheckInComponent }      from '../appointmentTrackerComponent/appointmentDetailsComponent/pendingCheckInComponent/pending-checkIn.component';
+import { PendingCheckInComponent }      from '../appointmentTrackerComponent/appointmentDetailsComponent/pending-check-in-component/pending-check-in.component';
 import { EntryFormComponent }           from '../appointmentTrackerComponent/appointmentDetailsComponent/entryFormComponent/entry-form.component';
 import { CalendarDateComponent }        from '../appointmentTrackerComponent/calendarDateComponent/calendar-date.component';
 import { CheckInsComponent }            from '../checkInsComponent/checkIns.component';
@@ -25,7 +25,7 @@ import { LoginComponent }               from '../loginComponent/login.component'
 import { PageNotFoundComponent }        from '../pageNotFoundComponent/pageNotFound.component';
 import { SideBarComponent }             from '../sidebar/sidebar.component';
 import { CheckInsViewerComponent }      from '../checkInsComponent/check-ins-viewer/check-ins-viewer.component';
-import { NgbdAlertSelfclosing }         from '../common-components/alertSelfClosingComponent/alert-selfclosing';
+import { NgbdAlertSelfClosingComponent }         from '../common-components/alertSelfClosingComponent/alert-selfclosing';
 
 // Services
 import { LocationService }    from '../services/location.service';
@@ -48,7 +48,7 @@ const COMPONENTS  = [
                       MyHealthComponent,
                       LoginComponent,
                       SideBarComponent,
-                      NgbdAlertSelfclosing
+                      NgbdAlertSelfClosingComponent
 ];
 
 @NgModule({

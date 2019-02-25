@@ -6,7 +6,7 @@ import EncodedFiles from '../../assets/encodedImgs/siteImgs';
   templateUrl: './check-ins-viewer.component.html',
   styleUrls: ['./check-ins-viewer.component.scss']
 })
-export class CheckInsViewerComponent{
+export class CheckInsViewerComponent implements OnChanges {
   @Input()
   public advocate: Object;
 
@@ -14,7 +14,7 @@ export class CheckInsViewerComponent{
   public type: String;
   public address: Object = {};
   public services: String[];
-  public profileImg: String
+  public profileImg: String;
 
   ngOnChanges(changes: SimpleChanges) {
     this.name     = this.advocate[ 'name' ]         || 'INVALID_NAME';
@@ -24,7 +24,7 @@ export class CheckInsViewerComponent{
     this.services = Object.keys(serviceMap);
   }
 
-  constructor(){
+  constructor() {
     const encodedFilesClass: EncodedFiles = new EncodedFiles();
     const encodedImgs: Object = encodedFilesClass.getImgs();
     this.profileImg = encodedImgs['userProfile'];

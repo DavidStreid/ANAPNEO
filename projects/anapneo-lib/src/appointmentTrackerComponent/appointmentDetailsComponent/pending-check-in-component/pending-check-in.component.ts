@@ -4,9 +4,9 @@ import { FormGroup, FormControl }                       from '@angular/forms';
 import { CheckInsService } from '../../../checkInsComponent/check-ins-service/checkIns.service';
 
 @Component({
-  selector: 'pending-checkIn',
-  templateUrl: 'pending-checkIn.component.html',
-  styleUrls: [ 'pending-checkIn.component.scss' ],
+  selector: 'pending-check-in',
+  templateUrl: 'pending-check-in.component.html',
+  styleUrls: [ 'pending-check-in.component.scss' ],
 })
 
 export class PendingCheckInComponent {
@@ -29,8 +29,8 @@ export class PendingCheckInComponent {
   public currType: string;        // Controls display - if this is non-null, the form is being populated
 
   // Trigger for check expand animation
-  public promptSubmit: boolean = false;     // Shows submission for form (options should still show)
-  public workingForm: boolean = false;      // Shows options for form navigation
+  public promptSubmit = false;     // Shows submission for form (options should still show)
+  public workingForm = false;      // Shows options for form navigation
 
   public savedFormData: Object = {};
   public checkInForm: FormGroup = new FormGroup({});
@@ -40,12 +40,12 @@ export class PendingCheckInComponent {
   /**
    * Triggered on user action to check-in
    */
-  initCheckIn(){
+  initCheckIn() {
     // Parse out services
     this.serviceTypes = Object.keys(this.services);
     this.workingForm = true;
 
-    if( this.serviceTypes.length > 0 ){
+    if ( this.serviceTypes.length > 0 ) {
       this.populateForm();
       this.promptSubmit = false;
     } else {
@@ -60,7 +60,7 @@ export class PendingCheckInComponent {
     this.currType = this.serviceTypes.pop();
     const serviceFields: string[] = this.services[this.currType] || [];
     const formGroupObject: any = {};
-    for( let field of serviceFields){
+    for ( const field of serviceFields) {
       formGroupObject[ field ] = new FormControl('');
     }
     this.checkInForm = new FormGroup(formGroupObject );
@@ -81,7 +81,7 @@ export class PendingCheckInComponent {
   goForward() {
     this.saveFormData();
     // Advance service type to next type
-    if( this.serviceTypes.length > 0 ){
+    if ( this.serviceTypes.length > 0 ) {
       // Still types of data to enter, advance the current type
       this.currType = this.serviceTypes.pop();
     } else {
@@ -98,7 +98,7 @@ export class PendingCheckInComponent {
     const serviceFields: string[]       = this.services[this.currType] || [];
     this.savedFormData[ this.currType ] = {};
 
-    for (var field of serviceFields) {
+    for (const field of serviceFields) {
       this.savedFormData[ this.currType ][ field ] = this.checkInForm.value[ field ];
     }
   }
@@ -108,10 +108,12 @@ export class PendingCheckInComponent {
    */
   formatFormData() {
     const formatted = [];
-    for (let type in this.savedFormData) {
-      let data = this.savedFormData[ type ] || {};
-      let entry = { type, data };
-      formatted.push( entry );
+    for (const type in this.savedFormData) {
+      if (this.savedFormData.hasOwnProperty(type)) {
+        const data = this.savedFormData[ type ] || {};
+        const entry = { type, data };
+        formatted.push( entry );
+      }
     }
     return formatted;
   }
@@ -126,7 +128,7 @@ export class PendingCheckInComponent {
       date: this.date,
       checkedIn: true,
       checkInData: this.formatFormData()
-    }
+    };
     const advocateName: string = this.advocate[ 'name' ];
 
     this.checkInsService.updateCheckIn(checkInData, advocateName).subscribe({

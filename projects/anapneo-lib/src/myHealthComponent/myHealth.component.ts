@@ -7,14 +7,14 @@ import { MyHealthService }  from './myHealth.service';
   templateUrl: 'MyHealth.component.html'
 })
 
-export class MyHealthComponent{
+export class MyHealthComponent {
   public healthProfile: Object = {};
   public checkIns: any = {};
 
   public prescriptions: Object[];
   public doctors: Object[];
 
-  constructor(private myHealthService:MyHealthService) {
+  constructor(private myHealthService: MyHealthService) {
     this.init();
   }
 
@@ -32,8 +32,8 @@ export class MyHealthComponent{
   /*
    * Formats entry of checkIn data for GUI
    */
-  formatCheckInEntryByType( type: String, data: Object ){
-    switch(type) {
+  formatCheckInEntryByType( type: String, data: Object ) {
+    switch (type) {
       case 'Blood Pressure':
         const systolic = data[ 'systolic' ];
         const diastolic = data['diastolic'];
@@ -59,20 +59,20 @@ export class MyHealthComponent{
     checkInList.forEach( (checkIn) => {
       // Only take data from checkins that have been registered
       const checkedIn   = checkIn[ 'checkedIn' ] || false;
-      if( checkedIn ){
+      if ( checkedIn ) {
         const checkInData = checkIn[ 'checkInData' ] || [];
         checkInData.forEach( (entry) => {
-          let type = entry[ 'type' ] || 'INVALID_KEY';
+          const type = entry[ 'type' ] || 'INVALID_KEY';
 
-          let data          = this.formatCheckInEntryByType( type, entry[ 'data' ] );
+          const data          = this.formatCheckInEntryByType( type, entry[ 'data' ] );
           const checkInDate = checkIn[ 'date' ] || {};
           const date        = `${checkInDate['month']}-${checkInDate['day']}-${checkInDate['year']}`;
 
-          let formattedCheckIn = { date, data }
-          if( type in checkInMap ) {
+          const formattedCheckIn = { date, data };
+          if ( type in checkInMap ) {
             checkInMap[ type ].push( formattedCheckIn );
           } else {
-            checkInMap[ type ] = [ formattedCheckIn ]
+            checkInMap[ type ] = [ formattedCheckIn ];
           }
         });
       }

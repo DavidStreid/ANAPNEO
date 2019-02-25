@@ -8,28 +8,28 @@ import ResponseHandlerUtil from '../../utils/services/responseHandler.util';
 
 @Injectable()
 export class LoginService {
-  private loggingEnabled: boolean = false;
+  private loggingEnabled = false;
   anapneoService: String;
 
   private responseHandlerUtil: ResponseHandlerUtil;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {
     this.init();
   }
 
-  init(){
+  init() {
     this.anapneoService = environment['anapneoService'] || null;
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
-  public login(userId: String, pwd: String) : Observable<Object>{
+  public login(userId: String, pwd: String): Observable<Object> {
     // TODO - Add logging util
-    if( this.loggingEnabled ) console.log( "loginService::login" );
+    if ( this.loggingEnabled ) { console.log( 'loginService::login' ); }
 
     // TODO - Error handling/backup logic
-    if( ! this.anapneoService ){
+    if ( ! this.anapneoService ) {
       const err = 'Anapneo service url is not defined in config';
-      return Observable.create( (observer) => { observer.error(err) } );
+      return Observable.create( (observer) => { observer.error(err); } );
     }
 
     const url = `${this.anapneoService}/login`;
@@ -38,7 +38,7 @@ export class LoginService {
     return this.http.post( url, body ).pipe(
       map((res: HttpResponseBase) => {
         const success = res['success'] || false;
-        if( success && res['token'] != null ){
+        if ( success && res['token'] != null ) {
           console.log('Successful login');
           return res;
         } else {

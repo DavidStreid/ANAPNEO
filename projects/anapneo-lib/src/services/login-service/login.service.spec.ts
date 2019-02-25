@@ -34,7 +34,7 @@ describe('LoginService', () => {
                    });
 
     const req = httpMock.expectOne(`${loginService.anapneoService}/login`);
-    expect(req.request.method).toBe("POST");
+    expect(req.request.method).toBe('POST');
     req.flush(status);
   });
 
@@ -49,7 +49,7 @@ describe('LoginService', () => {
                    });
 
     const req = httpMock.expectOne(`${loginService.anapneoService}/login`);
-    expect(req.request.method).toBe("POST");
+    expect(req.request.method).toBe('POST');
     req.flush(status);
   });
 
@@ -60,7 +60,7 @@ describe('LoginService', () => {
     loginService.login('', '')
                    .subscribe({
                       next:   (r) => fail('Should throw an error'),
-                      error:  (e) => expect(e).toBe("Anapneo service url is not defined in config")
-                   })
+                      error:  (e) => expect(e).toBe('Anapneo service url is not defined in config')
+                   });
   });
 });

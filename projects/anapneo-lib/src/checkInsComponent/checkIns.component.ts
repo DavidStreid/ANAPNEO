@@ -8,7 +8,7 @@ import { Appointment }          from '../appointmentTrackerComponent/models/appo
   styleUrls: [ 'checkIns.component.scss' ]
 })
 
-export class CheckInsComponent {
+export class CheckInsComponent implements OnInit {
   public checkIns: Object[];
 
   constructor(private checkInsService: CheckInsService) {}
@@ -30,25 +30,25 @@ export class CheckInsComponent {
    * Orders checkIns from service call by date
    */
   private parseCheckIns(checkIns: Object[]) {
-    function dateCompare(c1,c2) {
+    function dateCompare(c1, c2) {
       const c1Date: Object = c1[ 'date' ];
       const c2Date: Object = c2[ 'date' ];
 
-      if( !c1Date ) {
+      if ( !c1Date ) {
         return 1;
-      } else if( !c2Date ) {
+      } else if ( !c2Date ) {
         return -1;
       }
 
-      var diff = null;
-      for( var d of ['year', 'month', 'day'] ) {
-        if( c1Date[ d ] !== c2Date[ d ] ) {
+      let diff = null;
+      for ( const d of ['year', 'month', 'day'] ) {
+        if ( c1Date[ d ] !== c2Date[ d ] ) {
           diff = d;
           break;
         }
-      };
-      if( diff ) {
-        if( c1Date[ diff ] < c2Date[ diff ] ){
+      }
+      if ( diff ) {
+        if ( c1Date[ diff ] < c2Date[ diff ] ) {
           return -1;
         } else {
           return 1;
@@ -69,7 +69,7 @@ export class CheckInsComponent {
    * Used by template to extract service data
    */
   public parseServices(advocate: Object) {
-    if(! advocate){
+    if (! advocate) {
       console.log('ERROR: Null advocate field in template parsing');
       return {};
     }
@@ -84,8 +84,8 @@ export class CheckInsComponent {
     const appt = new Appointment();
 
     // TODO - better way to add a checkIn object
-    for( let ci of this.checkIns ){
-      if( ci[ 'advocate' ] === advocate ){
+    for ( const ci of this.checkIns ) {
+      if ( ci[ 'advocate' ] === advocate ) {
         ci[ 'appointments' ].push( appt );
         return;
       }
@@ -102,7 +102,7 @@ export class CheckInsComponent {
   remove(cIdx, aIdx) {
     const targetCheckIn: Object = this.checkIns[cIdx] || {};
     const appointments: Object = targetCheckIn[ 'appointments' ];
-    if( appointments ){
+    if ( appointments ) {
       targetCheckIn[ 'appointments' ].pop(aIdx);
     }
   }

@@ -61,6 +61,6 @@ export const appRoutes = [
   ]
 })
 
-export class AnapneoRoutingModule{}
+export class AnapneoRoutingModule {}
 
 

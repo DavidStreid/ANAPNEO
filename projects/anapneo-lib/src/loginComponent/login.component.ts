@@ -15,12 +15,12 @@ import LoggerUtil               from '../utils/logger.util';
 })
 
 export class LoginComponent {
-  private devGuide: string = "Try 'DavidStreid'/'test'";
+  private devGuide = 'Try \'DavidStreid\'/\'test\'';
 
   // ngbd-alert-selfclosing params
   msgSubject = new Subject<string>();
-  msgLifeTime: number = 7000;
-  statusMsg: string = `Hi! We're under construction. ${this.devGuide}`;
+  msgLifeTime = 7000;
+  statusMsg = `Hi! We're under construction. ${this.devGuide}`;
   alertType: string = TYPES.INFO;
 
   // TODO - Add logger (make seperate class/util)
@@ -29,7 +29,7 @@ export class LoginComponent {
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
 
-  constructor(private userProfileService: UserProfileService, private loginService:LoginService){
+  constructor(private userProfileService: UserProfileService, private loginService: LoginService) {
     this.encryptUtil = new EncryptUtil();
     this.logger = new LoggerUtil();
   }
@@ -40,12 +40,12 @@ export class LoginComponent {
   });
 
   onSubmit() {
-    let user = this.loginForm.value.user;
-    let password = this.loginForm.value.password;
+    const user = this.loginForm.value.user;
+    const password = this.loginForm.value.password;
     this.login(user, password);
   }
 
-  login(user: String, password: String){
+  login(user: String, password: String) {
     this.logger.debug( `User: ${user}, Password: ${password}` );
 
     const encodedUser = this.encryptUtil.encrypt(user);
@@ -53,14 +53,13 @@ export class LoginComponent {
 
     this.loginService.login(encodedUser, encodedPassword).subscribe({
       next: ( loginStatus: Object ) => {
-        if( loginStatus[ 'success' ] ){
+        if ( loginStatus[ 'success' ] ) {
           const token = loginStatus['token'];
-          if( token ){
+          if ( token ) {
             this.userProfileService.setAuthToken(token);
             this.logger.debug( `Login Successful with token ${token}` );
             this.isLoggedIn.emit(true);
-          }
-          else {
+          } else {
             this.handleLoginFailure('Login Unsuccessful: login token is null');
           }
         } else {

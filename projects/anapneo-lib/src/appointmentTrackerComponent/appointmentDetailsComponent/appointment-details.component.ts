@@ -50,9 +50,9 @@ export class AppointmentDetailsComponent implements OnChanges {
 
     // Check the appointment to see what state it is in
     // TODO - Make state part of the appointment class
-    if( this.isDateEmpty(this.date) ){
+    if ( this.isDateEmpty(this.date) ) {
       this.state = 'entry';
-    } else if( ! checkedIn ) {
+    } else if ( ! checkedIn ) {
       this.state = 'pending';
     } else {
       this.state = 'completed';
@@ -60,7 +60,7 @@ export class AppointmentDetailsComponent implements OnChanges {
 
     // Parse out checkInData if present
     const checkInData = this.appointment.checkInData || null;
-    if( checkInData !== null ){
+    if ( checkInData !== null ) {
       this.assignCheckInData(checkInData);
     }
   }
@@ -69,15 +69,15 @@ export class AppointmentDetailsComponent implements OnChanges {
    * Takes data entered from the entry form and attempts to create a pending check-in. All portions of
    * the entry form and the date object must be populated in order to submit
    */
-  public performUpdate(update: Object){
+  public performUpdate(update: Object) {
     const contact: string   = update[ 'advocate' ]  || ''; // TODO - change field to contact
     const type: string      = update[ 'type' ]      || '';
     const date: string      = this.checkInForm.value[ 'apptDate' ] || '';
     const advName: string   = this.advocate[ 'name' ] || '';
 
-    if( contact !== '' &&
+    if ( contact !== '' &&
         type !== '' &&
-        date !== ''){
+        date !== '') {
       const pendingCheckIn: Object = { contact, type, date };
       this.checkInsService.createPendingCheckIn(pendingCheckIn, advName).subscribe({
         next:     (res)     => { this.updateCheckIns(); },     // Update the list of checkIns
@@ -97,7 +97,7 @@ export class AppointmentDetailsComponent implements OnChanges {
       const type = checkIn[ 'type' ];
       const data = checkIn[ 'data' ] || {};
 
-      switch(type) {
+      switch (type) {
         case 'Blood Pressure':
           this.checkInData[type] = `${data['systolic']}/${data['diastolic']}`;
           break;
@@ -122,13 +122,13 @@ export class AppointmentDetailsComponent implements OnChanges {
   }
 
   public parseDay(date: Object) {
-    if( date ){
+    if ( date ) {
       return date[ 'day' ];
     }
     return null;
   }
   public parseMonth(date: Object) {
-    if( date ){
+    if ( date ) {
       return date[ 'month' ];
     }
     return null;
@@ -137,8 +137,8 @@ export class AppointmentDetailsComponent implements OnChanges {
   /**
    * Returns whether date object is entered and needs to be filled in
    */
-  isDateEmpty( date ){
-    if( date[ 'day' ] && date['month'] && date['year'] ){
+  isDateEmpty( date ) {
+    if ( date[ 'day' ] && date['month'] && date['year'] ) {
       return false;
     }
     return true;

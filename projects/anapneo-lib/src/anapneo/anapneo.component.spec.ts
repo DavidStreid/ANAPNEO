@@ -6,6 +6,13 @@ import { LoginComponent } from '../loginComponent/login.component';
 import { RouterTestingModule } from '@angular/router/testing';  // TODO - Replace with real router tests
 import { By } from '@angular/platform-browser';
 
+// Mock LoginComponent
+@Component({
+  selector: 'user-login',
+  template: ''
+})
+export class MockLoginComponent {}
+
 describe('AnapneoComponent', () => {
   let component: AnapneoComponent;
   let fixture: ComponentFixture<AnapneoComponent>;
@@ -64,12 +71,3 @@ describe('AnapneoComponent', () => {
     expect(sideBarComponent).toBeTruthy();
   });
 });
-
-
-// Mock LoginComponent
-@Component({
-  selector: 'user-login',
-  template: ''
-})
-export class MockLoginComponent {}
-

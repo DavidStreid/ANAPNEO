@@ -17,7 +17,7 @@ describe('LoginService Server Integration Test', () => {
 
   // Query server to verify endpoint is up
   it('Good User: Success', () => {
-    if( environment.integration ) {
+    if ( environment.integration ) {
       expect(loginService.anapneoService).not.toBeNull();
       loginService.login('RGF2aWRTdHJlaWQ=', 'dGVzdA==')
                       .subscribe((res: any) => {
@@ -30,7 +30,7 @@ describe('LoginService Server Integration Test', () => {
 
   // Query server to verify endpoint is up
   it('Bad User: Fail', () => {
-    if( environment.integration ) {
+    if ( environment.integration ) {
       expect(loginService.anapneoService).not.toBeNull();
       loginService.login('BAD_USER', 'INVALID')
                       .subscribe((res: any) => {

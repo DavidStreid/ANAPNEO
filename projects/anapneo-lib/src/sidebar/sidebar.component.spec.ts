@@ -38,5 +38,5 @@ describe('SidebarComponent', () => {
     expect( component.descriptionTest ).toBe('HealthAdv connects community leaders to members who may benefit from a check-in');
     const appDescription = fixture.debugElement.query(By.css('#app-description'));
     expect( appDescription ).toBeTruthy();
-  })
+  });
 });

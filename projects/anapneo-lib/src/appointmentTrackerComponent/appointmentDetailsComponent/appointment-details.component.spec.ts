@@ -16,12 +16,57 @@ import { CheckInsService }                    from '../../checkInsComponent/chec
 import { Observable }                         from 'rxjs/Observable';
 import { Appointment }                        from '../models/appointment';
 
+@Component({
+  template: '<appointment-details [appointment]="appointment" [services]="services" [advocate]="advocate"></appointment-details>'
+})
+class HostAppointmentDetailsComponent {
+  appointment: Object;
+  services: Object;
+  advocate: Object;
+}
+@Component({
+  selector: 'pending-check-in',
+  template: ''
+})
+class MockPendingCheckInComponent {
+  @Input() type;
+  @Input() contact;
+  @Input() date;
+  @Input() checkInData;
+  @Input() services;
+  @Input() advocate;
+}
+@Component({
+  selector: 'completed-checkIn',
+  template: ''
+})
+class MockCompletedCheckInComponent {
+  @Input() type;
+  @Input() contact;
+  @Input() checkInData;
+}
+@Component({
+  selector: 'entry-form',
+  template: ''
+})
+class MockEntryFormComponent {
+  @Output() update: EventEmitter<any> = new EventEmitter();
+}
+@Component({
+  selector: 'calendar-date',
+  template: ''
+})
+class MockCalendarDateComponent {
+  @Input() day;
+  @Input() month;
+}
+
 describe('AppointmentDetails', () => {
   let element: Object;
   let debugElementParent: DebugElement;
-  let componentParent: AppointmentDetailsComponentHost;
+  let componentParent: HostAppointmentDetailsComponent;
 
-  let fixture: ComponentFixture<AppointmentDetailsComponentHost>;
+  let fixture: ComponentFixture<HostAppointmentDetailsComponent>;
   let checkInsService: CheckInsService;
   let spy: any;
 
@@ -38,18 +83,18 @@ describe('AppointmentDetails', () => {
                 ],
       declarations: [
                         AppointmentDetailsComponent,
-                        AppointmentDetailsComponentHost,
-                        MockCompletedCheckIn,
-                        MockPendingCheckIn,
-                        MockEntryForm,
-                        MockCalendarDate
+                        HostAppointmentDetailsComponent,
+                        MockCompletedCheckInComponent,
+                        MockPendingCheckInComponent,
+                        MockEntryFormComponent,
+                        MockCalendarDateComponent
                     ],
       providers:  [
                     {provide: CheckInsService, useValue: checkInsService},
                   ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AppointmentDetailsComponentHost);
+    fixture = TestBed.createComponent(HostAppointmentDetailsComponent);
     element = fixture.nativeElement;
 
     debugElementParent = fixture.debugElement;
@@ -75,7 +120,7 @@ describe('AppointmentDetails', () => {
     const entryFormDOM = fixture.debugElement.query(By.css('entry-form'));
     const entryDateDOM = fixture.debugElement.query(By.css('mat-form-field'));
     const completedCheckInDOM = fixture.debugElement.query(By.css('completed-checkIn'));
-    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-checkIn'));
+    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-check-in'));
     const calendarDateDOM = fixture.debugElement.query(By.css('calendar-date'));
 
     const visible = [ entryFormDOM, entryDateDOM ];
@@ -89,7 +134,7 @@ describe('AppointmentDetails', () => {
   it('Completed state triggered and shown on input of completed   appointment', () => {
     // Create new entry appointment and trigger ngOnChanges
     const appt = new Appointment();
-    appt.setDate( 1,1,1 );          // Null date determines 'entry' state
+    appt.setDate( 1, 1, 1 );          // Null date determines 'entry' state
     appt.setCheckedIn( false );     // False CheckedIn status determines 'pending' state
     appt.setCheckInData( [
       {
@@ -116,7 +161,7 @@ describe('AppointmentDetails', () => {
     const entryFormDOM = fixture.debugElement.query(By.css('entry-form'));
     const entryDateDOM = fixture.debugElement.query(By.css('mat-form-field'));
     const completedCheckInDOM = fixture.debugElement.query(By.css('completed-checkIn'));
-    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-checkIn'));
+    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-check-in'));
     const calendarDateDOM = fixture.debugElement.query(By.css('calendar-date'));
 
     const visible = [ pendingCheckInDOM, calendarDateDOM ];
@@ -135,7 +180,7 @@ describe('AppointmentDetails', () => {
   it('Completed state triggered and shown on input of completed appointment', () => {
     // Create new entry appointment and trigger ngOnChanges
     const appt = new Appointment();
-    appt.setDate( 1,1,1 );
+    appt.setDate( 1, 1, 1 );
     appt.setCheckedIn( true );        // CheckedIn status puts in completed state
 
     componentParent.appointment = appt;
@@ -150,7 +195,7 @@ describe('AppointmentDetails', () => {
     const entryFormDOM = fixture.debugElement.query(By.css('entry-form'));
     const entryDateDOM = fixture.debugElement.query(By.css('mat-form-field'));
     const completedCheckInDOM = fixture.debugElement.query(By.css('completed-checkIn'));
-    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-checkIn'));
+    const pendingCheckInDOM = fixture.debugElement.query(By.css('pending-check-in'));
     const calendarDateDOM = fixture.debugElement.query(By.css('calendar-date'));
 
     const visible = [ calendarDateDOM, completedCheckInDOM  ];
@@ -163,7 +208,7 @@ describe('AppointmentDetails', () => {
 
   it('EntryForm update triggers performUpdate to emit event to parent with correct payload', () => {
     spy = spyOn(checkInsService, 'createPendingCheckIn').and.returnValue(new Observable());
-    let mockUpdate: Object = { advocate: 'TEST_ADVOCATE', type: 'TEST_TYPE' };
+    const mockUpdate: Object = { advocate: 'TEST_ADVOCATE', type: 'TEST_TYPE' };
 
     // Pass in entry appointment - will be passed to the entry-form child
     componentParent.appointment = new Appointment();
@@ -183,63 +228,16 @@ describe('AppointmentDetails', () => {
     const component = apptDetDom.componentInstance;
 
     // Emit mock entry update, without date being set - shouldn't call service
-    entryFormComponent.update.emit( mockUpdate )
+    entryFormComponent.update.emit( mockUpdate );
     expect(spy).not.toHaveBeenCalled();
 
     // Set date and repeat - should call service
-    let apptDate = component.checkInForm.controls['apptDate'];
-    apptDate.setValue("TEST_DATE");
+    const apptDate = component.checkInForm.controls['apptDate'];
+    apptDate.setValue('TEST_DATE');
     fixture.detectChanges();
 
-    entryFormComponent.update.emit( mockUpdate )
+    entryFormComponent.update.emit( mockUpdate );
 
     expect(spy).toHaveBeenCalled(); // With date set, a create call should be made
   });
 });
-
-@Component({
-  template: '<appointment-details [appointment]="appointment" [services]="services" [advocate]="advocate"></appointment-details>'
-})
-class AppointmentDetailsComponentHost{
-  appointment: Object;
-  services: Object;
-  advocate: Object;
-}
-
-@Component({
-  selector: 'pending-checkIn',
-  template: ''
-})
-class MockPendingCheckIn{
-  @Input() type;
-  @Input() contact;
-  @Input() date;
-  @Input() checkInData;
-  @Input() services;
-  @Input() advocate;
-}
-@Component({
-  selector: 'completed-checkIn',
-  template: ''
-})
-class MockCompletedCheckIn{
-  @Input() type;
-  @Input() contact;
-  @Input() checkInData;
-}
-@Component({
-  selector: 'entry-form',
-  template: ''
-})
-class MockEntryForm{
-  @Output() update: EventEmitter<any> = new EventEmitter();
-}
-@Component({
-  selector: 'calendar-date',
-  template: ''
-})
-class MockCalendarDate{
-  @Input() day;
-  @Input() month;
-}
-

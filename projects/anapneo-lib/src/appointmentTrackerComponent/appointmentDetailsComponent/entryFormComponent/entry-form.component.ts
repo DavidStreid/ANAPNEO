@@ -25,7 +25,7 @@ export class EntryFormComponent {
     const advocate: String = this.entryForm.value[ 'advocate' ] || '';
     const type: String = this.entryForm.value[ 'type' ] || '';
 
-    if( advocate !== '' && type !== '' ) {
+    if ( advocate !== '' && type !== '' ) {
       this.update.emit( { advocate, type } );
     } else {
       // TODO - modal to update user that they are missing an entry

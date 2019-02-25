@@ -25,13 +25,13 @@
         <completed-checkIn [type]="type" [contact]="contact" [checkInData]="checkInData"></completed-checkIn>
       </div>
       <div class="height-150" *ngIf="state === 'pending'">
-        <pending-checkIn [type]="type"
+        <pending-check-in [type]="type"
                          [contact]="contact"
                          [date]="date"
                          [checkInData]="checkInData"
                          [services]="services"
                          [advocate]="advocate"
-                         (updateCheckIns)="updateCheckIns()"></pending-checkIn>
+                         (updateCheckIns)="updateCheckIns()"></pending-check-in>
       </div>
     </div>
   </div>

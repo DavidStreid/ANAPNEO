@@ -5,13 +5,13 @@ export class Appointment {
   date: Object;
   type: string;
 
-  constructor(){
+  constructor() {
     // Initialized in an entry state
     this.checkInData = [];
     this.checkedIn = false;
-    this.contact = "";       // Needs to be updated by the AppointmentDetails component
+    this.contact = '';       // Needs to be updated by the AppointmentDetails component
     this.date = {};          // Needs to be updated by the AppointmentDetails component
-    this.type = "";          // Needs to be updated by the AppointmentDetails component
+    this.type = '';          // Needs to be updated by the AppointmentDetails component
   }
 
   public setDate( day: number, month: number, year: number ): void {
@@ -23,6 +23,6 @@ export class Appointment {
   }
 
   public setCheckInData( data: Object[] ): void {
-    this.checkInData = data
+    this.checkInData = data;
   }
 }
