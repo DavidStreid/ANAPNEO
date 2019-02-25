@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges }  from '@angular/core';
 import { FormGroup, FormControl }                             from '@angular/forms';
 
+import { Appointment }                                        from '../models/appointment';
 import { CheckInsService } from '../../checkInsComponent/checkIns.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { CheckInsService } from '../../checkInsComponent/checkIns.service';
 
 export class AppointmentDetailsComponent implements OnChanges {
   @Input()
-  public appointment: Object = {};
+  public appointment: Appointment;
   @Input()
   public services: Object = {};
   @Input()
@@ -50,12 +51,13 @@ export class AppointmentDetailsComponent implements OnChanges {
    * Executes dynamic parsing of inputs to generate the state of the appointment and generate checkInData if completed
    */
   ngOnChanges() {
-    this.date = this.appointment['date'] || {};
-    this.contact = this.appointment['contact'] || '';
-    this.type = this.appointment['type'] || '';
-    const checkedIn = this.appointment[ 'checkedIn' ] || false;
+    this.date       = this.appointment.date       || {};
+    this.contact    = this.appointment.contact    || '';
+    this.type       = this.appointment.type       || '';
+    const checkedIn = this.appointment.checkedIn  || false;
 
     // Check the appointment to see what state it is in
+    // TODO - Make state part of the appointment class
     if( this.isDateEmpty(this.date) ){
       this.state = 'entry';
     } else if( ! checkedIn ) {
@@ -65,7 +67,7 @@ export class AppointmentDetailsComponent implements OnChanges {
     }
 
     // Parse out checkInData if present
-    const checkInData = this.appointment['checkInData'] || null;
+    const checkInData = this.appointment.checkInData || null;
     if( checkInData !== null && checkInData !== undefined){
       this.assignCheckInData(checkInData);
     }

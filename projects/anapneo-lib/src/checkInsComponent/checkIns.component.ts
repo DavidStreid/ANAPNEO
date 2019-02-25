@@ -1,5 +1,6 @@
 import { Component, OnInit }    from '@angular/core';
 import { CheckInsService }      from './checkIns.service';
+import { Appointment }          from '../appointmentTrackerComponent/models/appointment';
 
 @Component({
   selector: 'check-ins',
@@ -80,13 +81,7 @@ export class CheckInsComponent {
    * Creates an empty appointment object that will be added to that appointments entry of that user's advocate
    */
   addCheckIn(advocate: Object) {
-    const appt: Object = {
-      checkInData: [],
-      checkedIn: false,
-      contact: "",        // Needs to be updated by the AppointmentDetails component
-      date: {},           // Needs to be updated by the AppointmentDetails component
-      type: "",           // Needs to be updated by the AppointmentDetails component
-    }
+    const appt = new Appointment();
 
     // TODO - better way to add a checkIn object
     for( let ci of this.checkIns ){
