@@ -3,10 +3,10 @@ import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of'
 import { map, catchError } from 'rxjs/operators';
-import { environment }      from './../environment';
+import { environment } from './../../environment';
 
-import { UserProfileService }     from '../userProfile/userProfile.service';
-import ResponseHandlerUtil from './../utils/services/responseHandler.util';
+import { UserProfileService } from '../../userProfile/userProfile.service';
+import ResponseHandlerUtil from './../../utils/services/responseHandler.util';
 
 @Injectable()
 export class CheckInsService {

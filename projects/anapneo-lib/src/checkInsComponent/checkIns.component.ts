@@ -1,5 +1,5 @@
 import { Component, OnInit }    from '@angular/core';
-import { CheckInsService }      from './checkIns.service';
+import { CheckInsService }      from './check-ins-service/checkIns.service';
 import { Appointment }          from '../appointmentTrackerComponent/models/appointment';
 
 @Component({

@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl }                       from '@angular/forms';
 
-import { CheckInsService } from '../../../checkInsComponent/checkIns.service';
+import { CheckInsService } from '../../../checkInsComponent/check-ins-service/checkIns.service';
 
 @Component({
   selector: 'pending-checkIn',
@@ -9,7 +9,7 @@ import { CheckInsService } from '../../../checkInsComponent/checkIns.service';
   styleUrls: [ 'pending-checkIn.component.scss' ],
 })
 
-export class PendingCheckInComponent implements OnChanges {
+export class PendingCheckInComponent {
   @Input()
   public services: Object = {};
   @Input()
@@ -17,7 +17,7 @@ export class PendingCheckInComponent implements OnChanges {
   @Input()
   public date: Object;
   @Input()
-  public advocate: String;
+  public advocate: Object;
   @Input()
   public contact: String;
   @Input()
@@ -36,7 +36,6 @@ export class PendingCheckInComponent implements OnChanges {
   public checkInForm: FormGroup = new FormGroup({});
 
   constructor(private checkInsService: CheckInsService) {}
-  ngOnChanges() {}
 
   /**
    * Triggered on user action to check-in

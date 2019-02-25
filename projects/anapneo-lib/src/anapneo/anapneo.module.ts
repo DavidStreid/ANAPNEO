@@ -31,7 +31,7 @@ import { NgbdAlertSelfclosing }         from '../common-components/alertSelfClos
 import { LocationService }    from '../services/location.service';
 import { LoginService }       from '../services/login-service/login.service';
 import { UserProfileService } from '../userProfile/userProfile.service';
-import { CheckInsService }    from '../checkInsComponent/checkIns.service';
+import { CheckInsService }    from '../checkInsComponent/check-ins-service/checkIns.service';
 import { MyHealthService }    from '../myHealthComponent/myHealth.service';
 
 const SERVICES    = [ LocationService, UserProfileService, LoginService, CheckInsService, MyHealthService ];

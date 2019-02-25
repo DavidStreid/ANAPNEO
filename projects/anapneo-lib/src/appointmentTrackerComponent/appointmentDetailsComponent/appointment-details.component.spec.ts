@@ -12,7 +12,7 @@ import {  MatInputModule,
           MatFormFieldModule }                from '@angular/material';
 import { NoopAnimationsModule }               from '@angular/platform-browser/animations';
 import { By }                                 from '@angular/platform-browser';
-import { CheckInsService }                    from '../../checkInsComponent/checkIns.service';
+import { CheckInsService }                    from '../../checkInsComponent/check-ins-service/checkIns.service';
 import { Observable }                         from 'rxjs/Observable';
 import { Appointment }                        from '../models/appointment';
 

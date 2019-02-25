@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges }  from '@angular/cor
 import { FormGroup, FormControl }                             from '@angular/forms';
 
 import { Appointment }                                        from '../models/appointment';
-import { CheckInsService } from '../../checkInsComponent/checkIns.service';
+import { CheckInsService } from '../../checkInsComponent/check-ins-service/checkIns.service';
 
 @Component({
   selector: 'appointment-details',
