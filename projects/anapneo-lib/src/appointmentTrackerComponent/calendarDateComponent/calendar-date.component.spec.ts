@@ -21,10 +21,6 @@ describe('CalendarDate Component', () => {
     fixture.detectChanges();
   });
 
-  beforeEach(() => {
-    component = new CalendarDateComponent();
-  });
-
   it( 'should have a date and month div on init', () => {
     const calendarDayDiv = fixture.debugElement.query(By.css('.calendar-day'));
     expect( calendarDayDiv ).toBeTruthy();
