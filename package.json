@@ -8,7 +8,7 @@
     "build": "ng build --configuration=prod",
     "test": "ng test",
     "test-lib": "ng test anapneo-lib --configuration=unit",
-    "itest-lib": "ng test anapneo-lib --configuration=integrate",
+    "itest-lib": "ng test anapneo-lib --configuration=integrate --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "log": "mkdir -p ./log",
