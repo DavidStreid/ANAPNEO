@@ -16,7 +16,7 @@ describe('LoginService Server Integration Test', () => {
   });
 
   // Query server to verify endpoint is up
-  it('Good User: Success', () => {
+  it('Good User: Success', async(() => {
     if ( environment.integration ) {
       expect(loginService.anapneoService).not.toBeNull();
       loginService.login('RGF2aWRTdHJlaWQ=', 'dGVzdA==')
@@ -26,10 +26,10 @@ describe('LoginService Server Integration Test', () => {
                         expect( res[ 'token' ] ).not.toBeNull();
                       });
     }
-  });
+  }));
 
   // Query server to verify endpoint is up
-  it('Bad User: Fail', () => {
+  it('Bad User: Fail', async(() => {
     if ( environment.integration ) {
       expect(loginService.anapneoService).not.toBeNull();
       loginService.login('BAD_USER', 'INVALID')
@@ -38,5 +38,5 @@ describe('LoginService Server Integration Test', () => {
                         expect( res[ 'status' ] ).toBe( 'User not found' );
                       });
     }
-  });
+  }));
 });
