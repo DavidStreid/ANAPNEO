@@ -23,13 +23,10 @@ describe('AnapneoComponent', () => {
       declarations: [ AnapneoComponent, SideBarComponent, MockLoginComponent ],
       providers: []
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AnapneoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
