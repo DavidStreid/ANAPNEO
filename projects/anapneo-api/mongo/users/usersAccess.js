@@ -29,7 +29,7 @@ exports.getHealth = function(token) {
         var checkIns      = user['checkIns'] || [];
         var res           = { healthProfile, checkIns: checkIns };
 
-        logger.log( `Retrieved health data for ${getUserString(user)}: ${JSON.stringify(res)}` );
+        logger.debug( `Retrieved health data for ${getUserString(user)}: ${JSON.stringify(res)}` );
         return res;
       } else {
         logger.log( `No user found for token ${token}` );
