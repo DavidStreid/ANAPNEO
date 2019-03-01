@@ -8,24 +8,27 @@ var express = require('express'),
 function appSetup() {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  app.listen(port);
 
-  dbConnection.then( () => {
-    // Setup Anapneo api after successful db connection
-    console.log('Anapneo server started: ' + port);
-    setup(app);
+  app.listen(port, () => {
+    console.log(`Anapneo server started on port: ${port}`);
+    console.log('Connecting to mongo...');
+    connectToMongo().then( () => {
+      // Setup Anapneo api after successful db connection
+      setup(app);
+    });
   });
 }
-
-var dbConnection = new Promise(function(resolve, reject) {
+function connectToMongo() {
+  return new Promise(function(resolve, reject) {
   // TODO - Configure mongo url w/ conifg
-  db.connect('mongodb://localhost:27017/test', function(err) {
-    if (err) {
-      reject(Error('Unable to connect to Mongo\n' + JSON.stringify(err) ));
-    } else {
-      resolve('Mongo listening on port 27017...');
-    }
+    db.connect('mongodb://localhost:27017/test', function(err) {
+      if (err) {
+        reject(Error('Unable to connect to Mongo\n' + JSON.stringify(err) ));
+      } else {
+        resolve('Mongo listening on port 27017...');
+      }
+    })
   })
-});
+}
 
 appSetup();
