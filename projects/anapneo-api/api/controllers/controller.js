@@ -9,18 +9,36 @@ var logger = require('../../utils/logger');
 var usersAccess   = require('../../mongo/users/usersAccess');
 var vendorAccess  = require('../../mongo/vendor/vendorAccess');
 var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
-
+var session = 'session';
+// TODO - needed?
 var http   = require('../../resources/constants/http');
-var logging_enabled = true;
-var allowedOrigins = ['*'];                                 // valid hosts for CORS
+// TODO - Put into an environment variables
+var allowedOrigins = ['http://localhost:4200']; // valid hosts for CORS
+
+function getSessionToken(req){
+  logger.debug('controller::getSessionToken');
+  const token = req.cookies[session];
+  if( !token ){
+    logger.log('Token is not set on request');
+  } else {
+    logger.debug(`Token is set on request: ${token}`);
+  }
+  return token;
+}
+
+function setSessionToken(res, token){
+  logger.debug('controller::setSessionToken');
+  logger.log(`Setting session token to ${token}`)
+  const cookies = [`${session}=${token}; HttpOnly`];
+  res.setHeader('Set-Cookie', cookies);
+}
 
 // TODO - add handleError to places
 exports.getHealth = function(req,res){
   setCORSHeaders(res, allowedOrigins, ['GET'])
   logger.log('controller::getHealth');
 
-  const token = req.query.token || null;
-
+  const token = getSessionToken(req);
   usersAccess.getHealth(token).then(result => {
     res.send(result);
   });
@@ -30,8 +48,8 @@ exports.getCheckIns = function(req,res){
   setCORSHeaders(res, allowedOrigins, ['GET'])
   logger.log('controller::getCheckIns');
 
-  const token = req.query.token || null;
-  checkInsAccess.getUserCheckIns(token).then( checkIns => {
+  const token = getSessionToken(req);
+  checkInsAccess.getUserCheckIns(token).then( function(checkIns) {
     if( checkIns == null || checkIns.length == 0 ) {
       logger.log( `No CheckIns found for user with token ${token}` );
       res.send( { checkIns: [] });
@@ -54,9 +72,8 @@ exports.submitPending = function(req,res){
   setCORSHeaders(res, allowedOrigins, ['POST'])
 
   const checkIn       = req.body.checkIn || {};
-  const token         = req.body.token;
+  const token         = getSessionToken(req);
   const advocateName  = req.body.advocateName;
-
   return usersAccess.getUserIdFromToken(token)
     .then(  (userId) => {
       return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
@@ -74,20 +91,19 @@ exports.updateCheckInOptions = function(req,res){
   logger.debug( 'PRE-FLIGHT REQUEST - updateCheckIn' );
 
   setCORSHeaders(res, allowedOrigins, ['POST']);
-  console.log(http.responses.get(200));
   res.sendStatus(200);
 }
 
 exports.updateCheckIn = function(req, res){
   logger.debug('controller::updateCheckIn');
 
-  setCORSHeaders(res, allowedOrigins, ['GET'])
-  const checkIn       = req.body.checkIn || {};
-  const token         = req.body.token;
-  const advocateName  = req.body.advocate;
+  setCORSHeaders(res, allowedOrigins, ['GET']);
 
+  const checkIn       = req.body.checkIn || {};
+  const token         = getSessionToken(req);
+  const advocateName  = req.body.advocate;
   return usersAccess.getUserIdFromToken(token)
-    .then(  (userId) => {
+    .then( (userId) => {
       return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
         checkInsAccess.updateCheckIn(checkIn, userId, advocateId).then(function (status) {
                                                                   res.send({status});
@@ -102,8 +118,7 @@ exports.getVendors = function(req,res){
     setCORSHeaders(res, allowedOrigins, ['GET'])
     logger.log('controller::getVendors');
 
-    const token = req.query.token || null;
-
+    const token = getSessionToken(req);
     usersAccess.isValidSession(token).then(result => {
       if( result.success ){
         // TODO - Make vendor list dependent on the userId that comes in, get zipcode
@@ -124,7 +139,6 @@ function queryDBandSend( zipCode, res ){
     res.contentType('application/json');
 
     var vendorModel = mongoose.model('vendor')
-
     var vendorList = [];
     vendorModel.find({ zipCode }, function (err, vendors) {
         // Error Case
@@ -150,7 +164,6 @@ function queryDBandSend( zipCode, res ){
 
         vendorList = vendors;
         const data = { vendors: vendorList };
-
 
         res.send(data);
     });
@@ -192,7 +205,6 @@ exports.loginOptions = function(req,res){
     logger.log( 'PRE-FLIGHT REQUEST - login' );
 
     setCORSHeaders(res, allowedOrigins, ['POST']);
-    console.log(http.responses.get(200));
     res.sendStatus(200);
 }
 
@@ -208,8 +220,16 @@ exports.login = function(req,res){
   const password = atob(asciiPassword);
   const name = atob(asciiName);
 
-  usersAccess.login(name, password).then((loginStatus) => {
-    logger.log(`${loginStatus['status']} - User: ${name}, Password: ${password}`);
+  usersAccess.login(name, password).then(function(loginStatus) {
+    // Set the user token in the headers
+    const token = loginStatus[ 'token' ];
+
+    if( loginStatus[ 'success' ] && token ){
+      setSessionToken(res, token);
+    } else {
+      logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
+    }
+
     res.send( loginStatus );
   });
 }

@@ -1,15 +1,18 @@
 var db = require('../db/db');
-var setup = require('../../projects/anapneo-api/setup'); 	//importing route
-var express = require('express'),
-  app = express(),
-  port = process.env.PORT || 4300,
-  bodyParser = require('body-parser');	// Parse incoming bodies
+var setup = require('../../projects/anapneo-api/setup'); 	// Performs setup of server
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');	// Parse incoming bodies
+var port = process.env.PORT || 4300;
 
 function appSetup() {
+  var app = express();
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.listen(port, () => {
+  app.listen(port, function() {
+    app.use(cookieParser());
     console.log(`Anapneo server started on port: ${port}`);
     console.log('Connecting to mongo...');
     connectToMongo().then( () => {

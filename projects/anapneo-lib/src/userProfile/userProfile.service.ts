@@ -5,21 +5,11 @@ import { LocationService }  from '../services/location.service';
 export class UserProfileService {
 
   public userProfile: Object = {
-    coordinates: { 'latitude': null, 'longitude': null },
-    authToken: null
+    coordinates: { 'latitude': null, 'longitude': null }
   };
 
   constructor(private locationService: LocationService) {
     this.getCoordinates();
-  }
-
-  // TODO - Use JWT & set in 'HttpOnly' cookie
-  getAuthToken(): string {
-    return this.userProfile[ 'authToken' ];
-  }
-
-  setAuthToken(authToken: string): void {
-    this.userProfile[ 'authToken' ] = authToken;
   }
 
   getCoordinates() {

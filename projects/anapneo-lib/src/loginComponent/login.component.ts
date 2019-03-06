@@ -54,14 +54,8 @@ export class LoginComponent {
     this.loginService.login(encodedUser, encodedPassword).subscribe({
       next: ( loginStatus: Object ) => {
         if ( loginStatus[ 'success' ] ) {
-          const token = loginStatus['token'];
-          if ( token ) {
-            this.userProfileService.setAuthToken(token);
-            this.logger.debug( `Login Successful with token ${token}` );
-            this.isLoggedIn.emit(true);
-          } else {
-            this.handleLoginFailure('Login Unsuccessful: login token is null');
-          }
+          this.logger.debug( `Login Successful` );
+          this.isLoggedIn.emit(true);
         } else {
           const error = loginStatus[ 'status' ] || 'ERROR';
           this.pushStatus(`${error}. ${this.devGuide}`, TYPES.DANGER);

@@ -31,12 +31,10 @@ export class CheckInsService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    // Add authentication token
-    const token = this.userProfileService.getAuthToken();
-    const req   = { token, checkIn, advocateName };
+    const req   = { checkIn, advocateName };
 
     const url = `${anapneoService}/submitPending`;
-    return this.http.post(url, req).pipe(
+    return this.http.post(url, req, { withCredentials: true }).pipe(
       map((response: HttpResponseBase) => response),
       catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
   }
@@ -51,12 +49,10 @@ export class CheckInsService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    // Add authentication token
-    const token = this.userProfileService.getAuthToken();
-    const req   = { token, checkIn, advocate };
-
+    const req   = { checkIn, advocate };
     const url = `${anapneoService}/updateCheckIn`;
-    return this.http.post(url, req).pipe(
+
+    return this.http.post(url, req, { withCredentials: true }).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful submitCheckIn request');
         return response;
@@ -74,10 +70,8 @@ export class CheckInsService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    const token = this.userProfileService.getAuthToken();
-
-    const url = `${anapneoService}/checkIns?token=${token}`;
-    return this.http.get(url).pipe(
+    const url = `${anapneoService}/checkIns`;
+    return this.http.get(url, { withCredentials: true }).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getCheckIns request');
         return response;

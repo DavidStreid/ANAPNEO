@@ -23,14 +23,12 @@ describe('LoginService', () => {
 
   it('login success response object', () => {
     const status: Object = {  success: true,
-                              status: 'User and password are correct',
-                              token: 'TEST' };
+                              status: 'User and password are correct' };
 
     loginService.login('', '')
                    .subscribe((res: any) => {
                       expect( res[ 'success' ] ).toBe( true );
                       expect( res[ 'status' ] ).toBe( 'User and password are correct' );
-                      expect( res[ 'token' ] ).toBe( 'TEST' );
                    });
 
     const req = httpMock.expectOne(`${loginService.anapneoService}/login`);

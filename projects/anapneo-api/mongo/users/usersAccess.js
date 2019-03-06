@@ -139,6 +139,7 @@ function findUser(token, populateFields = ''){
         logger.log(status);
         return null;
       }
+      // TODO - set expire on cookie
       if(isLoginExpired(userDoc)){
         status = `User profile with token ${token} has expired`;
         logger.log(status);
@@ -217,10 +218,7 @@ exports.login = function(name, password) {
           logger.log('Re-using token');
         }
 
-        return {
-                  success: true,
-                  status: 'User and password are correct',
-                  token }
+        return {  success: true, status: 'User and password are correct' }
       }
       // password doesn't match
       logger.log(`Login fail: Username and password do not match ( User: ${name}, Password: ${password} )`)

@@ -35,10 +35,10 @@ export class LoginService {
     const url = `${this.anapneoService}/login`;
     const body = { userId, pwd };
 
-    return this.http.post( url, body ).pipe(
+    return this.http.post( url, body,{ withCredentials: true } ).pipe(
       map((res: HttpResponseBase) => {
         const success = res['success'] || false;
-        if ( success && res['token'] != null ) {
+        if ( success ) {
           console.log('Successful login');
           return res;
         } else {

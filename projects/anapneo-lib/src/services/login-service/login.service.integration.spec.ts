@@ -23,7 +23,6 @@ describe('LoginService Server Integration Test', () => {
                       .subscribe((res: any) => {
                         expect( res[ 'success' ] ).toBe( true );
                         expect( res[ 'status' ] ).toBe( 'User and password are correct' );
-                        expect( res[ 'token' ] ).not.toBeNull();
                       });
     }
   }));

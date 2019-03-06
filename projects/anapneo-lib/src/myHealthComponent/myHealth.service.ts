@@ -26,10 +26,9 @@ export class MyHealthService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    const token = this.userProfileService.getAuthToken();
-    const url = `${anapneoService}/health?token=${token}`;
+    const url = `${anapneoService}/health`;
 
-    return this.http.get(url).pipe(
+    return this.http.get(url, { withCredentials: true }).pipe(
       map( (res: HttpResponseBase) => res,
       catchError( (err: HttpErrorResponse) => this.responseHandlerUtil.handleError(err) ) )
     );
