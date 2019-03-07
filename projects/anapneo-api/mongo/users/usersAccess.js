@@ -218,7 +218,7 @@ exports.login = function(name, password) {
           logger.log('Re-using token');
         }
 
-        return {  success: true, status: 'User and password are correct' }
+        return {  success: true, status: 'User and password are correct', token }
       }
       // password doesn't match
       logger.log(`Login fail: Username and password do not match ( User: ${name}, Password: ${password} )`)
