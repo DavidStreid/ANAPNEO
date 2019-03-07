@@ -5,8 +5,6 @@ const path = require("path");
 var logger = require("../../utils/logger");
 var vendor = require("../vendor/vendorAccess");
 
-const loggingEnabled = true;
-
 const userModel = getUserModel();
 
 /**
@@ -23,7 +21,7 @@ exports.getHealth = function(token) {
   logger.debug('userAccess::getHealth');
 
   return findUser(token, 'checkIns')
-    .then((user) => {
+    .then( function(user) {
       if( user != null ){
         var healthProfile = user['healthProfile'] || {};
         var checkIns      = user['checkIns'] || [];
@@ -62,11 +60,11 @@ function getCheckInByType(checkIns){
   var checkInsByType = checkInsObj.reduce( function(checkInsByType, vendorCheckIn) {
     let appointments = vendorCheckIn[ 'appointments' ] || [];
 
-    appointments.forEach( (appt) => {
+    appointments.forEach( function (appt) {
       let date = appt[ 'date' ] || {};
       let checkInData = appt[ 'checkInData' ] || [];
 
-      checkInData.forEach( (cid) => {
+      checkInData.forEach( function (cid) {
         let type = cid[ 'type' ] || 'INVALID_TYPE';
         let data = cid[ 'data' ] || {};
         let datapoint = { date,  data };
@@ -91,7 +89,7 @@ function getCheckInByType(checkIns){
 exports.getCheckIns = function(token) {
   logger.debug('userAccess::getCheckIns');
 
-  return findUser(token).then((user) => {
+  return findUser(token).then( function(user) {
     if( user != null ){
       var checkIns = user['checkIns'] || [];
       logger.log( `Retrieved user checkIns for ${getUserString(user)} - CheckIns: ${JSON.stringify(checkIns)}` );
@@ -110,7 +108,7 @@ exports.getCheckIns = function(token) {
  */
 exports.getUserIdFromToken = function(token) {
   logger.debug('userAccess::getUserIdFromToken');
-  return findUser(token).then( (userDoc, err) => {
+  return findUser(token).then( function (userDoc, err) {
     if( err ) {
       logger.log('No id found for invalid token');
       throw( err);
@@ -200,7 +198,7 @@ exports.login = function(name, password) {
   logger.debug('userAccess::login');
 
   var userModel = mongoose.model('user');
-  return userModel.findOne({ name }).then((userDoc) => {
+  return userModel.findOne({ name }).then(function (userDoc) {
     if( userDoc != null ){
       var storedPassword = userDoc[ 'password' ] || null;
       if( password == storedPassword ){

@@ -20,7 +20,7 @@ module.exports = function(app){
     var val = removalMap[collection];
     if( val.remove ){
       var promiseFunc = new Promise(function(resolve, reject) {
-                            val.removalFunc().then(() => {
+                            val.removalFunc().then( function () {
                               var status = `Removed ${collection}`;
                               logger.log(status);
                               resolve(status);
@@ -34,10 +34,10 @@ module.exports = function(app){
 
   // Add documents back to test state
   Promise.all(removalPromises)
-    .then( () => {
+    .then( function () {
       // Adds mock data after removing all specified collections
-      vendor.addAdvocates('Fresh Cuts').then( (advocate) => {
-          user.addMockUser('DavidStreid').then( (userDoc) => {
+      vendor.addAdvocates('Fresh Cuts').then( function(advocate){
+          user.addMockUser('DavidStreid').then( function (userDoc) {
             checkIns.addMockCheckIns(advocate._id, userDoc._id);
           })
         })
