@@ -9,7 +9,7 @@ var logger = require('../../utils/logger');
 var usersAccess   = require('../../mongo/users/usersAccess');
 var vendorAccess  = require('../../mongo/vendor/vendorAccess');
 var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
-var session = 'session';
+
 // TODO - needed?
 var http   = require('../../resources/constants/http');
 // TODO - Put into an environment variables
@@ -17,7 +17,7 @@ var allowedOrigins = ['http://localhost:4200']; // valid hosts for CORS
 
 function getSessionToken(req){
   logger.debug('controller::getSessionToken');
-  const token = req.cookies[session];
+  const token = req.cookies[http.sessionCookie];
   if( !token ){
     logger.log('Token is not set on request');
   } else {
@@ -29,7 +29,7 @@ function getSessionToken(req){
 function setSessionToken(res, token){
   logger.debug('controller::setSessionToken');
   logger.log(`Setting session token to ${token}`)
-  const cookies = [`${session}=${token}; HttpOnly`];
+  const cookies = [`${http.sessionCookie}=${token}; HttpOnly`];
   res.setHeader('Set-Cookie', cookies);
 }
 
