@@ -14,13 +14,20 @@ var http   = require('../../resources/constants/http');
 
 function getSessionToken(req){
   logger.debug('controller::getSessionToken');
-  const token = req.cookies[http.sessionCookie];
-  if( !token ){
-    logger.log('Token is not set on request');
+
+  const cookies = req.cookies;
+  if( cookies ){
+    const token = cookies[http.sessionCookie];
+    if( !token ){
+      logger.log('Token is not set on request');
+    } else {
+      logger.debug(`Token is set on request: ${token}`);
+    }
+    return token;
   } else {
-    logger.debug(`Token is set on request: ${token}`);
+    logger.log('Request has no cookies');
+    return null;
   }
-  return token;
 }
 
 function setSessionToken(res, token){
