@@ -43,7 +43,7 @@ exports.getHealth = function(req,res){
   logger.log('controller::getHealth');
 
   const token = getSessionToken(req);
-  usersAccess.getHealth(token).then(result => {
+  usersAccess.getHealth(token).then(function(result) {
     res.send(result);
   });
 }
