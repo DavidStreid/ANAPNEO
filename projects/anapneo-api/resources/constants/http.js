@@ -7,5 +7,6 @@ var responses = [
 ]
 
 module.exports = {
-	responses: new Map(responses)
+	responses: new Map(responses),
+  sessionCookie: 'session'
 } 

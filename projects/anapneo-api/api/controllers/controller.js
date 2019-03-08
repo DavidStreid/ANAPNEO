@@ -4,16 +4,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var atob = require('atob');
 var logger = require('../../utils/logger');
+var env = require('../../environment');
 
 // DB APIs
 var usersAccess   = require('../../mongo/users/usersAccess');
 var vendorAccess  = require('../../mongo/vendor/vendorAccess');
 var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
-
-// TODO - needed?
 var http   = require('../../resources/constants/http');
-// TODO - Put into an environment variables
-var allowedOrigins = ['http://localhost:4200']; // valid hosts for CORS
 
 function getSessionToken(req){
   logger.debug('controller::getSessionToken');
@@ -35,7 +32,7 @@ function setSessionToken(res, token){
 
 // TODO - add handleError to places
 exports.getHealth = function(req,res){
-  setCORSHeaders(res, allowedOrigins, ['GET'])
+  setCORSHeaders(res, ['GET'])
   logger.log('controller::getHealth');
 
   const token = getSessionToken(req);
@@ -45,7 +42,7 @@ exports.getHealth = function(req,res){
 }
 
 exports.getCheckIns = function(req,res){
-  setCORSHeaders(res, allowedOrigins, ['GET'])
+  setCORSHeaders(res, ['GET'])
   logger.log('controller::getCheckIns');
 
   const token = getSessionToken(req);
@@ -62,14 +59,14 @@ exports.getCheckIns = function(req,res){
 exports.submitPendingOptions = function(req,res){
   logger.debug( 'PRE-FLIGHT REQUEST - submitPending' );
 
-  setCORSHeaders(res, allowedOrigins, ['POST']);
+  setCORSHeaders(res, ['POST']);
   console.log(http.responses.get(200));
   res.sendStatus(200);
 }
 
 exports.submitPending = function(req,res){
   logger.debug('controller::submitPending');
-  setCORSHeaders(res, allowedOrigins, ['POST'])
+  setCORSHeaders(res, ['POST'])
 
   const checkIn       = req.body.checkIn || {};
   const token         = getSessionToken(req);
@@ -90,14 +87,14 @@ exports.submitPending = function(req,res){
 exports.updateCheckInOptions = function(req,res){
   logger.debug( 'PRE-FLIGHT REQUEST - updateCheckIn' );
 
-  setCORSHeaders(res, allowedOrigins, ['POST']);
+  setCORSHeaders(res, ['POST']);
   res.sendStatus(200);
 }
 
 exports.updateCheckIn = function(req, res){
   logger.debug('controller::updateCheckIn');
 
-  setCORSHeaders(res, allowedOrigins, ['GET']);
+  setCORSHeaders(res, ['GET']);
 
   const checkIn       = req.body.checkIn || {};
   const token         = getSessionToken(req);
@@ -115,7 +112,7 @@ exports.updateCheckIn = function(req, res){
 }
 
 exports.getVendors = function(req,res){
-    setCORSHeaders(res, allowedOrigins, ['GET'])
+    setCORSHeaders(res, ['GET'])
     logger.log('controller::getVendors');
 
     const token = getSessionToken(req);
@@ -171,7 +168,7 @@ function queryDBandSend( zipCode, res ){
 exports.getImg = function(req,res){
     logger.log('controller::getImg');
 
-    setCORSHeaders(res, allowedOrigins, ['GET']);
+    setCORSHeaders(res, ['GET']);
 
     const name = req.query.name || '';
     if(! name){
@@ -204,14 +201,14 @@ exports.loginOptions = function(req,res){
     // Handles pre-flight request textPost
     logger.log( 'PRE-FLIGHT REQUEST - login' );
 
-    setCORSHeaders(res, allowedOrigins, ['POST']);
+    setCORSHeaders(res, ['POST']);
     res.sendStatus(200);
 }
 
 exports.login = function(req,res){
   logger.log('controller::login');
 
-  setCORSHeaders(res, allowedOrigins, ['POST']);
+  setCORSHeaders(res, ['POST']);
 
   const asciiName = req.body.userId;
   const asciiPassword = req.body.pwd;
@@ -236,7 +233,7 @@ exports.login = function(req,res){
 
 exports.getPrescriptions = function(req,res){
     logger.log('controller::getPrescriptions');
-    setCORSHeaders(res, allowedOrigins, ['GET']);
+    setCORSHeaders(res, ['GET']);
 
     // TODO - Parse out and validate authentication token
 
@@ -259,7 +256,7 @@ exports.getPrescriptions = function(req,res){
 
 exports.getDoctors = function(req,res){
   logger.log('controller::getDoctors');
-  setCORSHeaders(res, allowedOrigins, ['GET']);
+  setCORSHeaders(res, ['GET']);
 
   // TODO - Parse out and validate authentication token
 
@@ -280,26 +277,26 @@ exports.getDoctors = function(req,res){
 
 exports.textPost = function(req,res){
   logger.log('controller::textPost')
-  setCORSHeaders(res, allowedOrigins, ['POST']);
+  setCORSHeaders(res, ['POST']);
   const text = req.body.text;
   res.send({'text': text});
 }
 
 exports.textPostOptions = function(req,res){
   // Handles pre-flight request textPost
-  setCORSHeaders(res, allowedOrigins, ['POST']);
+  setCORSHeaders(res, ['POST']);
   res.sendStatus(200);
 }
 
 exports.helloWorld = function(req, res){
   logger.log('controller::helloWorld')
-  setCORSHeaders(res, allowedOrigins, ['GET']);
+  setCORSHeaders(res, ['GET']);
   res.send({'text': 'Hello World!'});
 }
 
-function setCORSHeaders(res, origins, methods){
+function setCORSHeaders(res, methods){
   // Returns CORS headers in pre-flight request
-  res.setHeader('Access-Control-Allow-Origin', origins.join(',') );
+  res.setHeader('Access-Control-Allow-Origin', env.allowedOrigins.join(',') );
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', methods.join(','));
   res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');

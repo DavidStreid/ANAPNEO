@@ -1,13 +1,12 @@
-var logEnabled = true;
-var debugEnabled = true;
+var env = require('../environment');
 
 exports.log = function(msg) {
-                  if(logEnabled){
+                  if(env.logEnabled){
                     console.log(msg);
                   }
                 }
 exports.debug = function(msg){
-                  if(debugEnabled){
+                  if(env.debugEnabled){
                     console.log(msg);
                   }
                 }
