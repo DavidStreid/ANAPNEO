@@ -234,7 +234,11 @@ exports.login = function(req,res){
       logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
     }
 
-    res.send( loginStatus );
+    // Only send back the status message and success boolean
+    const success = loginStatus[ 'success' ];
+    const status = loginStatus[ 'status' ];
+
+    res.send( { success, status } );
   });
 }
 
