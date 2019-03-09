@@ -8,6 +8,7 @@ import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { AnapneoRoutingModule }     from './Router/anapneo-routing.module';
 import { MatDatepickerModule }      from '@angular/material/datepicker';
 import { MatInputModule, MatNativeDateModule, MatFormFieldModule }      from '@angular/material';
+import { CookieService }            from 'ngx-cookie-service';
 
 // ROOT Component
 import { AnapneoComponent } from './anapneo.component';
@@ -34,7 +35,12 @@ import { UserProfileService } from '../userProfile/userProfile.service';
 import { CheckInsService }    from '../checkInsComponent/check-ins-service/checkIns.service';
 import { MyHealthService }    from '../myHealthComponent/myHealth.service';
 
-const SERVICES    = [ LocationService, UserProfileService, LoginService, CheckInsService, MyHealthService ];
+const SERVICES    = [ CookieService,
+                      LocationService,
+                      UserProfileService,
+                      LoginService,
+                      CheckInsService,
+                      MyHealthService ];
 const COMPONENTS  = [
                       HeaderComponent,
                       PageNotFoundComponent,

@@ -227,18 +227,23 @@ exports.login = function(req,res){
   usersAccess.login(name, password).then(function(loginStatus) {
     // Set the user token in the headers
     const token = loginStatus[ 'token' ];
+    const body = {};
 
     if( loginStatus[ 'success' ] && token ){
+      const putTokenInResponse = req.body[ 'putTokenInResponse' ] || false;
+      if( putTokenInResponse ){
+        logger.log('Token is being sent in the response. Browser should be safari');
+        body[ 'token' ] = token;
+      }
       setSessionToken(res, token);
     } else {
       logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
     }
 
-    // Only send back the status message and success boolean
-    const success = loginStatus[ 'success' ];
-    const status = loginStatus[ 'status' ];
+    body[ 'success']  = loginStatus[ 'success' ];
+    body[ 'status' ]    = loginStatus[ 'status' ];
 
-    res.send( { success, status } );
+    res.send( body );
   });
 }
 
