@@ -48,7 +48,7 @@ export class LoginService {
           console.log('Successful login');
           // If login was succcessful and the browser is safari, we'll take the token in the response and add it as a token
           if ( isSafari && res['token'] ) {
-            this.cookieService.set( 'sessionCookie', res['token'] );
+            this.cookieService.set( 'session', res['token'] );
           }
           return res;
         } else {
