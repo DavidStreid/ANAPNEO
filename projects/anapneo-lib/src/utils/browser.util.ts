@@ -3,7 +3,7 @@ export default class BrowserUtil {
    * Returns whether or not the browser being used is the one of the input param. Does this by checking the user agent string
    * for the presence of the input browser type
    *
-   * @param browser
+   * @param browser: Type of browser, E.g. 'safari', 'chrome', 'firefox'
    */
   isBrowser(browser: string): boolean {
     /*
@@ -14,7 +14,7 @@ export default class BrowserUtil {
 
     // Chrome browser includes chrome & safari in its user agent. Safari browser will not include chrome though
     if (browser.toLowerCase() === 'safari') {
-      if (ua.indexOf('safari') != -1) {
+      if (ua.indexOf('safari') !== -1) {
         if (ua.indexOf('chrome') > -1) {
           return false;
         } else {
