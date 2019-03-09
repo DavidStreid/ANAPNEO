@@ -2,6 +2,7 @@ import { LoginService } from './login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { environment } from '../../environment';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('LoginService Server Integration Test', () => {
   let loginService: LoginService;
@@ -9,7 +10,7 @@ describe('LoginService Server Integration Test', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientModule ],
-      providers: [ LoginService ]
+      providers: [ LoginService, CookieService ]
     });
 
     loginService = TestBed.get(LoginService);

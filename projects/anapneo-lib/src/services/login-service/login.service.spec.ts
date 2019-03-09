@@ -2,6 +2,7 @@ import { LoginService } from './login.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable } from 'rxjs/Observable';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('LoginService', () => {
   let loginService: LoginService;
@@ -10,7 +11,7 @@ describe('LoginService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
-      providers: [ LoginService ]
+      providers: [ LoginService, CookieService ]
     });
 
     httpMock = TestBed.get(HttpTestingController);
