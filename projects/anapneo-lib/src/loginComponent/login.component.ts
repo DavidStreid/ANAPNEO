@@ -15,6 +15,10 @@ import LoggerUtil               from '../utils/logger.util';
 })
 
 export class LoginComponent {
+
+  constructor(private userProfileService: UserProfileService, private loginService: LoginService) {
+    this.init();
+  }
   private devGuide = 'Try \'DavidStreid\'/\'test\'';
 
   // ngbd-alert-selfclosing params
@@ -29,15 +33,16 @@ export class LoginComponent {
 
   @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
 
-  constructor(private userProfileService: UserProfileService, private loginService: LoginService) {
-    this.encryptUtil = new EncryptUtil();
-    this.logger = new LoggerUtil();
-  }
-
   loginForm = new FormGroup({
     user: new FormControl(''),
     password: new FormControl(''),
   });
+
+  init() {
+    // Create utils
+    this.encryptUtil = new EncryptUtil();
+    this.logger = new LoggerUtil();
+  }
 
   onSubmit() {
     const user = this.loginForm.value.user;
