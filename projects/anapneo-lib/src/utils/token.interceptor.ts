@@ -14,7 +14,7 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Add Session token if it is available (Should only be available on Safari)
     const sessionToken: string = this.cookieService.get('session');
-    if( sessionToken ){
+    if ( sessionToken ) {
       request = request.clone({
         setHeaders: {
           withCredentials: 'true',
