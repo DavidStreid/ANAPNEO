@@ -7,7 +7,7 @@
       <appointment-details  [appointment]="appt"
                             [services]="parseServices(checkIn['advocate'])"
                             [advocate]="checkIn['advocate']"
-                            (update)="getCheckIns()"
+                            (update)="getCheckIns(true)"
                             (remove)="remove(i,j)"></appointment-details>
     </div>
     <div class="add-checkIn-button app-button margin-top-md margin-bottom-lg margin-auto" (click)="addCheckIn(checkIn['advocate'])">

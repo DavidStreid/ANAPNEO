@@ -14,12 +14,11 @@ export class CheckInsComponent implements OnInit {
   constructor(private checkInsService: CheckInsService) {}
 
   ngOnInit() {
-    this.getCheckIns();
+    this.getCheckIns(false);
   }
 
-  // TODO - cache response
-  public getCheckIns() {
-    this.checkInsService.getCheckIns().subscribe({
+  public getCheckIns(force: boolean) {
+    this.checkInsService.getCheckIns(force).subscribe({
       next:     (res)     => { this.checkIns = this.parseCheckIns(res['checkIns'] || []);       },
       error:    (err)     => { console.error('GetCheckIns Error: ' + err);  },
       complete: ()        => { }

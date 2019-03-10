@@ -14,6 +14,7 @@ export class CheckInsService {
   // TODO - Make logging util
   private loggingEnabled = true;
   private responseHandlerUtil: ResponseHandlerUtil;
+  public checkInsResponse: HttpResponseBase;
 
   constructor(private http: HttpClient,
               private userProfileService: UserProfileService,
@@ -63,10 +64,19 @@ export class CheckInsService {
       catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
   }
 
-  public getCheckIns() {
+  /**
+   * Returns the check-ins of the user
+   * @param force - Toggle to force the service call
+   */
+  public getCheckIns(force: boolean) {
     if ( this.loggingEnabled ) { console.log( 'CheckInsService::getCheckIns' ); }
-    const anapneoService = environment['anapneoService'] || null;
 
+    // Only make the service call if checkIns have not been cached or there is a force update
+    if(!force && this.checkInsResponse){
+      return of(this.checkInsResponse);
+    }
+
+    const anapneoService = environment['anapneoService'] || null;
     // TODO - Error handling/backup logic
     if ( ! anapneoService ) {
       const err = 'Anapneo service url is not defined in config';
@@ -76,7 +86,7 @@ export class CheckInsService {
     const url = `${anapneoService}/checkIns`;
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
-        console.log('Successful getCheckIns request');
+        this.checkInsResponse = response;
         return response;
       }),
       catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
