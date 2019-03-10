@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from './../../environment';
 
+import { CookieService } from 'ngx-cookie-service';
 import { UserProfileService } from '../../userProfile/userProfile.service';
 import ResponseHandlerUtil from './../../utils/services/responseHandler.util';
 
@@ -14,7 +15,9 @@ export class CheckInsService {
   private loggingEnabled = true;
   private responseHandlerUtil: ResponseHandlerUtil;
 
-  constructor(private http: HttpClient, private userProfileService: UserProfileService) {
+  constructor(private http: HttpClient,
+              private userProfileService: UserProfileService,
+              private cookieService: CookieService) {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
@@ -71,7 +74,7 @@ export class CheckInsService {
     }
 
     const url = `${anapneoService}/checkIns`;
-    return this.http.get(url, { withCredentials: true }).pipe(
+    return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         console.log('Successful getCheckIns request');
         return response;

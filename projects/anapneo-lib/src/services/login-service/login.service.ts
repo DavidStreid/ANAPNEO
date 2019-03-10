@@ -11,7 +11,7 @@ import BrowserUtil          from '../../utils/browser.util';
 @Injectable()
 export class LoginService {
   private loggingEnabled = false;
-  anapneoService: String;
+  anapneoService: string;
 
   private responseHandlerUtil: ResponseHandlerUtil;
   private browserUtil: BrowserUtil;
@@ -36,20 +36,19 @@ export class LoginService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    // Safari does not allow third-party cookies, eg. b.com sets cookie on a.com. For now, we'll put the session token in the resp body
+    /**
+     *  Safari does not allow third-party cookies, i.e. A.com cannot set a cookie on the request sent to B.com.
+     *  To get around this, we conditionally make the cookie sent back available in the browser if it is Safari so that http requests
+     *  can be intercepted (See token.interceptor.ts) and have the token set in the header
+     */
     const isSafari: boolean = this.browserUtil.isBrowser('safari');
-    const body = { userId, pwd, putTokenInResponse: isSafari };
+    const body = { userId, pwd, setHttpOnly: !isSafari };
 
     const url = `${this.anapneoService}/login`;
     return this.http.post( url, body, { withCredentials: true } ).pipe(
       map((res: HttpResponseBase) => {
         const success = res['success'] || false;
         if ( success ) {
-          console.log('Successful login');
-          // If login was succcessful and the browser is safari, we'll take the token in the response and add it as a token
-          if ( isSafari && res['token'] ) {
-            this.cookieService.set( 'session', res['token'] );
-          }
           return res;
         } else {
           const status = res['status'] || 'Status unknown';

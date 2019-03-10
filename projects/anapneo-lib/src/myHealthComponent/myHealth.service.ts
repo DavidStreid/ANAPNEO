@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
+import {HttpClient, HttpResponseBase, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, catchError } from 'rxjs/operators';
 
+import { CookieService } from 'ngx-cookie-service';
 import { environment }      from '../environment';
 import { UserProfileService }     from '../userProfile/userProfile.service';
 import ResponseHandlerUtil        from '../utils/services/responseHandler.util';
@@ -14,7 +15,9 @@ export class MyHealthService {
   private loggingEnabled = false;
   private responseHandlerUtil: ResponseHandlerUtil;
 
-  constructor(private http: HttpClient, private userProfileService: UserProfileService) {
+  constructor(private http: HttpClient,
+              private userProfileService: UserProfileService,
+              private cookieService: CookieService) {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
@@ -27,8 +30,7 @@ export class MyHealthService {
     }
 
     const url = `${anapneoService}/health`;
-
-    return this.http.get(url, { withCredentials: true }).pipe(
+    return this.http.get(url).pipe(
       map( (res: HttpResponseBase) => res,
       catchError( (err: HttpErrorResponse) => this.responseHandlerUtil.handleError(err) ) )
     );

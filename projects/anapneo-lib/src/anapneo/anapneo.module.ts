@@ -9,6 +9,8 @@ import { AnapneoRoutingModule }     from './Router/anapneo-routing.module';
 import { MatDatepickerModule }      from '@angular/material/datepicker';
 import { MatInputModule, MatNativeDateModule, MatFormFieldModule }      from '@angular/material';
 import { CookieService }            from 'ngx-cookie-service';
+import { HTTP_INTERCEPTORS }        from '@angular/common/http';
+import { TokenInterceptor }         from '../utils/token.interceptor';
 
 // ROOT Component
 import { AnapneoComponent } from './anapneo.component';
@@ -76,6 +78,13 @@ const COMPONENTS  = [
     AnapneoRoutingModule
   ],
   exports:    [ AnapneoComponent, COMPONENTS ],
-  providers:  [ SERVICES, MatDatepickerModule ],
+  providers:  [ SERVICES,
+                MatDatepickerModule,
+                {
+                  provide: HTTP_INTERCEPTORS,
+                  useClass: TokenInterceptor,
+                  multi: true
+                }
+              ],
 })
 export class AnapneoModule { }

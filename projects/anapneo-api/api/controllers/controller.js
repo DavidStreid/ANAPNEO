@@ -12,28 +12,39 @@ var vendorAccess  = require('../../mongo/vendor/vendorAccess');
 var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
 var http   = require('../../resources/constants/http');
 
-function getSessionToken(req){
+
+// REF - https://gist.github.com/thebigredgeek/230368bd92aa19e3f6638b659edf5cef
+function getSessionToken(req) {
   logger.debug('controller::getSessionToken');
-
-  const cookies = req.cookies;
-  if( cookies ){
-    const token = cookies[http.sessionCookie];
-    if( !token ){
-      logger.log('Token is not set on request');
-    } else {
-      logger.debug(`Token is set on request: ${token}`);
-    }
-    return token;
+  var token;
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') { // Authorization: Bearer g1jipjgi1ifjioj
+    token = req.headers.authorization.split(' ')[1];
+    logger.debug(`Token in authorization header: ${token}`);
+  } else if (req.query && req.query.token) {
+    token = req.query[http.sessionCookie];
+    logger.debug(`Token in query: ${token}`);
+  } else if (req.cookies && req.cookies[http.sessionCookie]) {
+    token = req.cookies[http.sessionCookie];
+    logger.debug(`Token in cookie: ${token}`);
   } else {
-    logger.log('Request has no cookies');
-    return null;
+    logger.log('Token is not set on request');
   }
+  return token;
 }
-
-function setSessionToken(res, token){
+/*
+  We do not add 'HttpOnly' to the cookie if 3rd-party cookies are not allowed by the browser.
+  In that case, cookies need to be available in the browser in order to send the JWT token
+*/
+function setSessionToken(res, token, httpOnly){
   logger.debug('controller::setSessionToken');
-  logger.log(`Setting session token to ${token}`)
-  const cookies = [`${http.sessionCookie}=${token}; HttpOnly`];
+  logger.log(`Setting session token to ${token}`);
+
+  var cookies = [`${http.sessionCookie}=${token}`];
+  if( httpOnly ){
+    logger.debug('Sending cookie as httpOnly');
+    cookies = cookies.concat('; HttpOnly');
+  }
+
   res.setHeader('Set-Cookie', cookies);
 }
 
@@ -46,6 +57,12 @@ exports.getHealth = function(req,res){
   usersAccess.getHealth(token).then(function(result) {
     res.send(result);
   });
+}
+
+exports.preFlight = function(req,res){
+  logger.debug( 'PRE-FLIGHT REQUEST' );
+  setCORSHeaders(res, ['POST', 'GET']);
+  res.sendStatus(200);
 }
 
 exports.getCheckIns = function(req,res){
@@ -61,14 +78,6 @@ exports.getCheckIns = function(req,res){
     }
     res.send({ checkIns });
   })
-}
-
-exports.submitPendingOptions = function(req,res){
-  logger.debug( 'PRE-FLIGHT REQUEST - submitPending' );
-
-  setCORSHeaders(res, ['POST']);
-  console.log(http.responses.get(200));
-  res.sendStatus(200);
 }
 
 exports.submitPending = function(req,res){
@@ -89,13 +98,6 @@ exports.submitPending = function(req,res){
     .catch( (err) => {
       logger.log(err); res.send({ status: err} ) } );
     });
-}
-
-exports.updateCheckInOptions = function(req,res){
-  logger.debug( 'PRE-FLIGHT REQUEST - updateCheckIn' );
-
-  setCORSHeaders(res, ['POST']);
-  res.sendStatus(200);
 }
 
 exports.updateCheckIn = function(req, res){
@@ -204,14 +206,6 @@ exports.getImg = function(req,res){
     });
 }
 
-exports.loginOptions = function(req,res){
-    // Handles pre-flight request textPost
-    logger.log( 'PRE-FLIGHT REQUEST - login' );
-
-    setCORSHeaders(res, ['POST']);
-    res.sendStatus(200);
-}
-
 exports.login = function(req,res){
   logger.log('controller::login');
 
@@ -230,12 +224,9 @@ exports.login = function(req,res){
     const body = {};
 
     if( loginStatus[ 'success' ] && token ){
-      const putTokenInResponse = req.body[ 'putTokenInResponse' ] || false;
-      if( putTokenInResponse ){
-        logger.log('Token is being sent in the response. Browser should be safari');
-        body[ 'token' ] = token;
-      }
-      setSessionToken(res, token);
+      const makeCookiesAvailable = req.body[ 'setHttpOnly' ] || false;
+      console.log(`makeCookiesAvailable: ${makeCookiesAvailable}`);
+      setSessionToken(res, token, makeCookiesAvailable);
     } else {
       logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
     }
@@ -298,12 +289,6 @@ exports.textPost = function(req,res){
   res.send({'text': text});
 }
 
-exports.textPostOptions = function(req,res){
-  // Handles pre-flight request textPost
-  setCORSHeaders(res, ['POST']);
-  res.sendStatus(200);
-}
-
 exports.helloWorld = function(req, res){
   logger.log('controller::helloWorld')
   setCORSHeaders(res, ['GET']);
@@ -315,7 +300,7 @@ function setCORSHeaders(res, methods){
   res.setHeader('Access-Control-Allow-Origin', env.allowedOrigins.join(',') );
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Methods', methods.join(','));
-  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json,authorization,withcredentials');
 }
 
 function handleError(message, resp, statusCode){
