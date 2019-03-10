@@ -31,22 +31,6 @@ function getSessionToken(req) {
   }
   return token;
 }
-/*
-  We do not add 'HttpOnly' to the cookie if 3rd-party cookies are not allowed by the browser.
-  In that case, cookies need to be available in the browser in order to send the JWT token
-*/
-function setSessionToken(res, token, httpOnly){
-  logger.debug('controller::setSessionToken');
-  logger.log(`Setting session token to ${token}`);
-
-  var cookies = [`${http.sessionCookie}=${token}`];
-  if( httpOnly ){
-    logger.debug('Sending cookie as httpOnly');
-    cookies = cookies.concat('; HttpOnly');
-  }
-
-  res.setHeader('Set-Cookie', cookies);
-}
 
 // TODO - add handleError to places
 exports.getHealth = function(req,res){
@@ -217,19 +201,21 @@ exports.login = function(req,res){
   // Converts to binary representation of string
   const password = atob(asciiPassword);
   const name = atob(asciiName);
+  const httpOnly = req.body[ 'setHttpOnly' ] || false;
 
   usersAccess.login(name, password).then(function(loginStatus) {
     // Set the user token in the headers
     const token = loginStatus[ 'token' ];
     const body = {};
 
-    if( loginStatus[ 'success' ] && token ){
-      const makeCookiesAvailable = req.body[ 'setHttpOnly' ] || false;
-      console.log(`makeCookiesAvailable: ${makeCookiesAvailable}`);
-      setSessionToken(res, token, makeCookiesAvailable);
+    if( loginStatus[ 'success' ] ){
+      // If successful, we'll send the session token once so it can be saved into the browser cookies. Why? Safari...
+      logger.log('Setting the token in the response');
+      body[ 'session' ] = token;
     } else {
       logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
     }
+
 
     body[ 'success']  = loginStatus[ 'success' ];
     body[ 'status' ]    = loginStatus[ 'status' ];

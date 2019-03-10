@@ -36,19 +36,15 @@ export class LoginService {
       return Observable.create( (observer) => { observer.error(err); } );
     }
 
-    /**
-     *  Safari does not allow third-party cookies, i.e. A.com cannot set a cookie on the request sent to B.com.
-     *  To get around this, we conditionally make the cookie sent back available in the browser if it is Safari so that http requests
-     *  can be intercepted (See token.interceptor.ts) and have the token set in the header
-     */
-    const isSafari: boolean = this.browserUtil.isBrowser('safari');
-    const body = { userId, pwd, setHttpOnly: !isSafari };
-
+    const body = { userId, pwd };
     const url = `${this.anapneoService}/login`;
     return this.http.post( url, body, { withCredentials: true } ).pipe(
       map((res: HttpResponseBase) => {
         const success = res['success'] || false;
         if ( success ) {
+          // Manually set session token as cookie if available
+          const token = res['session'];
+          this.cookieService.set('session', token);
           return res;
         } else {
           const status = res['status'] || 'Status unknown';
