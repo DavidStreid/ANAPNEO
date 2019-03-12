@@ -21,7 +21,7 @@ export class CheckInsService {
   constructor(private http: HttpClient,
               private userProfileService: UserProfileService,
               private cookieService: CookieService,
-              private healthService: MyHealthService ){
+              private healthService: MyHealthService ) {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
@@ -75,7 +75,7 @@ export class CheckInsService {
     if ( this.loggingEnabled ) { console.log( 'CheckInsService::getCheckIns' ); }
 
     // Only make the service call if checkIns have not been cached or there is a force update
-    if(!force && this.checkInsResponse){
+    if (!force && this.checkInsResponse) {
       return of(this.checkInsResponse);
     }
 

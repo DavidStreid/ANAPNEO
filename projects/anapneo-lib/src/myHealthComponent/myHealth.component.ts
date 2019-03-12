@@ -22,7 +22,7 @@ export class MyHealthComponent {
     this.getHealthProfile();
   }
 
-  getHealthProfile(){
+  getHealthProfile() {
     this.myHealthService.getHealthProfile().subscribe({
       next:     (res) => {
         this.healthProfile = res['healthProfile'] || {};

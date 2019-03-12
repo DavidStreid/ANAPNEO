@@ -21,7 +21,7 @@ export class MyHealthService {
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
-  public setShouldUpdate(shouldUpdate: boolean){
+  public setShouldUpdate(shouldUpdate: boolean) {
     this.shouldUpdate = shouldUpdate;
   }
 
@@ -31,7 +31,7 @@ export class MyHealthService {
    */
   getHealthProfile(): Observable<HttpResponseBase> {
     // Return cached response if it has been set and no service has toggled shouldUpdate
-    if( this.healthResponse && !this.shouldUpdate ){
+    if ( this.healthResponse && !this.shouldUpdate ) {
       return of(this.healthResponse);
     }
 
