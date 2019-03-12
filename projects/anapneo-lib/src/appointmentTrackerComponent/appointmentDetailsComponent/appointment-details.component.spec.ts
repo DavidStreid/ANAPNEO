@@ -71,7 +71,7 @@ describe('AppointmentDetails', () => {
   let spy: any;
 
   beforeEach(async(() => {
-    checkInsService = new CheckInsService(null, null, null);
+    checkInsService = new CheckInsService(null, null, null, null);
     TestBed.configureTestingModule({
       imports:  [
                   ReactiveFormsModule,
