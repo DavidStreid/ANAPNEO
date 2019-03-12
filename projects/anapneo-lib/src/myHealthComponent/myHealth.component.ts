@@ -19,11 +19,15 @@ export class MyHealthComponent {
   }
 
   init() {
+    this.getHealthProfile();
+  }
+
+  getHealthProfile(){
     this.myHealthService.getHealthProfile().subscribe({
       next:     (res) => {
-                              this.healthProfile = res['healthProfile'] || {};
-                              this.assignCheckInData( res['checkIns'] || [] );
-                },
+        this.healthProfile = res['healthProfile'] || {};
+        this.assignCheckInData( res['checkIns'] || [] );
+      },
       error:    (err) => { console.error('GetVendors Error: ' + err); },
       complete: ()    => { }
     });

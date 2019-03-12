@@ -7,6 +7,7 @@ import { environment } from './../../environment';
 
 import { CookieService } from 'ngx-cookie-service';
 import { UserProfileService } from '../../userProfile/userProfile.service';
+import { MyHealthService } from '../../myHealthComponent/myHealth.service';
 import ResponseHandlerUtil from './../../utils/services/responseHandler.util';
 
 @Injectable()
@@ -14,11 +15,13 @@ export class CheckInsService {
   // TODO - Make logging util
   private loggingEnabled = true;
   private responseHandlerUtil: ResponseHandlerUtil;
-  public checkInsResponse: HttpResponseBase;
+  private updateTime: Date;
 
+  public checkInsResponse: HttpResponseBase;
   constructor(private http: HttpClient,
               private userProfileService: UserProfileService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private healthService: MyHealthService ){
     this.responseHandlerUtil = new ResponseHandlerUtil();
   }
 
@@ -87,6 +90,10 @@ export class CheckInsService {
     return this.http.get(url).pipe(
       map((response: HttpResponseBase) => {
         this.checkInsResponse = response;
+
+        // Toggle healthservice to update on next load
+        this.healthService.setShouldUpdate(true);
+
         return response;
       }),
       catchError((error: HttpErrorResponse ) => this.responseHandlerUtil.handleError(error)));
