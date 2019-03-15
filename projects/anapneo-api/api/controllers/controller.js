@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var atob = require('atob');
 var logger = require('../../utils/logger');
+var jwtUtil = require('../../utils/jwt');
 var env = require('../../environment');
 
 // DB APIs
@@ -18,8 +19,8 @@ function getSessionToken(req) {
   logger.debug('controller::getSessionToken');
   var token;
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') { // Authorization: Bearer g1jipjgi1ifjioj
+    logger.debug(`AUTHORIZATION HEADER: ${JSON.stringify(req.headers.authorization)}`);
     token = req.headers.authorization.split(' ')[1];
-    logger.debug(`Token in authorization header: ${token}`);
   } else if (req.query && req.query.token) {
     token = req.query[http.sessionCookie];
     logger.debug(`Token in query: ${token}`);
@@ -29,6 +30,13 @@ function getSessionToken(req) {
   } else {
     logger.log('Token is not set on request');
   }
+
+  var isValidToken = jwtUtil.verify(token);
+  if( !isValidToken ){
+    logger.log(`Nullifying bad token: ${token}`);
+    return null;
+  }
+
   return token;
 }
 

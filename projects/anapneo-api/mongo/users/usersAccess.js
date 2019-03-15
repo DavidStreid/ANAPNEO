@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 const path = require("path");
 var logger = require("../../utils/logger");
 var vendor = require("../vendor/vendorAccess");
+var jwtUtil = require('../../utils/jwt');
 
 const userModel = getUserModel();
 
@@ -209,8 +210,12 @@ exports.login = function(name, password) {
         if( isLoginExpired(userDoc) || token == null ){
           logger.log('Token is null or expired - creating a new one...');
 
-          // TODO - Token creation
-          token = Math.floor(Math.random()*1000000000000);
+          var payload = {
+            name: userDoc.name,
+            password: userDoc.password
+          }
+
+          token = jwtUtil.sign(payload);
           saveUserToken( name, password, token );
         } else {
           logger.log('Re-using token');
