@@ -1,34 +1,30 @@
 'use strict';
 
-var express = require('express');
-var mongoose = require('mongoose');
-var vendor = require('../../mongo/advocate/advocateAccess');
-var companion = require('../controllers/controller');
-
+const controller = require('../controllers/controller');
 module.exports = function(app) {
     console.log('Registering ANAPNEO Routes...');
 
     // App Routes
     app.route('/checkIns')
-        .get(companion.getCheckIns);
+        .get(controller.getCheckIns);
     app.route('/checkIns')
-        .options(companion.preFlight);
+        .options(controller.preFlight);
     app.route('/health')
-      .get(companion.getHealth);
+      .get(controller.getHealth);
     app.route('/health')
-      .options(companion.preFlight);
+      .options(controller.preFlight);
     app.route('/login')
-      .post(companion.login);
+      .post(controller.login);
     app.route('/login')
-      .options(companion.preFlight);
+      .options(controller.preFlight);
     app.route('/prescriptions')
-      .get(companion.getPrescriptions);
+      .get(controller.getPrescriptions);
     app.route('/submitPending')
-      .post(companion.submitPending);
+      .post(controller.submitPending);
     app.route('/submitPending')
-      .options(companion.preFlight);
+      .options(controller.preFlight);
     app.route('/updateCheckIn')
-        .post(companion.updateCheckIn);
+        .post(controller.updateCheckIn);
     app.route('/updateCheckIn')
-        .options(companion.preFlight);
+        .options(controller.preFlight);
 };
