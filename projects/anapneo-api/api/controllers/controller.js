@@ -1,23 +1,44 @@
 'use strict';
-var request = require('request');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var atob = require('atob');
-var logger = require('../../utils/logger');
-var jwtUtil = require('../../utils/jwt');
-var env = require('../../environment');
+const atob      = require('atob');
+const env       = require('../../environment');
+const http      = require('../../resources/constants/http');
+const logger    = require('../../utils/logger');
+const jwtUtil   = require('../../utils/jwt');
 
 // DB APIs
-var usersAccess   = require('../../mongo/users/usersAccess');
-var advocateAccess  = require('../../mongo/advocate/advocateAccess');
-var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
-var http   = require('../../resources/constants/http');
+const usersAccess     = require('../../mongo/users/usersAccess');
+const advocateAccess  = require('../../mongo/advocate/advocateAccess');
+const checkInsAccess  = require('../../mongo/checkIns/checkInsAccess');
 
+/**
+ * Returns pre-flight response
+ */
+exports.preFlight = function(req,res){
+  logger.debug( 'PRE-FLIGHT REQUEST' );
+  setCORSHeaders(res, ['POST', 'GET']);
+  res.sendStatus(200);
+};
 
-// REF - https://gist.github.com/thebigredgeek/230368bd92aa19e3f6638b659edf5cef
+/**
+ * Returns CORS headers
+ */
+function setCORSHeaders(res, methods){
+  res.setHeader('Access-Control-Allow-Origin', env.allowedOrigins.join(',') );
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', methods.join(','));
+  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json,authorization,withcredentials');
+}
+
+/**
+ * Determines location of token and returns it. Checks header, request body, and cookies
+ * @param req - Request body from client
+ * @returns {string}
+ *
+ * REF - https://gist.github.com/thebigredgeek/230368bd92aa19e3f6638b659edf5cef
+ */
 function getSessionToken(req) {
   logger.debug('controller::getSessionToken');
-  var token;
+  let token;
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') { // Authorization: Bearer g1jipjgi1ifjioj
     logger.debug(`AUTHORIZATION HEADER: ${JSON.stringify(req.headers.authorization)}`);
     token = req.headers.authorization.split(' ')[1];
@@ -31,16 +52,18 @@ function getSessionToken(req) {
     logger.log('Token is not set on request');
   }
 
-  var isValidToken = jwtUtil.verify(token);
+  const isValidToken = jwtUtil.verify(token);
   if( !isValidToken ){
     logger.log(`Nullifying bad token: ${token}`);
-    return null;
+    return '';
   }
 
   return token;
 }
 
-// TODO - add handleError to places
+/**
+ * Returns health profile for user
+ */
 exports.getHealth = function(req,res){
   setCORSHeaders(res, ['GET'])
   logger.log('controller::getHealth');
@@ -49,14 +72,11 @@ exports.getHealth = function(req,res){
   usersAccess.getHealth(token).then(function(result) {
     res.send(result);
   });
-}
+};
 
-exports.preFlight = function(req,res){
-  logger.debug( 'PRE-FLIGHT REQUEST' );
-  setCORSHeaders(res, ['POST', 'GET']);
-  res.sendStatus(200);
-}
-
+/**
+ * Returns check-in data for user
+ */
 exports.getCheckIns = function(req,res){
   setCORSHeaders(res, ['GET'])
   logger.log('controller::getCheckIns');
@@ -70,8 +90,30 @@ exports.getCheckIns = function(req,res){
     }
     res.send({ checkIns });
   })
-}
+};
 
+exports.updateCheckIn = function(req, res){
+  logger.debug('controller::updateCheckIn');
+  setCORSHeaders(res, ['GET']);
+
+  const checkIn       = req.body.checkIn || {};
+  const token         = getSessionToken(req);
+  const advocateName  = req.body.advocate;
+  return usersAccess.getUserIdFromToken(token)
+    .then( (userId) => {
+      return advocateAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
+        checkInsAccess.updateCheckIn(checkIn, userId, advocateId).then(function (status) {
+          res.send({status});
+        });
+      })
+        .catch( (err) => {
+          logger.log(err); res.send({ status: err} ) } );
+    });
+};
+
+/**
+ * Submits a new check-in for the user's profile
+ */
 exports.submitPending = function(req,res){
   logger.debug('controller::submitPending');
   setCORSHeaders(res, ['POST'])
@@ -90,62 +132,7 @@ exports.submitPending = function(req,res){
     .catch( (err) => {
       logger.log(err); res.send({ status: err} ) } );
     });
-}
-
-exports.updateCheckIn = function(req, res){
-  logger.debug('controller::updateCheckIn');
-
-  setCORSHeaders(res, ['GET']);
-
-  const checkIn       = req.body.checkIn || {};
-  const token         = getSessionToken(req);
-  const advocateName  = req.body.advocate;
-  return usersAccess.getUserIdFromToken(token)
-    .then( (userId) => {
-      return advocateAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
-        checkInsAccess.updateCheckIn(checkIn, userId, advocateId).then(function (status) {
-                                                                  res.send({status});
-                                                                });
-      })
-    .catch( (err) => {
-      logger.log(err); res.send({ status: err} ) } );
-    });
 };
-
-// TODO - split into queryDB & sendResp functions
-function queryDBandSend( zipCode, res ){
-    res.contentType('application/json');
-
-    var vendorModel = mongoose.model('vendor')
-    var vendorList = [];
-    vendorModel.find({ zipCode }, function (err, vendors) {
-        // Error Case
-        if (err) {
-            logger.log('ERROR: ' + name);
-            errors.push( { name, err } );
-            return;
-        }
-        // Null vendor case
-        else if ( !vendors ) {
-            logger.log('NULL VENDOR: ' + name);
-            errors.push( { name, err: 'No vendor data for ' + name } );
-            return;
-        }
-
-        vendors = vendors.map(obj =>{
-            const name      = obj['name'] || 'NO_NAME';
-            const imgObj    = obj['img'] || {};
-            const img       = imgObj['data'] || {};
-
-            return { name, img };
-        });
-
-        vendorList = vendors;
-        const data = { vendors: vendorList };
-
-        res.send(data);
-    });
-}
 
 exports.login = function(req,res){
   logger.log('controller::login');
@@ -158,7 +145,6 @@ exports.login = function(req,res){
   // Converts to binary representation of string
   const password = atob(asciiPassword);
   const name = atob(asciiName);
-  const httpOnly = req.body[ 'setHttpOnly' ] || false;
 
   usersAccess.login(name, password).then(function(loginStatus) {
     // Set the user token in the headers
@@ -179,47 +165,4 @@ exports.login = function(req,res){
 
     res.send( body );
   });
-}
-
-exports.getPrescriptions = function(req,res){
-    logger.log('controller::getPrescriptions');
-    setCORSHeaders(res, ['GET']);
-
-    // TODO - Parse out and validate authentication token
-
-    // TODO - Get Prescriptions from DB
-    const prescriptions = [
-      {
-        name: 'MultiVitamin',
-        qty: 1,
-        frequency: 'daily'
-      },
-      {
-        name: 'NicodermCQ',
-        qty: 1,
-        frequency: 'daily'
-      }
-    ];
-
-    res.send({ prescriptions });
 };
-
-function setCORSHeaders(res, methods){
-  // Returns CORS headers in pre-flight request
-  res.setHeader('Access-Control-Allow-Origin', env.allowedOrigins.join(',') );
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', methods.join(','));
-  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json,authorization,withcredentials');
-}
-
-function handleError(message, resp, statusCode){
-    logger.log('ERROR: ' + message);
-
-    const body = { 'error': message }
-    if(statusCode){
-        resp.status(statusCode);
-    } else {
-        resp.status(404);
-    }
-    resp.send(body);
-}
