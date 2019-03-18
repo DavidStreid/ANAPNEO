@@ -10,4 +10,4 @@ $ cd ANAPNEO
 $ npm run go
 ~~~~
 
-Server should be started at http://localhost:4200/
+Client should be available at http://localhost:4200/
