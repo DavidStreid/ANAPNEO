@@ -16,18 +16,18 @@ module.exports = function(app){
  */
 function populateMongo() {
   // Remove documents from collection that are toggled
-  var removalMap = {
+  const removalMap = {
     advocates:  { remove: true, removalFunc: vendor.removeAdvocates },
     users:      { remove: true, removalFunc: user.removeUsers },
     checkIns:   { remove: true, removalFunc: checkIns.removeCheckIns }
   };
-  var removalPromises = [];
+  const removalPromises = [];
   Object.keys(removalMap).forEach(function(collection) {
-    var val = removalMap[collection];
+    const val = removalMap[collection];
     if( val.remove ){
-      var promiseFunc = new Promise(function(resolve, reject) {
+      const promiseFunc = new Promise(function(resolve, reject) {
         val.removalFunc().then( function () {
-          var status = `Removed ${collection}`;
+          const status = `Removed ${collection}`;
           logger.log(status);
           resolve(status);
         })
