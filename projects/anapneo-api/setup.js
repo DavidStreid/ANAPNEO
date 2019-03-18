@@ -1,7 +1,7 @@
 'use strict';
 
 const routes = require('./api/routes/routes');
-const vendor = require('./mongo/vendor/vendorAccess');
+const vendor = require('./mongo/advocate/advocateAccess');
 const user = require('./mongo/users/usersAccess');
 const checkIns = require('./mongo/checkIns/checkInsAccess');
 const logger = require('./utils/logger');

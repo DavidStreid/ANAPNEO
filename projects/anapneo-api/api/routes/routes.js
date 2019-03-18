@@ -2,7 +2,7 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
-var vendor = require('../../mongo/vendor/vendorAccess');
+var vendor = require('../../mongo/advocate/advocateAccess');
 var companion = require('../controllers/controller');
 
 module.exports = function(app) {
@@ -16,9 +16,6 @@ module.exports = function(app) {
         .post(companion.login);
     app.route('/login')
         .options(companion.preFlight);
-
-    app.route('/vendors')
-        .get(companion.getVendors);
 
 
     app.route('/checkIns')

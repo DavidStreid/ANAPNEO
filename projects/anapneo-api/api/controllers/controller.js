@@ -9,7 +9,7 @@ var env = require('../../environment');
 
 // DB APIs
 var usersAccess   = require('../../mongo/users/usersAccess');
-var vendorAccess  = require('../../mongo/vendor/vendorAccess');
+var advocateAccess  = require('../../mongo/advocate/advocateAccess');
 var checkInsAccess = require('../../mongo/checkIns/checkInsAccess');
 var http   = require('../../resources/constants/http');
 
@@ -81,7 +81,7 @@ exports.submitPending = function(req,res){
   const advocateName  = req.body.advocateName;
   return usersAccess.getUserIdFromToken(token)
     .then(  (userId) => {
-      return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
+      return advocateAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
         checkInsAccess.addPendingCheckIn(checkIn, userId, advocateId).then(function (status) {
                                                                   logger.debug(`Status: ${status}`);
                                                                   res.send({ status });
@@ -102,7 +102,7 @@ exports.updateCheckIn = function(req, res){
   const advocateName  = req.body.advocate;
   return usersAccess.getUserIdFromToken(token)
     .then( (userId) => {
-      return vendorAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
+      return advocateAccess.getAdvocateIdFromName(advocateName).then( (advocateId) => {
         checkInsAccess.updateCheckIn(checkIn, userId, advocateId).then(function (status) {
                                                                   res.send({status});
                                                                 });
