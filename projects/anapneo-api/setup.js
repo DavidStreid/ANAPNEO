@@ -42,7 +42,7 @@ function populateMongo() {
   Promise.all(removalPromises)
     .then( function () {
       // Adds mock data after removing all specified collections
-      vendor.addAdvocates('Fresh Cuts').then( function(advocate){
+      vendor.addMockAdvocates('Fresh Cuts').then( function(advocate){
         user.addMockUser('DavidStreid').then( function (userDoc) {
           checkIns.addMockCheckIns(advocate._id, userDoc._id);
         })

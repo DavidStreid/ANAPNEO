@@ -1,89 +1,12 @@
-var fs = require('fs');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-const path = require("path");
-var logger = require("../../utils/logger");
-var user = require("../users/usersAccess");
+const fs = require('fs');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const loggingEnabled = true;
+const path = require("path");
+const logger = require("../../utils/logger");
 const imgPath = './vendorImg';
 const vendorModel = getVendorModel();
 const advocateModel = createAdvocateModel();
-
-/**
- * Returns mongoose model for advocates
- */
-exports.getAdvocateModel = function() {
-  return advocateModel;
-}
-
-/**
- * Returns the id for the advocate given its name
- *
- * @name, String - Advocate name
- * @return, Schema.Types.ObjectId - Id of the advocate
- */
-exports.getAdvocateIdFromName = function(name) {
-  logger.debug('vendorAccess::getAdvocateFromName');
-  return advocateModel.findOne({ name }).then((advocateDoc) => {
-    if( advocateDoc == null ){
-      logger.log(`Advocate '${name}' was NOT FOUND`);
-      return;
-    }
-    logger.log(`Advocate '${name}' was FOUND`);
-    return advocateDoc._id;
-  });
-}
-
-/**
- * Adds Mock Advocates
- *
- * @name, String - Advocate name
- */
-exports.addAdvocates = function(name){
-  logger.debug('vendorAccess::addAdvocates');
-
-  var address = createAddress('775 Nostrand Ave', 'Brooklyn', 'NY', 11216);
-  var services = { 'Blood Pressure': [ 'diastolic', 'systolic' ] }
-  var advocateDoc = createAdvocateDoc(name, 'barber', address, services );
-
-  return advocateDoc.save();
-}
-
-/**
- * This method uses queries by a unique advocate name
- */
-exports.getAdvocate = function(id){
-  return advocateModel.findOne({ id }).then((advocateDoc) => {
-    if( advocateDoc == null ){
-      status = `Advocate Id: ${id} was not found`;
-      logger.log(status);
-      return;
-    }
-    status = `Advocate Id: ${id} was FOUND`;
-    logger.log(status);
-    return advocateDoc;
-  });
-}
-
-/**
- * Creates address object
- */
-function createAddress(street, city, state, zipCode){
-  var address = { street, city, state, zipCode };
-  return address;
-}
-
-/**
- * Creates Advocates Doc
- */
-function createAdvocateDoc(name, type, address, services){
-  var advocateDoc = new advocateModel({
-    name, type, address, services
-  });
-
-  return advocateDoc;
-}
 
 /**
  * Returns Advocates Model
@@ -95,35 +18,89 @@ function createAdvocateDoc(name, type, address, services){
  *    services: Health services offered by the advocate
  */
 function createAdvocateModel(){
-    const advocateData = new Schema({
-        _id: { type: Schema.ObjectId, auto: true },
-        name: String,
-        type: String,
-        address: Object,
-        services: Object
-    });
-    const advocateModel = mongoose.model('advocate', advocateData);
-    return advocateModel;
+  const advocateData = new Schema({
+    _id: { type: Schema.ObjectId, auto: true },
+    name: String,
+    type: String,
+    address: Object,
+    services: Object
+  });
+  return mongoose.model('advocate', advocateData);
+}
+exports.getAdvocateModel = function() {
+  return advocateModel;
+};
+
+/**
+ * Returns the id for the advocate given its name
+ *
+ * @name, String - Advocate name
+ * @return, Promise<Schema.Types.ObjectId> - Id of the advocate
+ */
+exports.getAdvocateIdFromName = function(name) {
+  logger.debug('vendorAccess::getAdvocateFromName');
+  return advocateModel.findOne({ name }).then((advocateDoc) => {
+    if( advocateDoc == null ){
+      logger.log(`Advocate '${name}' was NOT FOUND`);
+      return;
+    }
+    logger.log(`Advocate '${name}' was FOUND`);
+    return advocateDoc._id;
+  });
+};
+
+/**
+ * This method uses queries by a unique advocate name
+ */
+exports.getAdvocate = function(id){
+  return advocateModel.findOne({ id }).then((advocateDoc) => {
+    let status;
+    if( advocateDoc == null ){
+      status = `Advocate Id: ${id} was not found`;
+      logger.log(status);
+      return;
+    }
+    status = `Advocate Id: ${id} was FOUND`;
+    logger.debug(status);
+    return advocateDoc;
+  });
+}
+
+/**
+ * Creates address object
+ */
+function createAddress(street, city, state, zipCode){
+  return { street, city, state, zipCode };
+}
+
+/**
+ * Creates Advocates Doc
+ */
+function createAdvocateDoc(name, type, address, services){
+  const advocateDoc = new advocateModel({
+    name, type, address, services
+  });
+  return advocateDoc;
 }
 
 /**
  * Removes all documents from the advocates collection
  */
 exports.removeAdvocates = function() {
-    logger.debug("vendorAccess::removeAdvocates");
-    const vendorModel = mongoose.model('advocate')
-    return vendorModel.deleteMany();
-}
+  logger.debug("vendorAccess::removeAdvocates");
+  const vendorModel = mongoose.model('advocate')
+  return vendorModel.deleteMany();
+};
 
 exports.removeImages = function() {
-    logger.log("vendorAccess::removeImages");
-    const vendorModel = mongoose.model('vendor')
+  logger.log("vendorAccess::removeImages");
+  const vendorModel = mongoose.model('vendor')
 
-    vendorModel.deleteMany(function (err) {
-        if (err) throw err;
-    });
-    console.error('Removed docs from vendors collection');
-}
+  vendorModel.deleteMany(function (err) {
+      if (err) throw err;
+  });
+  console.error('Removed docs from vendors collection');
+};
 
 exports.uploadImages = function() {
     logger.log("vendorAccess::uploadImages");
@@ -139,16 +116,16 @@ exports.uploadImages = function() {
     const vendors = Object.keys(vendorImgs);
 
     vendors.forEach(function(vdr) {
-        var vendorData = vendorImgs[vdr] || {};
-        var vendorImg = vendorData[ 'imgName' ] || null;
+        const vendorData = vendorImgs[vdr] || {};
+        const vendorImg = vendorData[ 'imgName' ] || null;
         if( !vendorImg ) {
             console.error( "Could not find - " + vendorImg );
             return;
         }
 
         // location of image - e.g. 'PATH/TO/IMG.PNG'
-        var vendorImgLoc = imgPath + '/' + vendorImg;
-        var vendorDoc = createVendorDoc(vdr, vendorImgLoc, 'standard', 11216, 'image/png', vendorModel);
+        const vendorImgLoc = imgPath + '/' + vendorImg;
+        const vendorDoc = createVendorDoc(vdr, vendorImgLoc, 'standard', 11216, 'image/png', vendorModel);
 
         // Save images to db
         vendorDoc.save(function (err) {
@@ -157,23 +134,24 @@ exports.uploadImages = function() {
         });
     });
 }
-/*
-    Creates a vendor doc, a model instance given the input schema
 
-    name:           Name of vendor
-    imgLoc:         Path to the image
-    type:           Type of Vendor - "standard", "exclusive", etc.
-    zipCode:        zipCode of the user
-    contentType:    Content-type of the image
-    vendorModel:    Mongoose Model
+/**
+ * Creates a vendor doc, a model instance given the input schema
+ *
+ *  name:           Name of vendor
+ *  imgLoc:         Path to the image
+ *  type:           Type of Vendor - "standard", "exclusive", etc.
+ *  zipCode:        zipCode of the user
+ *  contentType:    Content-type of the image
+ *  vendorModel:    Mongoose Model
  */
 function createVendorDoc(name, imgLoc, type, zipCode, contentType, vendorModel){
     // Save image to vendors collection
-    var stringBuffer = fs.readFileSync(path.resolve(__dirname, imgLoc));
-    var img = { data: stringBuffer, contentType };
+    const stringBuffer = fs.readFileSync(path.resolve(__dirname, imgLoc));
+    const img = { data: stringBuffer, contentType };
 
     // Create document instance for vendor
-    var vendorDoc = new vendorModel({
+    const vendorDoc = new vendorModel({
       _id: new mongoose.Types.ObjectId(),
       name,
       type,
@@ -196,3 +174,17 @@ function getVendorModel(){
 
     return vendorModel;
 }
+
+/**
+ * Adds Mock Advocates
+ *
+ * @name, String - Advocate name
+ */
+exports.addMockAdvocates = function(name){
+  logger.debug('vendorAccess::addMockAdvocates');
+
+  const address = createAddress('775 Nostrand Ave', 'Brooklyn', 'NY', 11216);
+  const services = { 'Blood Pressure': [ 'diastolic', 'systolic' ] }
+  const advocateDoc = createAdvocateDoc(name, 'barber', address, services );
+  return advocateDoc.save();
+};

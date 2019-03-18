@@ -1,22 +1,12 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-const path = require("path");
-var logger = require("../../utils/logger");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const logger = require("../../utils/logger");
 
-var vendor = require("../vendor/vendorAccess");
-var users = require("../users/usersAccess");
-
-const checkInModel = getCheckInModel();
+const users = require("../users/usersAccess");
+const checkInModel = createCheckInModel();
 
 /**
- * Exposes CheckInModel to api
- */
-exports.getCheckInModel = function() {
-  return checkInModel;
-}
-
-/**
- * Returns Mongoose model for a checkIn
+ * Creates Mongoose model for a checkIn
  *
  *       contact: String                  - Name of contact for the checkin
  *       type: String                     - Type of checkIn (E.g. Haircut)
@@ -26,7 +16,7 @@ exports.getCheckInModel = function() {
  *       user: Schema.Types.ObjectId      - Mongoose reference to user w/ checkIn
  *       advocate: Schema.Types.ObjectId  - Mongoose reference to advocate for checkIn
  */
-function getCheckInModel(){
+function createCheckInModel(){
     const checkInData = new Schema({
         _id: Schema.Types.ObjectId,
         contact: String,
@@ -37,9 +27,10 @@ function getCheckInModel(){
         user:     { type: Schema.Types.ObjectId, ref: 'user' },
         advocate: { type: Schema.Types.ObjectId, ref: 'advocate' }
     });
-    const checkInModel = mongoose.model('checkIn', checkInData);
-
-    return checkInModel;
+    return mongoose.model('checkIn', checkInData);
+}
+exports.getCheckInModel = function() {
+  return checkInModel;
 }
 
 /**
@@ -52,14 +43,14 @@ exports.getUserCheckIns = function(token) {
   logger.debug('checkInsAccess::getUserCheckIns');
   return users.findUser(token).then( (userDoc) => {
     if( userDoc ) {
-      var userId = userDoc._id;
+      const userId = userDoc._id;
       return checkInModel.find({ user: userId })
                          .populate('advocate')
                          .then( (result) => {
                             logger.log(`Found ${result.length} check-ins for user ${userId}`);
 
                             // Create mapping of advocate to a list of checkIns that user has for that advocate
-                            var advTocheckInsMap = {};
+                            const advTocheckInsMap = {};
                             result.forEach( (checkIn) => {
                               const advocate = checkIn[ 'advocate' ] || {};
 
@@ -69,24 +60,24 @@ exports.getUserCheckIns = function(token) {
                               const type        = checkIn[ 'type' ] || '';
                               const date        = checkIn[ 'date' ] || {};
                               const checkedIn   = checkIn[ 'checkedIn' ];
-                              const appt        = { checkInData, contact, type, date, checkedIn };
+                              const appointment = { checkInData, contact, type, date, checkedIn };
 
                               // Add entry to mapping
                               if( advocate._id in advTocheckInsMap ) {
-                                advTocheckInsMap[ advocate._id ][ 'appointments' ].push(appt);
+                                advTocheckInsMap[ advocate._id ][ 'appointments' ].push(appointment);
                               } else {
-                                advTocheckInsMap[ advocate._id ] = { advocate, appointments: [ appt ] };
+                                advTocheckInsMap[ advocate._id ] = { advocate, appointments: [ appointment ] };
                               }
-                            })
+                            });
 
                             /* Transform mapping to list of checkins
                              *    checkIns = [ { advocate: {}, appointments: [] }, ...  ]
                              */
-                            var checkIns = [];
-                            for (var advocateId in advTocheckInsMap) {
+                            const checkIns = [];
+                            for (let advocateId in advTocheckInsMap) {
                                 if (advTocheckInsMap.hasOwnProperty(advocateId)) {
-                                  var advocate = advTocheckInsMap[ advocateId ][ 'advocate' ] || {};
-                                  var appointments = advTocheckInsMap[ advocateId ][ 'appointments' ] || [];
+                                  let advocate = advTocheckInsMap[ advocateId ][ 'advocate' ] || {};
+                                  let appointments = advTocheckInsMap[ advocateId ][ 'appointments' ] || [];
                                   checkIns.push( { advocate, appointments} )
                                 }
                             }
@@ -103,12 +94,11 @@ exports.getUserCheckIns = function(token) {
  * Creates Mongoose doc for a checkIn
  */
 function createCheckInDoc(contact, type, date, checkedIn, checkInData, user, advocate) {
-  var checkInDoc = new checkInModel({
+  return new checkInModel({
     _id: new mongoose.Types.ObjectId(),
     contact, type, date, checkedIn, checkInData,
     user, advocate
   });
-  return checkInDoc;
 }
 
 /**
@@ -124,12 +114,12 @@ exports.removeCheckIns = function() {
  */
 exports.addMockCheckIns = function(advocateId, userId){
   logger.debug('checkInsAccess::addMockCheckIns');
-  var name        = 'Barber';
-  var type        = 'Haircut';
-  var date        = {  day: 25, month: 2, year: 2019 };
-  var checkedIn   = true;
-  var checkInData = [ { type: 'Blood Pressure', data: { 'systolic': 120, 'diastolic': 80 } } ];
-  var checkInDoc = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
+  let name        = 'Barber';
+  let type        = 'Haircut';
+  let date        = {  day: 25, month: 2, year: 2019 };
+  let checkedIn   = true;
+  let checkInData = [ { type: 'Blood Pressure', data: { 'systolic': 120, 'diastolic': 80 } } ];
+  let checkInDoc = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
   addCheckIn(checkInDoc);
 
   name        = 'Barber';
@@ -151,12 +141,12 @@ exports.addMockCheckIns = function(advocateId, userId){
 exports.updateCheckIn = function(checkInUpdate, userId, advocateId) {
   logger.debug('checkInsAccess::updateCheckIn');
 
-  var date = checkInUpdate[ 'date' ] || {};
+  const date = checkInUpdate[ 'date' ] || {};
   return checkInModel
                       .findOne( { user: userId, advocate: advocateId, date } )
                       .then( (checkInDoc) => {
-                        var status;
-                        var isCheckedIn = checkInDoc[ 'checkedIn' ] || false;
+                        let status;
+                        const isCheckedIn = checkInDoc[ 'checkedIn' ] || false;
 
                         // Perform validations
                         if( ! checkInDoc ){
@@ -169,8 +159,8 @@ exports.updateCheckIn = function(checkInUpdate, userId, advocateId) {
                           logger.log(status);
                           return status;
                         }
-                        var data = checkInUpdate[ 'checkInData' ] || [];
-                        if( data.length == 0 ){
+                        const data = checkInUpdate[ 'checkInData' ] || [];
+                        if( data.length === 0 ){
                           status = 'Not updating - Update contained no data';
                           logger.log(status);
                           return status;
@@ -192,23 +182,22 @@ exports.updateCheckIn = function(checkInUpdate, userId, advocateId) {
   })
 }
 
-exports.addPendingCheckIn = addPendingCheckIn;
 function addPendingCheckIn(checkInObject, userId, advocateId){
   logger.debug('checkInsAccess::addPendingCheckIn');
 
-  // TODO - type checking
-  var name        = checkInObject[ 'contact' ] || '';
-  var type        = checkInObject[ 'type' ] || '';
-  var dateObj = new Date(checkInObject['date']);
+  const name        = checkInObject[ 'contact' ] || '';
+  const type        = checkInObject[ 'type' ] || '';
+  const dateObj = new Date(checkInObject['date']);
   // TODO - save date object instead of this created object
-  var date        = { day: dateObj.getDate(), month: dateObj.getMonth() + 1, year: dateObj.getFullYear() };
+  const date        = { day: dateObj.getDate(), month: dateObj.getMonth() + 1, year: dateObj.getFullYear() };
 
-  var checkedIn   = false;
-  var checkInData = [];
-  var checkInDoc = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
+  const checkedIn   = false;
+  const checkInData = [];
+  const checkInDoc  = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
 
   return addCheckIn(checkInDoc);
 }
+exports.addPendingCheckIn = addPendingCheckIn;
 
 /**
  * Adds a new checkIn Mongoose doc to collection
@@ -227,8 +216,8 @@ function addCheckIn(checkInDoc){
 
     // Save reference to checkIn in userModel if checkIn has been saved
     logger.log(`Saved checkIn Doc ${checkInDoc._id}. Saving checkIn reference to user...`);
-    var userId = checkInDoc.user;
-    var userModel = users.getUserModel();
+    const userId = checkInDoc.user;
+    const userModel = users.getUserModel();
     return userModel.findOne({ _id: userId }).then( (userDoc) => {
       userDoc.checkIns.push(checkInDoc._id);
       return userDoc.save().then(function (doc, err) {
