@@ -68,6 +68,6 @@
     "tsickle": "^0.34.3",
     "tslib": "^1.9.0",
     "tslint": "^5.14.0",
-    "typescript": "^3.3.3333"
+    "typescript": "~3.2.0"
   }
 }
