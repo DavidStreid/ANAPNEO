@@ -110,27 +110,7 @@ exports.updateCheckIn = function(req, res){
     .catch( (err) => {
       logger.log(err); res.send({ status: err} ) } );
     });
-}
-
-exports.getVendors = function(req,res){
-    setCORSHeaders(res, ['GET'])
-    logger.log('controller::getVendors');
-
-    const token = getSessionToken(req);
-    usersAccess.isValidSession(token).then(result => {
-      if( result.success ){
-        // TODO - Make vendor list dependent on the userId that comes in, get zipcode
-        const userId = req.query.userId || null;
-        if(! userId){ return handleError('UserID not provided', res, 404); }
-        const zipCode = 11216;
-
-        // TODO - refactor
-        queryDBandSend(zipCode, res);
-      } else {
-        res.send({result})
-      }
-    })
-}
+};
 
 // TODO - split into queryDB & sendResp functions
 function queryDBandSend( zipCode, res ){

@@ -206,32 +206,6 @@ exports.login = function(name, password) {
 };
 
 /**
- * Determines if input token is valid
- * @param token
- * @returns {Promise}
- */
-function isValidSession( token ){
-  let status;
-  const userModel = mongoose.model('user');
-  return userModel.findOne({ token }).then((userDoc) => {
-    if( userDoc == null ){
-      status = `User profile with token ${token} was not found`;
-      logger.log(status);
-      return { status, success: false };
-    }
-    if(isLoginExpired(userDoc)){
-      status = `User profile with token ${token} has expired`;
-      logger.log(status);
-      return { status, success: false };
-    }
-    status = `User profile with token ${token} is valid`;
-    logger.debug(status);
-    return { status, success: true };
-  });
-}
-exports.isValidSession = isValidSession;
-
-/**
  * This function determines if a userDoc has a non-expired login time
  */
 function isLoginExpired(userDoc) {
