@@ -253,21 +253,7 @@ exports.getDoctors = function(req,res){
       }
     ];
   res.send({ doctors });
-}
-
-
-exports.textPost = function(req,res){
-  logger.log('controller::textPost')
-  setCORSHeaders(res, ['POST']);
-  const text = req.body.text;
-  res.send({'text': text});
-}
-
-exports.helloWorld = function(req, res){
-  logger.log('controller::helloWorld')
-  setCORSHeaders(res, ['GET']);
-  res.send({'text': 'Hello World!'});
-}
+};
 
 function setCORSHeaders(res, methods){
   // Returns CORS headers in pre-flight request

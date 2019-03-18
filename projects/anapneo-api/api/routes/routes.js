@@ -48,12 +48,4 @@ module.exports = function(app) {
     // TODO - remove
     app.route('/doctors')
         .get(companion.getDoctors);
-
-    // Sample Requests
-	app.route('/helloWorld')
-		.get(companion.helloWorld);
-	app.route('/textPost')					// Content-Type: Application/json
-		.post(companion.textPost);
-	app.route('/textPost')					// Handle Pre-flight request
-		.options(companion.preFlight);
 };
