@@ -85,7 +85,7 @@ exports.getCheckIns = function(req,res){
   checkInsAccess.getUserCheckIns(token).then( function(checkIns) {
     if( checkIns == null || checkIns.length == 0 ) {
       logger.log( `No CheckIns found for user with token ${token}` );
-      res.send( { checkIns: [] });
+      res.status(401).send( { checkIns: [] });
       return;
     }
     res.send({ checkIns });
@@ -106,8 +106,8 @@ exports.updateCheckIn = function(req, res){
           res.send({status});
         });
       })
-        .catch( (err) => {
-          logger.log(err); res.send({ status: err} ) } );
+      .catch( (err) => {
+        logger.log(err); res.status(500).send({ status: err} ) } );
     });
 };
 
@@ -130,13 +130,12 @@ exports.submitPending = function(req,res){
                                                                 });
       })
     .catch( (err) => {
-      logger.log(err); res.send({ status: err} ) } );
+      logger.log(err); res.status(500).send({ status: err} ) } );
     });
 };
 
 exports.login = function(req,res){
   logger.log('controller::login');
-
   setCORSHeaders(res, ['POST']);
 
   const asciiName = req.body.userId;
@@ -156,12 +155,12 @@ exports.login = function(req,res){
       logger.log('Setting the token in the response');
       body[ 'session' ] = token;
     } else {
+      res.status(401);
       logger.log(`Login Failed: ${loginStatus['status']} - User: ${name}, Password: ${password}`);
     }
 
-
     body[ 'success']  = loginStatus[ 'success' ];
-    body[ 'status' ]    = loginStatus[ 'status' ];
+    body[ 'status' ]  = loginStatus[ 'status' ];
 
     res.send( body );
   });
