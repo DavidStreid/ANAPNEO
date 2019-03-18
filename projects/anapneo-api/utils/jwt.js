@@ -1,40 +1,49 @@
 // REF - https://medium.com/@siddharthac6/json-web-token-jwt-the-right-way-of-implementing-with-node-js-65b8915d550e
-var jwt     = require('jsonwebtoken');
+const jwt     = require('jsonwebtoken');
 const path  = require("path");
-var fs      = require('fs');
+const fs      = require('fs');
 
-var env     = require('../environment');
-var logger  = require('./logger');
+const environment = require('../environment');
+const logger      = require('./logger');
 
-var privateKEY  = fs.readFileSync(path.resolve(__dirname,'./private.key'));
-var publicKEY   = fs.readFileSync(path.resolve(__dirname,'./public.key'));
+const privateKEY  = fs.readFileSync(path.resolve(__dirname,'./private.key'));
+const publicKEY   = fs.readFileSync(path.resolve(__dirname,'./public.key'));
 
-var i  = 'DavidStreid';                 // Issuer
-var s  = 'y.fret.internet@gmail.com';   // Subject
-var a  = env.allowedOrigins[0];         // Audience
-var e = '12h';
-var algo = 'RS256';                     // RSASSA [ "RS256", "RS384", "RS512" ]
-var signOptions = {
+const i  = 'DavidStreid';                 // Issuer
+const s  = 'y.fret.internet@gmail.com';   // Subject
+const a  = environment.allowedOrigins[0]; // Audience
+const e = '12h';
+const algo = 'RS256';                     // RSASSA [ "RS256", "RS384", "RS512" ]
+const signOptions = {
   issuer:  i,
   subject:  s,
   audience:  a,
   expiresIn:  e,
   algorithm:  algo
 };
-var verifyOptions = {
+const verifyOptions = {
   audience: a,
   issuer: i,
   subject: s,
   algorithms: [ algo ]
 };
 
+/**
+ * Signs login payload w/ JWT
+ *
+ * @returns string - JWT
+ */
 exports.sign = function(payload) {
   logger.debug(`Signing Token - Subject: ${s}, Issuer: ${i}, Audience: ${a}, Expiration: ${e}, Algo: ${algo}`)
   return jwt.sign(payload, privateKEY, signOptions);
-}
+};
 
+/**
+ * Verifies JWT has valid signature
+ *
+ * @returns boolean
+ */
 exports.verify = function(token){
-  var isValidToken = jwt.verify(token, publicKEY, verifyOptions);
-  return isValidToken;
-}
+  return jwt.verify(token, publicKEY, verifyOptions);
+};
 

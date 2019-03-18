@@ -1,31 +1,37 @@
 'use strict';
 
-var routes = require('./api/routes/routes');
-var vendor = require('./mongo/vendor/vendorAccess');
-var user = require('./mongo/users/usersAccess');
-var checkIns = require('./mongo/checkIns/checkInsAccess');
-var logger = require('./utils/logger');
+const routes = require('./api/routes/routes');
+const vendor = require('./mongo/vendor/vendorAccess');
+const user = require('./mongo/users/usersAccess');
+const checkIns = require('./mongo/checkIns/checkInsAccess');
+const logger = require('./utils/logger');
 
 module.exports = function(app){
   routes(app);
+  populateMongo();
+}
 
-  // Remove documents from collection
+/**
+ * Deletes contents of toggled models and adds test data
+ */
+function populateMongo() {
+  // Remove documents from collection that are toggled
   var removalMap = {
-    advocates:  { remove: false, removalFunc: vendor.removeAdvocates },
-    users:      { remove: false, removalFunc: user.removeUsers },
-    checkIns:   { remove: false, removalFunc: checkIns.removeCheckIns }
-  }
+    advocates:  { remove: true, removalFunc: vendor.removeAdvocates },
+    users:      { remove: true, removalFunc: user.removeUsers },
+    checkIns:   { remove: true, removalFunc: checkIns.removeCheckIns }
+  };
   var removalPromises = [];
   Object.keys(removalMap).forEach(function(collection) {
     var val = removalMap[collection];
     if( val.remove ){
       var promiseFunc = new Promise(function(resolve, reject) {
-                            val.removalFunc().then( function () {
-                              var status = `Removed ${collection}`;
-                              logger.log(status);
-                              resolve(status);
-                            })
-                          });
+        val.removalFunc().then( function () {
+          var status = `Removed ${collection}`;
+          logger.log(status);
+          resolve(status);
+        })
+      });
       removalPromises.push(promiseFunc);
     } else {
       logger.log(`Not removing ${collection}`);
@@ -37,10 +43,10 @@ module.exports = function(app){
     .then( function () {
       // Adds mock data after removing all specified collections
       vendor.addAdvocates('Fresh Cuts').then( function(advocate){
-          user.addMockUser('DavidStreid').then( function (userDoc) {
-            checkIns.addMockCheckIns(advocate._id, userDoc._id);
-          })
+        user.addMockUser('DavidStreid').then( function (userDoc) {
+          checkIns.addMockCheckIns(advocate._id, userDoc._id);
         })
       })
+    })
     .catch((err) => logger.debug(err));
 }

@@ -135,7 +135,6 @@ exports.addMockCheckIns = function(advocateId, userId){
   name        = 'Barber';
   type        = 'Check-In';
   date        = {  day: 3, month: 3, year: 2019 };
-  checkInData = [ { type: 'Blood Pressure', data: { 'systolic': 120, 'diastolic': 80 } } ];
   checkedIn   = false;
   checkInData = [ ];
   checkInDoc = createCheckInDoc(name, type, date, checkedIn, checkInData, userId, advocateId);
