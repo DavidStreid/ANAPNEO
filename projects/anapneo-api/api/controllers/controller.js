@@ -146,37 +146,6 @@ function queryDBandSend( zipCode, res ){
         res.send(data);
     });
 }
-exports.getImg = function(req,res){
-    logger.log('controller::getImg');
-
-    setCORSHeaders(res, ['GET']);
-
-    const name = req.query.name || '';
-    if(! name){
-        return handleError('Name of vendor not specified', res, 404);
-    }
-
-    // img schema
-    var schema = new Schema({
-        img: { data: Buffer, contentType: String }
-    });
-    var vendorModel = mongoose.model('vendor')
-    var vendorDoc = new vendorModel;
-
-    logger.log('querying for ' + name);
-
-    vendorModel.findOne({ name }, function (err, vendor) {
-        if (err) return handleError(err, res, 500);
-        if (!vendor) return handleError('No vendor data for ' + name, res, 404);
-
-        const img = vendor.img || {};
-        const contentType = img['contentType'] || 'NO CONTENT TYPE';
-        const data = img['data'] || 'NO DATA';
-
-        res.contentType(contentType);
-        res.send(data);
-    });
-}
 
 exports.login = function(req,res){
   logger.log('controller::login');
@@ -233,26 +202,6 @@ exports.getPrescriptions = function(req,res){
     ];
 
     res.send({ prescriptions });
-}
-
-exports.getDoctors = function(req,res){
-  logger.log('controller::getDoctors');
-  setCORSHeaders(res, ['GET']);
-
-  // TODO - Parse out and validate authentication token
-
-  // TODO - Get Prescriptions from DB
-  const doctors = [
-      {
-        name: 'Eric Toig',
-        type: 'Primary Care'
-      },
-      {
-        name: 'House',
-        type: 'Oncologist'
-      }
-    ];
-  res.send({ doctors });
 };
 
 function setCORSHeaders(res, methods){
